@@ -92,6 +92,11 @@ input[type="submit"] {
     color: inherit;
   }
 
+  :focus-visible {
+    outline: 2px solid var(--color-dl-blue);
+    outline-offset: 2px;
+  }
+
   ::selection {
     background: var(--color-dl-blue);
     color: #fff;
@@ -107,18 +112,6 @@ input[type="submit"] {
     to {
       transform: translateX(-33.333%);
     }
-  }
-
-  .font-display {
-    font-family: var(--font-display);
-  }
-
-  .font-case {
-    font-family: var(--font-case);
-  }
-
-  .font-mono {
-    font-family: var(--font-mono);
   }
 
   .about-marquee {

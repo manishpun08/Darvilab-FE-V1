@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useHeaderVisibility } from "../../hooks/useHeaderVisibility";
 import { shell } from "../../lib/classes";
 import { BrandMark } from "./BrandMark";
@@ -35,6 +35,9 @@ export function SiteHeader({
 }: SiteHeaderProps) {
 	const [open, setOpen] = useState(false);
 	const [servicesOpen, setServicesOpen] = useState(defaultServicesOpen);
+	const toggleRef = useRef<HTMLButtonElement | null>(null);
+	const mobileNavRef = useRef<HTMLElement | null>(null);
+	const servicesTriggerRef = useRef<HTMLElement | null>(null);
 	const { isVisible, hasScrolled } = useHeaderVisibility({
 		locked: open || servicesOpen,
 	});
@@ -47,6 +50,26 @@ export function SiteHeader({
 	}, [open, servicesOpen]);
 
 	useEffect(() => {
+		if (!open) {
+			return undefined;
+		}
+
+		function onKeyDown(event: KeyboardEvent) {
+			if (event.key === "Escape") {
+				setOpen(false);
+			}
+		}
+
+		window.addEventListener("keydown", onKeyDown);
+		mobileNavRef.current?.querySelector<HTMLElement>("a, button")?.focus();
+
+		return () => {
+			window.removeEventListener("keydown", onKeyDown);
+			toggleRef.current?.focus();
+		};
+	}, [open]);
+
+	useEffect(() => {
 		function onOpenServices() {
 			setServicesOpen(true);
 		}
@@ -54,6 +77,12 @@ export function SiteHeader({
 		return () =>
 			window.removeEventListener("open-services-overlay", onOpenServices);
 	}, []);
+
+	useEffect(() => {
+		if (servicesOpen) {
+			servicesTriggerRef.current = document.activeElement as HTMLElement | null;
+		}
+	}, [servicesOpen]);
 
 	const surfaceBase = "border-[rgba(255,255,255,0.12)] bg-[rgba(5,11,31,0.55)]";
 	const surfaceGlass = hasScrolled
@@ -153,6 +182,7 @@ export function SiteHeader({
 						aria-label="Toggle navigation"
 						className="hidden h-11 w-11 place-items-center justify-self-end border-0 bg-transparent max-md:grid"
 						onClick={() => setOpen((value) => !value)}
+						ref={toggleRef}
 						type="button"
 					>
 						{open ? <Icon className="h-5 w-5" name="close" /> : <Icon className="h-5 w-5" name="menu" />}
@@ -167,6 +197,7 @@ export function SiteHeader({
 						: "pointer-events-none -translate-y-2 opacity-0"
 				}`}
 				id="mobile-nav"
+				ref={mobileNavRef}
 			>
 				{navRoutes.map((item) =>
 					item.key === "services" ? (
@@ -208,6 +239,7 @@ export function SiteHeader({
 			</nav>
 
 			<ServicesOverlay
+				focusReturnRef={servicesTriggerRef}
 				onClose={() => setServicesOpen(false)}
 				open={servicesOpen}
 			/>

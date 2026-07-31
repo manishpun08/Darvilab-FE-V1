@@ -403,6 +403,8 @@ export function useApproachStack(
 	}, [containerRef]);
 }
 
+let globalLenis: Lenis | null = null;
+
 export function useLenis() {
   const pathname = usePathname();
 
@@ -411,9 +413,8 @@ export function useLenis() {
     lenis.on("scroll", ScrollTrigger.update);
     gsap.ticker.add((t) => lenis.raf(t * 1000));
     gsap.ticker.lagSmoothing(0);
-    
-    // @ts-ignore
-    window.lenis = lenis;
+
+    globalLenis = lenis;
 
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
@@ -421,18 +422,13 @@ export function useLenis() {
 
     return () => {
       lenis.destroy();
-      // @ts-ignore
-      delete window.lenis;
+      globalLenis = null;
       gsap.ticker.lagSmoothing(1.33);
     };
   }, []);
 
   useEffect(() => {
-    // @ts-ignore
-    if (window.lenis) {
-      // @ts-ignore
-      window.lenis.scrollTo(0, { immediate: true });
-    }
+    globalLenis?.scrollTo(0, { immediate: true });
   }, [pathname]);
 }
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { Icon } from "./Icons";
 import { SmartLink } from "./SmartLink";
@@ -120,14 +120,17 @@ type ServicesOverlayProps = {
 	open: boolean;
 	onClose: () => void;
 	topOffset?: number;
+	focusReturnRef?: React.RefObject<HTMLElement | null> | null;
 };
 
 export function ServicesOverlay({
 	open,
 	onClose,
 	topOffset = 72,
+	focusReturnRef = null,
 }: ServicesOverlayProps) {
 	const pathname = usePathname();
+	const closeButtonRef = useRef<HTMLButtonElement | null>(null);
 
 	useEffect(() => {
 		if (!open) {
@@ -140,9 +143,13 @@ export function ServicesOverlay({
 			}
 		};
 
+		closeButtonRef.current?.focus();
 		window.addEventListener("keydown", onKeyDown);
-		return () => window.removeEventListener("keydown", onKeyDown);
-	}, [onClose, open]);
+		return () => {
+			window.removeEventListener("keydown", onKeyDown);
+			focusReturnRef?.current?.focus();
+		};
+	}, [onClose, open, focusReturnRef]);
 
 	return (
 		<div
@@ -176,6 +183,7 @@ export function ServicesOverlay({
 							aria-label="Close services overlay"
 							className="grid h-12 w-12 place-items-center rounded-full bg-white/[0.08] text-white/90 transition hover:bg-white/[0.14] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/80"
 							onClick={onClose}
+							ref={closeButtonRef}
 							type="button"
 						>
 							<span className="block translate-y-[-1px] text-[30px] leading-[1]">

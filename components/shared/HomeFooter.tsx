@@ -3,6 +3,7 @@
 import type { RefObject } from "react";
 import { FaFacebook, FaInstagram, FaLinkedinIn } from "react-icons/fa6";
 import { FiMail, FiMapPin, FiPhone } from "react-icons/fi";
+import { shell } from "@/lib/classes";
 import { SmartLink } from "./SmartLink";
 
 const routes = {
@@ -81,7 +82,7 @@ const footerStars = [
 	{ left: "97.2%", top: "45%", size: 1.8, opacity: 0.5 },
 ];
 
-const footerShell = "mx-auto w-full max-w-[1280px] px-4 sm:px-5 lg:px-8";
+const footerShell = shell;
 
 function FooterTitle({ children }: { children: React.ReactNode }) {
 	return (
