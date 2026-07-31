@@ -133,10 +133,6 @@ export function useFrameScroll(
   }, [sectionRef, canvasRef]);
 }
 
-export function useHeadingReveal(
-  containerRef: React.RefObject<HTMLDivElement | null>,
-) {}
-
 export function useArticlesReveal(
   containerRef: React.RefObject<HTMLDivElement | null>,
 ) {

@@ -3,7 +3,6 @@
 import { useRef } from "react";
 import type { ReactNode, RefObject } from "react";
 import { Icon } from "@/components/shared/Icons";
-import { InquiryFormCard } from "@/components/shared/InquiryFormCard";
 import { SmartLink } from "@/components/shared/SmartLink";
 import { getHeroIntroParallaxStyle } from "@/hooks/useHeroIntroParallax";
 import {
@@ -13,10 +12,6 @@ import {
 } from "@/hooks/useRevealMotion";
 import { useSelectedWorkReveal, useHomeServicesSectionReveal } from "@/hooks/usePortfolioAnimations";
 import { label, shell } from "@/lib/classes";
-import {
-  caseStudies,
-  getCaseStudyUrl,
-} from "@/app/case-studies/data/caseStudyDetails";
 import {
   fitColumns,
   homeServices,
@@ -33,28 +28,6 @@ interface Testimonial {
   attribution: string;
   href: string;
 }
-
-interface ProjectIndexItem {
-  no: string;
-  project: string;
-  industry: string;
-  problem: string;
-  result: string;
-  metrics: string[][];
-  capability: string;
-  href: string;
-}
-
-const projectIndex: ProjectIndexItem[] = caseStudies.map((item) => ({
-  no: item.no,
-  project: item.project,
-  industry: item.industry,
-  problem: item.problem,
-  result: item.metricPlainEnglish,
-  metrics: item.outcome,
-  capability: item.whatChanged,
-  href: getCaseStudyUrl(item),
-}));
 
 const ROUTES = {
   portfolio: "/portfolio",
@@ -233,7 +206,6 @@ function TestimonialMarqueeItems({ items }: { items: Testimonial[] }) {
 
 import {
   useFrameScroll,
-  useHeadingReveal,
   useArticlesReveal,
   useProcessFrames,
   useProcessCardsReveal,
@@ -248,7 +220,6 @@ export function ProblemRecognitionSection() {
   const articlesRef = useRef<HTMLDivElement>(null);
 
   useFrameScroll(sectionRef, canvasRef);
-  useHeadingReveal(headingRef);
   useArticlesReveal(articlesRef);
 
   return (
@@ -465,25 +436,7 @@ export function SelectedWorkSection({
 }
 
 
-export function HomeProcessSection({
-  introVariableName,
-  outroParallaxDisabled,
-  outroParallaxRef,
-  outroVariableName,
-  parallaxDisabled,
-  sectionRef,
-  stickyLayerEnabled,
-  stickyTopVariableName,
-}: {
-  introVariableName?: string;
-  outroParallaxDisabled?: boolean;
-  outroParallaxRef?: RefObject<HTMLElement | null> | null;
-  outroVariableName?: string;
-  parallaxDisabled?: boolean;
-  sectionRef?: RefObject<HTMLElement | null> | null;
-  stickyLayerEnabled?: boolean;
-  stickyTopVariableName?: string;
-}) {
+export function HomeProcessSection() {
   const secRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
@@ -841,213 +794,6 @@ export function TestimonialsSection({
               <TestimonialMarqueeItems items={testimonialLoop} />
             </div>
           )}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-export function ProjectIndexSection() {
-  const { ref, visible, reducedMotion } = useReveal({ threshold: 0.08 });
-
-  return (
-    <section
-      className="bg-paper pb-[clamp(88px,10vw,144px)] pt-[clamp(88px,10vw,136px)]"
-      id="project-index"
-    >
-      <div className={shell} ref={ref}>
-        <div
-          className="grid grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] items-end gap-[clamp(40px,8vw,120px)] max-lg:grid-cols-1"
-          style={getRevealStyle({ visible, reducedMotion, y: 18 })}
-        >
-          <div>
-            <SectionRuleLabel>Our Work</SectionRuleLabel>
-            <h2 className="mt-8 max-w-[11ch] text-[clamp(42px,5vw,76px)] font-semibold leading-[0.92] tracking-[-0.066em] text-ink">
-              Seven projects. Different industries. The same standard.
-            </h2>
-          </div>
-        </div>
-
-        <div
-          className="mt-16 hidden overflow-hidden border border-line lg:block"
-          style={getRevealStyle({ visible, reducedMotion, delay: 70, y: 18 })}
-        >
-          <div className="grid grid-cols-[72px_1.1fr_.9fr_1.35fr_1.35fr_.9fr_180px] border-b border-line bg-paper-blue px-6 py-4 font-mono text-[9px] font-semibold uppercase tracking-[0.14em] text-muted">
-            <span>No.</span>
-            <span>Project</span>
-            <span>Industry</span>
-            <span>What we solved</span>
-            <span>Result</span>
-            <span>What we built</span>
-            <span className="text-right">Link</span>
-          </div>
-
-          {projectIndex.map((item) => (
-            <div
-              className="grid grid-cols-[72px_1.1fr_.9fr_1.35fr_1.35fr_.9fr_180px] items-start gap-6 border-b border-line px-6 py-6 transition hover:bg-[#eef4ff]"
-              key={item.no}
-            >
-              <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">
-                {item.no}
-              </span>
-              <span className="text-[18px] font-semibold tracking-[-0.03em] text-ink">
-                {item.project}
-              </span>
-              <span className="text-[14px] leading-[1.6] text-ink">
-                {item.industry}
-              </span>
-              <span className="text-[14px] leading-[1.7] text-ink">
-                {item.problem}
-              </span>
-              <div className="grid gap-3">
-                <p className="text-[14px] leading-[1.7] text-muted">
-                  {item.result}
-                </p>
-                <div className="flex flex-wrap gap-3">
-                  {item.metrics.map(([value, text]) => (
-                    <span
-                      className="inline-flex items-center gap-2 font-mono text-[9px] font-semibold uppercase tracking-[0.14em] text-dl-blue"
-                      key={`${item.no}-${value}-${text}`}
-                    >
-                      <span>{value}</span>
-                      <span className="text-muted">{text}</span>
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <span className="text-[14px] leading-[1.7] text-ink">
-                {item.capability}
-              </span>
-              <div className="flex justify-end">
-                <SmartLink
-                  className="inline-flex min-h-11 items-center gap-2 border-b border-ink pb-2 text-[12px] font-semibold uppercase tracking-[0.08em] text-ink transition hover:border-dl-blue hover:text-dl-blue"
-                  href={item.href}
-                >
-                  View project &rarr;
-                </SmartLink>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div
-          className="mt-16 grid gap-5 lg:hidden"
-          style={getRevealStyle({ visible, reducedMotion, delay: 70, y: 18 })}
-        >
-          {projectIndex.map((item) => (
-            <article
-              className="border border-line bg-white px-5 py-6"
-              key={item.no}
-            >
-              <div className="flex items-center justify-between gap-4 border-b border-line pb-4">
-                <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.14em] text-muted">
-                  {item.no}
-                </span>
-                <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.14em] text-dl-blue">
-                  {item.industry}
-                </span>
-              </div>
-              <h3 className="mt-5 text-[24px] font-semibold leading-[1.02] tracking-[-0.04em] text-ink">
-                {item.project}
-              </h3>
-              <p className="mt-4 text-[15px] leading-[1.7] text-ink">
-                {item.problem}
-              </p>
-              <p className="mt-4 text-[14px] leading-[1.7] text-muted">
-                {item.result}
-              </p>
-              <div className="mt-5 flex flex-wrap gap-3">
-                {item.metrics.map(([value, text]) => (
-                  <span
-                    className="inline-flex items-center gap-2 font-mono text-[9px] font-semibold uppercase tracking-[0.14em] text-dl-blue"
-                    key={`${item.no}-${value}-${text}`}
-                  >
-                    <span>{value}</span>
-                    <span className="text-muted">{text}</span>
-                  </span>
-                ))}
-              </div>
-              <div className="mt-5 border-t border-line pt-5">
-                <p className="font-mono text-[9px] font-semibold uppercase tracking-[0.14em] text-muted">
-                  What we built
-                </p>
-                <p className="mt-2 text-[14px] leading-[1.7] text-ink">
-                  {item.capability}
-                </p>
-                <SmartLink
-                  className="mt-5 inline-flex min-h-11 items-center gap-2 border-b border-ink pb-2 text-[12px] font-semibold uppercase tracking-[0.08em] text-ink transition hover:border-dl-blue hover:text-dl-blue"
-                  href={item.href}
-                >
-                  View project &rarr;
-                </SmartLink>
-              </div>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-export function ClosingCtaSection() {
-  const { ref, visible, reducedMotion } = useReveal({ threshold: 0.1 });
-
-  return (
-    <section
-      className="bg-paper-blue pb-[clamp(96px,10vw,152px)] pt-[clamp(88px,10vw,136px)]"
-      id="conversation"
-    >
-      <div
-        className={`${shell} grid grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)] gap-[clamp(40px,8vw,120px)] max-lg:grid-cols-1`}
-        ref={ref}
-      >
-        <aside style={getRevealStyle({ visible, reducedMotion, y: 18 })}>
-          <SectionRuleLabel>Start the conversation</SectionRuleLabel>
-          <h2 className="mt-8 max-w-[11ch] text-[clamp(42px,5vw,76px)] font-semibold leading-[0.92] tracking-[-0.066em] text-ink">
-            Tell us what you&apos;re working on.
-          </h2>
-          <p className="mt-8 max-w-[36ch] text-[18px] leading-[1.65] text-ink">
-            We&apos;ll tell you honestly whether we&apos;re the right fit.
-          </p>
-          <p className="mt-6 max-w-[40ch] text-[15px] leading-[1.76] text-muted">
-            We start every engagement with a 30-minute conversation. No pitch.
-            No pressure. You describe the problem. We tell you how we&apos;d
-            approach it - and whether we think we&apos;re the right team for it.
-          </p>
-
-          <div className="mt-10 grid gap-0 border-y border-line">
-            <div className="grid gap-2 py-5">
-              <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.14em] text-muted">
-                Response time
-              </span>
-              <p className="text-[14px] leading-[1.7] text-ink">
-                We respond within one business day. No commitment required.
-              </p>
-            </div>
-            <div className="grid gap-2 border-t border-line py-5">
-              <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.14em] text-muted">
-                Prefer direct?
-              </span>
-              <a
-                className="inline-flex w-fit border-b border-ink pb-2 text-[clamp(24px,2.8vw,34px)] font-semibold leading-[1] tracking-[-0.05em] text-ink transition hover:border-dl-blue hover:text-dl-blue"
-                href="mailto:hello@darvilabs.com"
-              >
-                hello@darvilabs.com
-              </a>
-            </div>
-          </div>
-        </aside>
-
-        <div
-          style={getRevealStyle({ visible, reducedMotion, delay: 90, y: 18 })}
-        >
-          <InquiryFormCard
-            badgeLabel="Tell us what is blocking progress"
-            buttonLabel="Start the conversation"
-            metaLabel="Four fields. One business day."
-            responseNote="We respond within one business day. No commitment required."
-            subjectPrefix="DarviLabs homepage inquiry"
-          />
         </div>
       </div>
     </section>

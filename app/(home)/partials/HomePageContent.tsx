@@ -26,7 +26,6 @@ export function HomePageContent() {
 	const {
 		heroRef: processServicesRef,
 		introRef: servicesRef,
-		triggerRef: processServicesTriggerRef,
 		reducedMotion: processServicesReducedMotion,
 	} = useHeroIntroParallaxWithMode({
 		heroVariableName: "--home-process-services-hero-y",
