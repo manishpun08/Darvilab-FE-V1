@@ -1,0 +1,684 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Lenis from "lenis";
+
+gsap.registerPlugin(ScrollTrigger);
+
+const TOTAL_FRAMES = 37;
+const FRAME_START = 49;
+const FRAME_BASE = "/frames/frames-3/frame_";
+
+function frameSrc(i: number) {
+  return `${FRAME_BASE}${String(i + FRAME_START).padStart(3, "0")}.jpg`;
+}
+
+function coverFill(
+  ctx: CanvasRenderingContext2D,
+  img: HTMLImageElement,
+  w: number,
+  h: number,
+) {
+  const iw = img.naturalWidth;
+  const ih = img.naturalHeight;
+  const ar = iw / ih;
+  const car = w / h;
+  let sx = 0,
+    sy = 0,
+    sw = iw,
+    sh = ih;
+
+  if (ar > car) {
+    sw = ih * car;
+    sx = (iw - sw) / 2;
+  } else {
+    sh = iw / car;
+    sy = (ih - sh) / 2;
+  }
+
+  ctx.drawImage(img, sx, sy, sw, sh, 0, 0, w, h);
+}
+
+export function useFrameScroll(
+  sectionRef: React.RefObject<HTMLDivElement | null>,
+  canvasRef: React.RefObject<HTMLCanvasElement | null>,
+) {
+  const imagesRef = useRef<HTMLImageElement[]>([]);
+  const readyRef = useRef(false);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    const canvas = canvasRef.current;
+    if (!section || !canvas) return;
+
+    const ctx = canvas.getContext("2d")!;
+    ctx.imageSmoothingEnabled = false;
+    ctx.imageSmoothingQuality = "high";
+
+    const images: HTMLImageElement[] = [];
+
+    let cw = 0,
+      ch = 0,
+      cdpr = 1;
+
+    for (let i = 0; i < TOTAL_FRAMES; i++) {
+      const img = new Image();
+      img.onload = () => {
+        if (!readyRef.current) {
+          readyRef.current = true;
+          draw(0);
+        }
+      };
+      img.src = frameSrc(i);
+      images.push(img);
+    }
+
+    imagesRef.current = images;
+
+    function resizeCanvas() {
+      const cvs = canvasRef.current;
+      if (!cvs) return;
+      const rect = cvs.getBoundingClientRect();
+      const w = rect.width || window.innerWidth;
+      const h = rect.height || window.innerHeight;
+      const dpr = window.devicePixelRatio || 1;
+      if (cvs.width !== w * dpr || cvs.height !== h * dpr) {
+        cvs.width = w * dpr;
+        cvs.height = h * dpr;
+        ctx.imageSmoothingEnabled = false;
+        ctx.imageSmoothingQuality = "high";
+      }
+      cw = w;
+      ch = h;
+      cdpr = dpr;
+    }
+
+    function draw(index: number) {
+      const cvs = canvasRef.current;
+      if (!cvs) return;
+
+      resizeCanvas();
+
+      ctx.setTransform(cdpr, 0, 0, cdpr, 0, 0);
+      ctx.clearRect(0, 0, cw, ch);
+
+      const img = imagesRef.current[index];
+      if (img?.complete) {
+        coverFill(ctx, img, cw, ch);
+      }
+    }
+
+    const ro = new ResizeObserver(() => draw(0));
+    ro.observe(canvas.parentElement ?? section);
+
+    const st = ScrollTrigger.create({
+      trigger: section,
+      start: "top top",
+      end: "bottom bottom",
+      scrub: 1.5,
+      onUpdate(self) {
+        draw(Math.floor(self.progress * (TOTAL_FRAMES - 1)));
+      },
+    });
+
+    draw(0);
+
+    return () => {
+      st.kill();
+      ro.disconnect();
+    };
+  }, [sectionRef, canvasRef]);
+}
+
+export function useHeadingReveal(
+  containerRef: React.RefObject<HTMLDivElement | null>,
+) {}
+
+export function useArticlesReveal(
+  containerRef: React.RefObject<HTMLDivElement | null>,
+) {
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const articles = el.querySelectorAll("article");
+    if (!articles.length) return;
+
+    articles.forEach((article) => {
+      gsap.set(article, { opacity: 0, y: 30, filter: "blur(6px)" });
+    });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: el,
+        start: "top bottom-=40",
+        end: "top top+=60",
+        scrub: 1.5,
+      },
+    });
+
+    articles.forEach((article) => {
+      tl.to(
+        article,
+        {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          ease: "power3.out",
+          duration: 0.7,
+        },
+        "-=0.2",
+      );
+    });
+
+    return () => {
+      tl.kill();
+    };
+  }, [containerRef]);
+}
+
+export function useHeroReveal(
+  sectionRef: React.RefObject<HTMLDivElement | null>,
+) {
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const tagline = section.querySelector("[data-hero-tagline]");
+    const heading = section.querySelector("h1");
+    const paragraph = section.querySelector("[data-hero-paragraph]");
+    const stats = section.querySelectorAll("[data-hero-stat]");
+    const icons = section.querySelectorAll("[data-hero-icon]");
+
+    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+    if (tagline) {
+      gsap.set(tagline, { opacity: 0, y: -20 });
+      tl.to(tagline, { opacity: 1, y: 0, duration: 0.7 });
+    }
+
+    if (heading) {
+      const lines = heading.querySelectorAll(":scope > span");
+      lines.forEach((line) => {
+        gsap.set(line, { opacity: 0, y: 30, filter: "blur(8px)" });
+      });
+      lines.forEach((line) => {
+        tl.to(
+          line,
+          {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            ease: "power3.out",
+            duration: 1,
+          },
+          "-=0.3",
+        );
+      });
+    }
+
+    if (paragraph) {
+      gsap.set(paragraph, { opacity: 0, y: 24 });
+      tl.to(paragraph, { opacity: 1, y: 0, duration: 0.8 }, "-=0.4");
+    }
+
+    if (stats.length) {
+      stats.forEach((stat) => {
+        gsap.set(stat, { opacity: 0, y: 20 });
+      });
+      stats.forEach((stat) => {
+        tl.to(
+          stat,
+          {
+            opacity: 1,
+            y: 0,
+            ease: "power3.out",
+            duration: 0.6,
+          },
+          "-=0.25",
+        );
+      });
+    }
+
+    if (icons.length) {
+      icons.forEach((icon) => {
+        gsap.to(icon, {
+          opacity: 0.5,
+          duration: 2,
+          ease: "sine.inOut",
+          yoyo: true,
+          repeat: -1,
+        });
+      });
+    }
+
+    return () => {
+      tl.kill();
+    };
+  }, [sectionRef]);
+}
+
+export function useClientFitReveal(
+  containerRef: React.RefObject<HTMLDivElement | null>,
+) {
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const label = el.querySelector("[data-fit-label]");
+    const heading = el.querySelector("[data-fit-heading]");
+    const paragraph = el.querySelector("[data-fit-paragraph]");
+    const goodFitItems = el.querySelectorAll("[data-fit-good]");
+    const notFitItems = el.querySelectorAll("[data-fit-not]");
+
+    const targets: Element[] = [];
+    if (label) targets.push(label);
+    if (heading) targets.push(heading);
+    if (paragraph) targets.push(paragraph);
+
+    if (!targets.length && !goodFitItems.length && !notFitItems.length) return;
+
+    targets.forEach((t) => gsap.set(t, { opacity: 0, y: 30, filter: "blur(6px)" }));
+    goodFitItems.forEach((item) => gsap.set(item, { opacity: 0, y: 20 }));
+    notFitItems.forEach((item) => gsap.set(item, { opacity: 0, y: 20 }));
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+            targets.forEach((t, i) => {
+              tl.to(t, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.7 }, i * 0.12);
+            });
+
+            if (goodFitItems.length) {
+              tl.to(goodFitItems, {
+                opacity: 1, y: 0, stagger: 0.06, duration: 0.4,
+              }, "-=0.3");
+            }
+
+            if (notFitItems.length) {
+              tl.to(notFitItems, {
+                opacity: 1, y: 0, stagger: 0.06, duration: 0.4,
+              }, "-=0.3");
+            }
+
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.15 },
+    );
+    observer.observe(el);
+
+    return () => observer.disconnect();
+  }, [containerRef]);
+}
+
+export function useProcessHeroReveal(
+  containerRef: React.RefObject<HTMLDivElement | null>,
+) {
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const label = el.querySelector("div");
+    const heading = el.querySelector("h2");
+    const paragraph = el.querySelector("p");
+
+    const targets: Element[] = [];
+    if (label) targets.push(label);
+    if (heading) targets.push(heading);
+    if (paragraph) targets.push(paragraph);
+
+    if (!targets.length) return;
+
+    targets.forEach((t) => gsap.set(t, { opacity: 0, y: 30, filter: "blur(6px)" }));
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+            targets.forEach((t, i) => {
+              tl.to(t, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.8 }, i * 0.12);
+            });
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.2 },
+    );
+    observer.observe(el);
+
+    return () => observer.disconnect();
+  }, [containerRef]);
+}
+
+export function useApproachStack(
+	containerRef: React.RefObject<HTMLDivElement | null>,
+) {
+	useEffect(() => {
+		const el = containerRef.current;
+		if (!el) return;
+
+		const articles = el.querySelectorAll("article");
+		if (!articles.length) return;
+
+		const triggers: ScrollTrigger[] = [];
+
+		articles.forEach((article, i) => {
+			if (i === 0) {
+				gsap.set(article, { opacity: 1, y: 0, scale: 1, rotate: 0 });
+				return;
+			}
+
+			gsap.set(article, {
+				opacity: 0,
+				y: 80,
+				scale: 0.95,
+				rotate: -1.5,
+			});
+
+			const st = ScrollTrigger.create({
+				trigger: article,
+				start: "top bottom",
+				end: "top 30%",
+				scrub: 2,
+				onUpdate: (self) => {
+					const p = self.progress;
+					gsap.set(article, {
+						opacity: p,
+						y: 80 * (1 - p),
+						scale: 0.95 + 0.05 * p,
+						rotate: -1.5 * (1 - p),
+					});
+				},
+			});
+
+			triggers.push(st);
+		});
+
+		return () => { triggers.forEach((st) => st.kill()); };
+	}, [containerRef]);
+}
+
+export function useLenis() {
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const lenis = new Lenis({ duration: 1.2 });
+    lenis.on("scroll", ScrollTrigger.update);
+    gsap.ticker.add((t) => lenis.raf(t * 1000));
+    gsap.ticker.lagSmoothing(0);
+    
+    // @ts-ignore
+    window.lenis = lenis;
+
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+
+    return () => {
+      lenis.destroy();
+      // @ts-ignore
+      delete window.lenis;
+      gsap.ticker.lagSmoothing(1.33);
+    };
+  }, []);
+
+  useEffect(() => {
+    // @ts-ignore
+    if (window.lenis) {
+      // @ts-ignore
+      window.lenis.scrollTo(0, { immediate: true });
+    }
+  }, [pathname]);
+}
+
+const PROC_TOTAL = 228;
+const PROC_BASE = "/frames/frames-2/ezgif-frame-";
+
+function procSrc(i: number) {
+  return `${PROC_BASE}${String(i + 13).padStart(3, "0")}.jpg`;
+}
+
+export function useProcessFrames(
+  sectionRef: React.RefObject<HTMLDivElement | null>,
+  canvasRef: React.RefObject<HTMLCanvasElement | null>,
+) {
+  const readyRef = useRef(false);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    const canvas = canvasRef.current;
+    if (!section || !canvas) return;
+
+    const ctx = canvas.getContext("2d")!;
+    ctx.imageSmoothingEnabled = false;
+    ctx.imageSmoothingQuality = "high";
+
+    const st = ScrollTrigger.create({
+      trigger: section,
+      start: "top top",
+      end: "bottom bottom",
+      scrub: 1.5,
+      onUpdate(self) {
+        draw(Math.floor(self.progress * (PROC_TOTAL - 1)));
+      },
+    });
+
+    const images: HTMLImageElement[] = [];
+
+    for (let i = 0; i < PROC_TOTAL; i++) {
+      const img = new Image();
+      img.onload = () => {
+        if (!readyRef.current) {
+          readyRef.current = true;
+          draw(0);
+        } else {
+          draw(Math.floor(st.progress * (PROC_TOTAL - 1)));
+        }
+      };
+      img.src = procSrc(i);
+      images.push(img);
+    }
+
+    function draw(index: number) {
+      const cvs = canvasRef.current;
+      if (!cvs) return;
+
+      const rect = cvs.getBoundingClientRect();
+      const w = rect.width || window.innerWidth;
+      const h = rect.height || window.innerHeight;
+      const dpr = window.devicePixelRatio || 1;
+
+      if (cvs.width !== w * dpr || cvs.height !== h * dpr) {
+        cvs.width = w * dpr;
+        cvs.height = h * dpr;
+        ctx.imageSmoothingEnabled = false;
+        ctx.imageSmoothingQuality = "high";
+      }
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, w, h);
+
+      const img = images[index];
+      if (img?.complete) {
+        const iw = img.naturalWidth;
+        const ih = img.naturalHeight;
+        const ar = iw / ih;
+        const car = w / h;
+        let sx = 0,
+          sy = 0,
+          sw = iw,
+          sh = ih;
+        if (ar > car) {
+          sw = ih * car;
+          sx = (iw - sw) / 2;
+        } else {
+          sh = iw / car;
+          sy = (ih - sh) / 2;
+        }
+        ctx.drawImage(img, sx, sy, sw, sh, 0, 0, w, h);
+      }
+    }
+
+    const ro = new ResizeObserver(() => draw(0));
+    ro.observe(canvas.parentElement ?? section);
+
+    draw(0);
+
+    return () => {
+      st.kill();
+      ro.disconnect();
+    };
+  }, [sectionRef, canvasRef]);
+}
+
+export function useProblemSpaceReveal(
+  containerRef: React.RefObject<HTMLDivElement | null>,
+) {
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const articles = el.querySelectorAll("article");
+    if (!articles.length) return;
+
+    const triggers: ScrollTrigger[] = [];
+
+    articles.forEach((article, i) => {
+      gsap.set(article, {
+        opacity: 0,
+        x: i % 2 === 0 ? -80 : 80,
+        filter: "blur(5px)",
+      });
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: article,
+          start: "top bottom-=60",
+          end: "top top-=100",
+          scrub: 1.5,
+        },
+      });
+
+      tl.to(article, {
+        opacity: 1,
+        x: 0,
+        filter: "blur(0px)",
+        ease: "power2.out",
+        duration: 0.6,
+      });
+
+      triggers.push(tl.scrollTrigger!);
+    });
+
+    return () => {
+      triggers.forEach((st) => st.kill());
+    };
+  }, [containerRef]);
+}
+
+export function useClientsReveal(
+  containerRef: React.RefObject<HTMLDivElement | null>,
+) {
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const label = el.querySelector("p");
+    const marqueeEl = el.querySelector("[class*='marquee']");
+    const marquee = marqueeEl
+      ? marqueeEl.closest("div") || marqueeEl.parentElement
+      : null;
+
+    const targets: Element[] = [];
+    if (label) targets.push(label);
+    if (marquee) targets.push(marquee);
+
+    targets.forEach((t) => {
+      gsap.set(t, { opacity: 0, y: 24, filter: "blur(4px)" });
+    });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: el,
+        start: "top bottom-=60",
+        end: "top top+=80",
+        scrub: 1.5,
+      },
+    });
+
+    targets.forEach((t) => {
+      tl.to(
+        t,
+        {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          ease: "power3.out",
+          duration: 0.8,
+        },
+        "-=0.15",
+      );
+    });
+
+    return () => {
+      tl.kill();
+    };
+  }, [containerRef]);
+}
+
+export function useProcessCardsReveal(
+  containerRef: React.RefObject<HTMLDivElement | null>,
+) {
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const cards = el.querySelectorAll("article");
+    if (!cards.length) return;
+
+    cards.forEach((card, i) => {
+      gsap.set(card, {
+        opacity: 0,
+        x: -30,
+        filter: "blur(6px)",
+      });
+      card.setAttribute("data-card-index", String(i));
+    });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: el,
+        start: "top bottom+=100",
+        end: "top top+=120",
+        scrub: 1.5,
+      },
+    });
+
+    cards.forEach((card) => {
+      tl.to(
+        card,
+        {
+          opacity: 1,
+          x: 0,
+          filter: "blur(0px)",
+          ease: "power3.out",
+          duration: 0.6,
+        },
+        "-=0.1",
+      );
+    });
+
+    return () => {
+      tl.kill();
+    };
+  }, [containerRef]);
+}

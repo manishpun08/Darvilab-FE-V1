@@ -1,0 +1,140 @@
+"use client";
+
+import type { RefObject } from "react";
+import { getFooterParallaxStyle } from "@/hooks/useFooterRevealMotion";
+import { getRevealStyle, useReveal } from "@/hooks/useRevealMotion";
+import { shell } from "@/lib/classes";
+
+type WhereWeWorkSectionProps = {
+	parallaxDisabled?: boolean;
+	sectionRef?: RefObject<HTMLElement | null> | null;
+};
+
+export function WhereWeWorkSection({
+	parallaxDisabled = false,
+	sectionRef = null,
+}: WhereWeWorkSectionProps) {
+	const { ref, visible, reducedMotion } = useReveal({ threshold: 0.18 });
+	const enableParallax = Boolean(sectionRef) && !parallaxDisabled;
+	const setSectionRef = (node: HTMLElement | null) => {
+		(ref as React.MutableRefObject<HTMLElement | null>).current = node;
+
+		if (sectionRef) {
+			(sectionRef as React.MutableRefObject<HTMLElement | null>).current = node;
+		}
+	};
+
+	return (
+		<section
+			className={`overflow-hidden bg-paper pb-[clamp(84px,9vw,132px)] pt-0 ${
+				enableParallax ? "relative z-10" : ""
+			}`}
+			id="team"
+			ref={setSectionRef}
+		>
+			<div
+				className={`${shell} relative`}
+				style={getFooterParallaxStyle(enableParallax)}
+			>
+				<div
+					className="relative z-20 max-w-[430px] pt-3"
+					style={getRevealStyle({ visible, reducedMotion, y: 22 })}
+				>
+					<h2 className="text-[clamp(44px,5.2vw,78px)] font-semibold leading-[0.92] tracking-[-0.065em] text-ink">
+						Where We Work.
+					</h2>
+					<div className="mt-8 flex flex-col items-start gap-3 text-[15px] leading-[1.5] text-muted">
+						<div className="inline-flex items-center gap-3">
+							<svg
+								aria-hidden="true"
+								className="h-[18px] w-[18px] shrink-0 text-muted"
+								viewBox="0 0 20 20"
+								fill="none"
+							>
+								<path
+									d="M10 18c3.2-4.15 4.8-7.18 4.8-9.1A4.8 4.8 0 105.2 8.9C5.2 10.82 6.8 13.85 10 18z"
+									stroke="currentColor"
+									strokeWidth="1.4"
+									strokeLinejoin="round"
+								/>
+								<circle
+									cx="10"
+									cy="8.8"
+									r="1.8"
+									stroke="currentColor"
+									strokeWidth="1.4"
+								/>
+							</svg>
+							<span>Kathmandu, Nepal</span>
+						</div>
+						<div className="inline-flex items-center gap-3">
+							<svg
+								aria-hidden="true"
+								className="h-[18px] w-[18px] shrink-0 text-muted"
+								viewBox="0 0 20 20"
+								fill="none"
+							>
+								<circle
+									cx="10"
+									cy="10"
+									r="6.8"
+									stroke="currentColor"
+									strokeWidth="1.4"
+								/>
+								<path
+									d="M10 6.3v4.2l2.9 1.8"
+									stroke="currentColor"
+									strokeLinecap="round"
+									strokeWidth="1.4"
+								/>
+							</svg>
+							<span>9:00AM - 6:00 PM, KTM Nepal Time</span>
+						</div>
+					</div>
+				</div>
+
+				<div
+					className="relative mt-8 h-[320px] w-full overflow-hidden max-lg:min-h-[300px] lg:pointer-events-none lg:absolute lg:inset-y-0 lg:mt-0 lg:[right:clamp(-360px,-20vw,-200px)] lg:[width:clamp(980px,86vw,1480px)]"
+					style={getRevealStyle({
+						visible,
+						reducedMotion,
+						delay: 90,
+						y: 22,
+					})}
+				>
+					<div
+						className="relative h-full w-full overflow-hidden"
+						style={{
+							maskImage:
+								"linear-gradient(to right, transparent 0%, black 18%, black 100%)",
+							WebkitMaskImage:
+								"linear-gradient(to right, transparent 0%, black 18%, black 100%)",
+						}}
+					>
+						<div
+							className="relative h-full w-full overflow-hidden"
+							style={{
+								maskImage:
+									"linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%)",
+								WebkitMaskImage:
+									"linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%)",
+							}}
+						>
+							<div className="absolute inset-0 flex items-center justify-end">
+								<img
+									alt=""
+									aria-hidden="true"
+									className="h-[138%] w-[134%] max-w-none object-cover object-center opacity-[0.94] max-lg:h-[118%] max-lg:w-[116%]"
+									src="/about-map-blend.png"
+								/>
+							</div>
+						</div>
+						<div className="pointer-events-none absolute inset-x-[-12%] top-[-16%] z-20 h-[34%] bg-gradient-to-b from-white via-white/96 to-transparent blur-[34px]" />
+						<div className="pointer-events-none absolute inset-x-[-12%] bottom-[-16%] z-20 h-[34%] bg-gradient-to-t from-white via-white/96 to-transparent blur-[34px]" />
+						<div className="pointer-events-none absolute inset-y-[-8%] left-[-2%] z-20 w-[28%] bg-gradient-to-r from-white via-white/92 to-transparent blur-[14px]" />
+					</div>
+				</div>
+			</div>
+		</section>
+	);
+}
