@@ -1,6 +1,7 @@
 "use client";
 
 import type { RefObject } from "react";
+import Image from "next/image";
 import { getFooterParallaxStyle } from "@/hooks/useFooterRevealMotion";
 import { getRevealStyle, useReveal } from "@/hooks/useRevealMotion";
 import { shell } from "@/lib/classes";
@@ -121,11 +122,13 @@ export function WhereWeWorkSection({
 							}}
 						>
 							<div className="absolute inset-0 flex items-center justify-end">
-								<img
+								<Image
 									alt=""
 									aria-hidden="true"
-									className="h-[138%] w-[134%] max-w-none object-cover object-center opacity-[0.94] max-lg:h-[118%] max-lg:w-[116%]"
-									src="/about-map-blend.png"
+									className="object-cover object-center opacity-[0.94]"
+									fill
+									sizes="100vw"
+									src="/about-map-blend.webp"
 								/>
 							</div>
 						</div>

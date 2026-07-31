@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import {
 	getLockedHeroBackgroundImage,
 	LockedHeroBackgroundLayers,
@@ -90,10 +91,12 @@ export function FeaturedArticleHero({
 							className="group relative block aspect-[1.48] overflow-hidden bg-white/[0.04] [clip-path:polygon(0_0,calc(100%_-_72px)_0,100%_72px,100%_100%,48px_100%,0_calc(100%_-_48px))] max-lg:aspect-[1.72] max-md:[clip-path:polygon(0_0,calc(100%_-_48px)_0,100%_48px,100%_100%,32px_100%,0_calc(100%_-_32px))] max-sm:[clip-path:polygon(0_0,calc(100%_-_34px)_0,100%_34px,100%_100%,24px_100%,0_calc(100%_-_24px))]"
 							href={getBlogArticlePath(article.slug)}
 						>
-							<img
-								alt=""
-								className="h-full w-full object-cover transition duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.025] motion-reduce:transition-none"
-								loading="eager"
+							<Image
+								alt={article.title}
+								className="object-cover transition duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.025] motion-reduce:transition-none"
+								fill
+								priority
+								sizes="(min-width: 1024px) 40vw, 100vw"
 								src={article.image}
 							/>
 						</SmartLink>

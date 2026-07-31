@@ -1,6 +1,7 @@
 "use client";
 
 import { FiShare2 } from "react-icons/fi";
+import Image from "next/image";
 import { label, shell } from "@/lib/classes";
 import { getBlogArticlePath } from "../data/blogArticles";
 import type { BlogArticle } from "../interface";
@@ -62,11 +63,13 @@ export function BlogDetailIntro({ article }: BlogDetailIntroProps) {
 				</div>
 
 				<div className="py-[clamp(40px,5vw,64px)]">
-					<div className="aspect-[2.35] overflow-hidden bg-surface max-md:aspect-[1.35]">
-						<img
-							alt=""
-							className="h-full w-full object-cover"
-							loading="eager"
+					<div className="relative aspect-[2.35] overflow-hidden bg-surface max-md:aspect-[1.35]">
+						<Image
+							alt={article.title}
+							className="object-cover"
+							fill
+							priority
+							sizes="(min-width: 768px) 1280px, 100vw"
 							src={article.image}
 						/>
 					</div>

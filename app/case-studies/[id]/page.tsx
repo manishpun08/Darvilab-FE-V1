@@ -63,7 +63,7 @@ export default async function Page({ params }: CaseStudyPageProps) {
 		datePublished: "2026-01-01",
 		description: `${caseStudy.project} case study - the full evidence behind the client system decision and outcome.`,
 		headline: `${caseStudy.project} Case Study`,
-		image: `${SITE_URL}/about-map-blend.png`,
+		image: `${SITE_URL}/about-map-blend.webp`,
 		mainEntityOfPage: `${SITE_URL}/case-studies/${caseStudy.slug}`,
 	};
 

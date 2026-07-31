@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 interface InsightImageProps {
 	image?: string | null;
 }
@@ -10,11 +12,12 @@ export function InsightImage({ image }: InsightImageProps) {
 	}
 
 	return (
-		<div className="mt-10 aspect-[1.9] overflow-hidden bg-surface max-sm:aspect-[1.35]">
-			<img
+		<div className="relative mt-10 aspect-[1.9] overflow-hidden bg-surface max-sm:aspect-[1.35]">
+			<Image
 				alt=""
-				className="h-full w-full object-cover"
-				loading="lazy"
+				className="object-cover"
+				fill
+				sizes="(min-width: 768px) 780px, 100vw"
 				src={image}
 			/>
 		</div>

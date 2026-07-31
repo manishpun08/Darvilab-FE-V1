@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { SmartLink } from "@/components/shared/SmartLink";
 import { label } from "@/lib/classes";
 import { getBlogArticlePath } from "../data/blogArticles";
@@ -46,11 +47,12 @@ export function BlogArticleCard({ article }: BlogArticleCardProps) {
 			className="group grid content-start gap-5"
 			href={getBlogArticlePath(article.slug)}
 		>
-			<div className="aspect-video overflow-hidden bg-surface">
-				<img
-					alt=""
-					className="h-full w-full object-cover transition duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.025] motion-reduce:transition-none"
-					loading="lazy"
+			<div className="relative aspect-video overflow-hidden bg-surface">
+				<Image
+					alt={article.title}
+					className="object-cover transition duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.025] motion-reduce:transition-none"
+					fill
+					sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
 					src={article.image}
 				/>
 			</div>
