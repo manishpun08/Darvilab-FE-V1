@@ -6,6 +6,7 @@ import {
 	Urbanist,
 } from "next/font/google";
 import { ClientShell } from "@/components/shared/ClientShell";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_OG_IMAGE, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const urbanist = Urbanist({
@@ -32,22 +33,32 @@ const jetbrainsMono = JetBrains_Mono({
 	weight: ["400", "500", "600", "700"],
 });
 
-const siteName = "DarviLabs";
+const siteName = SITE_NAME;
 
 export const metadata: Metadata = {
 	title: {
 		default: `Home — ${siteName}`,
 		template: `%s — ${siteName}`,
 	},
-	description:
-		"DarviLabs builds product design, engineering, and systems that hold up after launch.",
-	metadataBase: new URL("https://darvilabs.com"),
+	description: SITE_DESCRIPTION,
+	metadataBase: new URL(SITE_URL),
 	openGraph: {
 		siteName,
 		type: "website",
+		url: SITE_URL,
+		title: `Home — ${siteName}`,
+		description: SITE_DESCRIPTION,
+		images: [{ url: SITE_OG_IMAGE }],
 	},
 	twitter: {
 		card: "summary_large_image",
+		title: `Home — ${siteName}`,
+		description: SITE_DESCRIPTION,
+		images: [{ url: SITE_OG_IMAGE }],
+	},
+	robots: {
+		index: true,
+		follow: true,
 	},
 };
 

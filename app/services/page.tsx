@@ -1,19 +1,27 @@
 import type { Metadata } from "next";
 import { HomeFooter } from "@/components/shared/HomeFooter";
-import { SEO } from "@/components/shared/SEO";
+import { SITE_NAME } from "@/lib/site";
 
 export const metadata: Metadata = {
-	title: "Services - DarviLabs",
+	title: "Services",
+	description:
+		"DarviLabs services - product design, engineering, and system capabilities.",
+	openGraph: {
+		title: `Services — ${SITE_NAME}`,
+		description:
+			"DarviLabs services - product design, engineering, and system capabilities.",
+	},
+	twitter: {
+		title: `Services — ${SITE_NAME}`,
+		description:
+			"DarviLabs services - product design, engineering, and system capabilities.",
+	},
 };
 
 export default function Page() {
 	return (
 		<div className="min-h-screen bg-paper text-ink">
-			<SEO
-				description="DarviLabs services - product design, engineering, and system capabilities."
-				title="Services - DarviLabs"
-			/>
-			<main className="min-h-screen pt-[72px]" id="main-content" />
+			<div className="min-h-screen pt-[72px]" />
 			<HomeFooter />
 		</div>
 	);

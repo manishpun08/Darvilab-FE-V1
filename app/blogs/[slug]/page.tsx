@@ -1,69 +1,80 @@
-"use client";
-
-import { useParams } from "next/navigation";
-import { HomeFooter } from "@/components/shared/HomeFooter";
+import type { Metadata } from "next";
 import { NotFoundPage } from "@/components/shared/NotFoundPage";
-import { SEO } from "@/components/shared/SEO";
-import { useFooterRevealMotion } from "@/hooks/useFooterRevealMotion";
-import { getBlogArticle, getBlogArticlePath } from "../data/blogArticles";
-import { BlogDetailBody } from "../partials/BlogDetailBody";
-import { BlogDetailIntro } from "../partials/BlogDetailIntro";
-import { MoreBlogsSection } from "../partials/MoreBlogsSection";
-import { NextStepSection } from "../partials/NextStepSection";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { getBlogArticle, getBlogArticlePath, blogArticles } from "../data/blogArticles";
+import { BlogDetailPageContent } from "../partials/BlogDetailPageContent";
 
-export default function Page() {
-	const params = useParams<{ slug: string }>();
-	const slug = params.slug;
+interface BlogDetailPageProps {
+	params: Promise<{ slug: string }>;
+}
+
+export function generateStaticParams() {
+	return blogArticles.map((article) => ({ slug: article.slug }));
+}
+
+export async function generateMetadata({
+	params,
+}: BlogDetailPageProps): Promise<Metadata> {
+	const { slug } = await params;
 	const article = getBlogArticle(slug);
-	const {
-		testimonialsRef: sectionRef,
-		footerRef,
-		reducedMotion,
-	} = useFooterRevealMotion();
+
+	if (!article) {
+		return {};
+	}
+
+	const title = `${article.title} — ${SITE_NAME}`;
+	const description = article.description;
+
+	return {
+		title: article.title,
+		description,
+		openGraph: {
+			title,
+			description,
+			type: "article",
+			images: [{ url: article.image }],
+		},
+		twitter: {
+			title,
+			description,
+			images: [{ url: article.image }],
+		},
+		alternates: {
+			canonical: getBlogArticlePath(article.slug),
+		},
+	};
+}
+
+export default async function Page({ params }: BlogDetailPageProps) {
+	const { slug } = await params;
+	const article = getBlogArticle(slug);
 
 	if (!article) {
 		return <NotFoundPage />;
 	}
 
+	const jsonLd = {
+		"@context": "https://schema.org",
+		"@type": "Article",
+		author: {
+			"@type": "Organization",
+			name: SITE_NAME,
+			url: SITE_URL,
+		},
+		datePublished: article.date,
+		description: article.description,
+		headline: article.title,
+		image: article.image,
+		mainEntityOfPage: `${SITE_URL}${getBlogArticlePath(article.slug)}`,
+	};
+
 	return (
-		<div className="min-h-screen bg-paper text-ink">
-			<SEO
-				description={article.description}
-				jsonLd={{
-					"@context": "https://schema.org",
-					"@type": "Article",
-					author: {
-						"@type": "Organization",
-						name: "DarviLabs",
-						url: "https://darvilabs.com",
-					},
-					datePublished: article.date,
-					description: article.description,
-					headline: article.title,
-					image: article.image,
-					mainEntityOfPage: `https://darvilabs.com${getBlogArticlePath(article.slug)}`,
-				}}
-				ogImage={article.image}
-				ogType="article"
-				title={`${article.title} - DarviLabs`}
+		<>
+			<script
+				dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+				type="application/ld+json"
 			/>
-			<main id="main-content">
-				<BlogDetailIntro article={article} />
-				<BlogDetailBody article={article} />
-				<NextStepSection />
-				<div className="relative">
-					<MoreBlogsSection
-						article={article}
-						parallaxDisabled={reducedMotion}
-						sectionRef={sectionRef}
-					/>
-					<HomeFooter
-						footerRef={footerRef}
-						revealMotionDisabled={reducedMotion}
-						stickyRevealEnabled
-					/>
-				</div>
-			</main>
-		</div>
+			<BlogDetailPageContent article={article} />
+		</>
 	);
 }

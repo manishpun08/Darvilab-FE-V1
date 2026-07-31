@@ -1,7 +1,6 @@
 "use client";
 
 import { HomeFooter } from "@/components/shared/HomeFooter";
-import { SEO } from "@/components/shared/SEO";
 import { useFooterRevealMotion } from "@/hooks/useFooterRevealMotion";
 import {
 	useHeroIntroParallax,
@@ -35,51 +34,45 @@ export function PortfolioPageContent() {
 
 	return (
 		<div className="min-h-screen bg-paper text-ink">
-			<SEO
-				description="DarviLabs portfolio - seven client systems documented through the problem, the decision, and the measured outcome."
-				title="Portfolio - DarviLabs"
-			/>
-			<main id="main-content">
-				<div className="relative">
-					<Hero
-						horizonShift={horizonShift}
-						parallaxDisabled={heroIntroReducedMotion}
-						sectionRef={heroRef}
-						stickyLayerEnabled
-					/>
-					<IntroSection
-						parallaxDisabled={heroIntroReducedMotion}
-						sectionRef={introRef}
-					/>
-				</div>
-				<div className="relative">
-					<EvidenceIndex
-						parallaxDisabled={projectIndexReducedMotion}
-						sectionRef={projectIndexRef}
-						stickyLayerEnabled
-					/>
-					<div
-						aria-hidden="true"
-						className="pointer-events-none h-px"
-						ref={projectIndexTriggerRef as React.Ref<HTMLDivElement>}
-					/>
-					<ReadingGuide
-						parallaxDisabled={projectIndexReducedMotion}
-						sectionRef={readingGuideRef}
-					/>
-				</div>
-				<div className="relative">
-					<CtaSection
-						parallaxDisabled={reducedMotion}
-						sectionRef={sectionRef}
-					/>
-					<HomeFooter
-						footerRef={footerRef}
-						revealMotionDisabled={reducedMotion}
-						stickyRevealEnabled
-					/>
-				</div>
-			</main>
+			<div className="relative">
+				<Hero
+					horizonShift={horizonShift}
+					parallaxDisabled={heroIntroReducedMotion}
+					sectionRef={heroRef}
+					stickyLayerEnabled
+				/>
+				<IntroSection
+					parallaxDisabled={heroIntroReducedMotion}
+					sectionRef={introRef}
+				/>
+			</div>
+			<div className="relative">
+				<EvidenceIndex
+					parallaxDisabled={projectIndexReducedMotion}
+					sectionRef={projectIndexRef}
+					stickyLayerEnabled
+				/>
+				<div
+					aria-hidden="true"
+					className="pointer-events-none h-px"
+					ref={projectIndexTriggerRef as React.Ref<HTMLDivElement>}
+				/>
+				<ReadingGuide
+					parallaxDisabled={projectIndexReducedMotion}
+					sectionRef={readingGuideRef}
+				/>
+			</div>
+			<div className="relative">
+				<CtaSection
+					parallaxDisabled={reducedMotion}
+					sectionRef={sectionRef}
+				/>
+				<HomeFooter
+					footerRef={footerRef}
+					revealMotionDisabled={reducedMotion}
+					stickyRevealEnabled
+				/>
+			</div>
 		</div>
 	);
 }

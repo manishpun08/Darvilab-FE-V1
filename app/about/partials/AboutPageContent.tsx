@@ -55,51 +55,49 @@ export function AboutPageContent() {
 
 	return (
 		<div className="min-h-screen bg-paper text-ink">
-			<main id="main-content">
-				<div className="relative">
-					<AboutHero
-						horizonShift={horizonShift}
-						parallaxDisabled={heroIntroReducedMotion}
-						sectionRef={heroRef}
-						stickyLayerEnabled
-					/>
-					<WhyExistSection
-						parallaxDisabled={heroIntroReducedMotion}
-						sectionRef={
-							setWhyRef as unknown as React.RefObject<HTMLElement | null>
-						}
-						stickyLayerEnabled
-					/>
-				</div>
-				<PeopleSection
-					foundersIntroParallaxDisabled={whyFoundersReducedMotion}
-					foundersIntroParallaxRef={
-						setFoundersIntroRef as unknown as React.RefObject<HTMLElement | null>
-					}
-					foundersOutroParallaxDisabled={foundersSpecialistsReducedMotion}
-					foundersOutroParallaxRef={
-						setFoundersOutroRef as unknown as React.RefObject<HTMLElement | null>
-					}
-					specialistsIntroParallaxRef={
-						specialistsIntroRef as unknown as React.RefObject<HTMLDivElement | null>
+			<div className="relative">
+				<AboutHero
+					horizonShift={horizonShift}
+					parallaxDisabled={heroIntroReducedMotion}
+					sectionRef={heroRef}
+					stickyLayerEnabled
+				/>
+				<WhyExistSection
+					parallaxDisabled={heroIntroReducedMotion}
+					sectionRef={
+						setWhyRef as unknown as React.RefObject<HTMLElement | null>
 					}
 					stickyLayerEnabled
 				/>
-				<ProofSection />
-				<OurClientsSection />
-				<WhereWeWorkSection />
-				<div className="relative">
-					<AboutCtaSection
-						parallaxDisabled={reducedMotion}
-						sectionRef={sectionRef}
-					/>
-					<HomeFooter
-						footerRef={footerRef}
-						revealMotionDisabled={reducedMotion}
-						stickyRevealEnabled
-					/>
-				</div>
-			</main>
+			</div>
+			<PeopleSection
+				foundersIntroParallaxDisabled={whyFoundersReducedMotion}
+				foundersIntroParallaxRef={
+					setFoundersIntroRef as unknown as React.RefObject<HTMLElement | null>
+				}
+				foundersOutroParallaxDisabled={foundersSpecialistsReducedMotion}
+				foundersOutroParallaxRef={
+					setFoundersOutroRef as unknown as React.RefObject<HTMLElement | null>
+				}
+				specialistsIntroParallaxRef={
+					specialistsIntroRef as unknown as React.RefObject<HTMLDivElement | null>
+				}
+				stickyLayerEnabled
+			/>
+			<ProofSection />
+			<OurClientsSection />
+			<WhereWeWorkSection />
+			<div className="relative">
+				<AboutCtaSection
+					parallaxDisabled={reducedMotion}
+					sectionRef={sectionRef}
+				/>
+				<HomeFooter
+					footerRef={footerRef}
+					revealMotionDisabled={reducedMotion}
+					stickyRevealEnabled
+				/>
+			</div>
 		</div>
 	);
 }
