@@ -39,7 +39,7 @@ input[type="submit"] {
   html {
     line-height: 1.5;
     scroll-behavior: smooth;
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 
   html.lenis {
@@ -56,7 +56,7 @@ input[type="submit"] {
 
   body {
     min-width: 320px;
-    overflow-x: hidden;
+    overflow-x: clip;
     background: var(--color-paper);
     color: var(--color-ink);
     font-family: var(--font-body);
