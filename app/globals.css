@@ -145,3 +145,30 @@ input[type="submit"] {
     transition: none !important;
   }
 }
+
+[data-sonner-toaster][data-sonner-theme=light] {
+  --normal-bg: #ffffff;
+  --normal-border: #dfe4f0;
+  --normal-text: #07102b;
+  --success-bg: #ffffff;
+  --success-border: #16a34a;
+  --success-text: #07102b;
+  --error-bg: #ffffff;
+  --error-border: #dc2626;
+  --error-text: #07102b;
+  --border-radius: 6px;
+}
+
+[data-sonner-toast][data-styled=true] {
+  font-family: var(--font-urbanist), sans-serif !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+}
+
+[data-rich-colors=true][data-sonner-toast][data-type="success"] {
+  border-left: 3px solid #16a34a;
+}
+
+[data-rich-colors=true][data-sonner-toast][data-type="error"] {
+  border-left: 3px solid #dc2626;
+}

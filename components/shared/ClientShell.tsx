@@ -15,7 +15,11 @@ export function ClientShell({ children }: { children: React.ReactNode }) {
 			<SiteHeader key={pathname} />
 			<main id="main-content">{children}</main>
 			<WhatsAppChat />
-			<Toaster position="bottom-right" />
+			<Toaster
+				position="bottom-right"
+				richColors
+				theme="light"
+			/>
 		</>
 	);
 }
