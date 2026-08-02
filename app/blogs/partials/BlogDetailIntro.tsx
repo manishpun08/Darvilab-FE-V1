@@ -4,6 +4,7 @@ import { FiShare2 } from "react-icons/fi";
 import Image from "next/image";
 import { label, shell } from "@/lib/classes";
 import { getBlogArticlePath } from "../data/blogArticles";
+import type { BlogArticle } from "../interface";
 import { BlogArticleMeta } from "./BlogArticleCard";
 import { useBlogHeroReveal } from "@/hooks/usePortfolioAnimations";
 import { useRef } from "react";
