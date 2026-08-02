@@ -11,6 +11,8 @@ import { label, shell } from "@/lib/classes";
 import { getBlogArticlePath } from "../data/blogArticles";
 import type { BlogArticle } from "../interface";
 import { BlogArticleMeta } from "./BlogArticleCard";
+import { useBlogHeroReveal } from "@/hooks/usePortfolioAnimations";
+import { useRef } from "react";
 
 interface FeaturedArticleHeroProps {
 	article: BlogArticle;
@@ -28,6 +30,8 @@ export function FeaturedArticleHero({
 	stickyLayerEnabled = false,
 }: FeaturedArticleHeroProps) {
 	const enableParallax = Boolean(sectionRef) && !parallaxDisabled;
+	const containerRef = useRef<HTMLDivElement>(null);
+	useBlogHeroReveal(containerRef);
 
 	return (
 		<section
@@ -52,12 +56,14 @@ export function FeaturedArticleHero({
 
 			<div
 				className={`${shell} relative z-10 grid min-h-[calc(100vh-72px)] content-center py-[clamp(44px,6vh,72px)]`}
+				ref={containerRef}
 			>
 				<article className="grid gap-[clamp(32px,5vh,56px)]">
 					<div className="relative grid min-h-10 items-center">
 						<i className="pointer-events-none absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-white/16" />
 						<span
 							className={`${label} relative justify-self-start bg-[#050b1f] pr-4 text-white/74`}
+							data-animate-tagline
 						>
 							Featured article
 						</span>
@@ -65,22 +71,26 @@ export function FeaturedArticleHero({
 
 					<div className="grid items-center gap-[clamp(40px,7vw,104px)] lg:grid-cols-[minmax(0,0.9fr)_minmax(420px,0.72fr)]">
 						<div className="min-w-0">
-							<span className={`${label} text-ice`}>{article.category}</span>
+							<div className="relative flex items-center gap-3">
+								<span className={`${label} text-ice`} data-animate-tagline>{article.category}</span>
+								<i className="h-px w-16 bg-ice origin-left" data-animate-tagline />
+							</div>
 							<h1 className="mt-5 max-w-[820px] text-[clamp(46px,5.6vw,84px)] font-semibold leading-[0.9] tracking-[-0.066em] text-white">
-								{article.title}
+								<span className="block" data-animate-line>{article.title}</span>
 							</h1>
 
-							<p className="mt-7 max-w-[540px] text-[16px] leading-[1.68] text-white/74">
+							<p className="mt-7 max-w-[540px] text-[16px] leading-[1.68] text-white/74" data-animate-paragraph>
 								{article.description}
 							</p>
 
-							<div className="mt-8">
+							<div className="mt-8" data-animate-paragraph>
 								<BlogArticleMeta article={article} dark />
 							</div>
 
 							<SmartLink
 								className="mt-10 inline-flex min-h-11 items-center gap-3 border-b border-white/30 pb-2 text-[12px] font-semibold uppercase tracking-[0.08em] text-white transition hover:border-white"
 								href={getBlogArticlePath(article.slug)}
+								data-animate-cta
 							>
 								Read article →
 							</SmartLink>
@@ -90,6 +100,7 @@ export function FeaturedArticleHero({
 							aria-label={`Read ${article.title}`}
 							className="group relative block aspect-[1.48] overflow-hidden bg-white/[0.04] [clip-path:polygon(0_0,calc(100%_-_72px)_0,100%_72px,100%_100%,48px_100%,0_calc(100%_-_48px))] max-lg:aspect-[1.72] max-md:[clip-path:polygon(0_0,calc(100%_-_48px)_0,100%_48px,100%_100%,32px_100%,0_calc(100%_-_32px))] max-sm:[clip-path:polygon(0_0,calc(100%_-_34px)_0,100%_34px,100%_100%,24px_100%,0_calc(100%_-_24px))]"
 							href={getBlogArticlePath(article.slug)}
+							data-animate-image
 						>
 							<Image
 								alt={article.title}

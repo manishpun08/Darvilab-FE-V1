@@ -48,3 +48,5 @@ AGENTS.md
 CLAUDE.md
 context/
 opencode.json
+.agents
+skills-lock.json

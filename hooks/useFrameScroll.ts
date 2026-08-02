@@ -133,6 +133,76 @@ export function useFrameScroll(
   }, [sectionRef, canvasRef]);
 }
 
+export function useHeadingReveal(
+  containerRef: React.RefObject<HTMLDivElement | null>,
+) {
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const label = el.querySelector(":scope > div");
+    const heading = el.querySelector("h1, h2, h3");
+    const lines = heading
+      ? Array.from(heading.querySelectorAll(":scope > span"))
+      : [];
+
+    if (!label && !lines.length) return;
+
+    if (label) {
+      const line = label.querySelector<HTMLElement>("i");
+      gsap.set(label, { opacity: 0, clipPath: "inset(0 100% 0 0)", filter: "blur(6px)", x: -8 });
+      if (line) gsap.set(line, { opacity: 0, scaleX: 0, transformOrigin: "left center" });
+    }
+    lines.forEach((line) => {
+      gsap.set(line, { opacity: 0, y: 44, filter: "blur(10px)" });
+    });
+
+    const st = ScrollTrigger.create({
+      trigger: el,
+      start: "top bottom-=60",
+      onEnter: () => {
+        const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+        if (label) {
+          const line = label.querySelector<HTMLElement>("i");
+          if (line) {
+            tl.to(line, { opacity: 1, scaleX: 1, duration: 0.4, ease: "power2.out" });
+          }
+          tl.to(
+            label,
+            { opacity: 1, clipPath: "inset(0 0% 0 0)", filter: "blur(0px)", x: 0, duration: 0.6 },
+            "-=0.25",
+          );
+
+          const shimmer = document.createElement("span");
+          shimmer.setAttribute("aria-hidden", "true");
+          shimmer.style.cssText =
+            "position:absolute;inset:0;pointer-events:none;will-change:transform;" +
+            "background:linear-gradient(100deg,transparent 20%,rgba(255,255,255,0.5) 50%,transparent 80%);";
+          label.appendChild(shimmer);
+          gsap.fromTo(
+            shimmer,
+            { xPercent: -120 },
+            { xPercent: 220, duration: 0.7, ease: "none", delay: 0.2, onComplete: () => shimmer.remove() },
+          );
+        }
+
+        lines.forEach((line, i) => {
+          tl.to(
+            line,
+            { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.8 },
+            i === 0 ? "-=0.35" : "-=0.5",
+          );
+        });
+      },
+    });
+
+    return () => {
+      st.kill();
+    };
+  }, [containerRef]);
+}
+
 export function useArticlesReveal(
   containerRef: React.RefObject<HTMLDivElement | null>,
 ) {
@@ -362,45 +432,130 @@ export function useApproachStack(
 		const el = containerRef.current;
 		if (!el) return;
 
-		const articles = el.querySelectorAll("article");
-		if (!articles.length) return;
+		const articles = Array.from(el.querySelectorAll("article"));
+		const count = articles.length;
+		if (!count) return;
 
-		const triggers: ScrollTrigger[] = [];
+		const step = 1 / Math.max(count - 1, 1);
 
 		articles.forEach((article, i) => {
 			if (i === 0) {
-				gsap.set(article, { opacity: 1, y: 0, scale: 1, rotate: 0 });
+				gsap.set(article, {
+					opacity: 1,
+					y: 0,
+					scale: 1,
+					rotate: 0,
+					filter: "blur(0px)",
+				});
 				return;
 			}
 
 			gsap.set(article, {
 				opacity: 0,
-				y: 80,
-				scale: 0.95,
+				y: 120,
+				scale: 0.94,
 				rotate: -1.5,
+				filter: "blur(8px)",
 			});
-
-			const st = ScrollTrigger.create({
-				trigger: article,
-				start: "top bottom",
-				end: "top 30%",
-				scrub: 2,
-				onUpdate: (self) => {
-					const p = self.progress;
-					gsap.set(article, {
-						opacity: p,
-						y: 80 * (1 - p),
-						scale: 0.95 + 0.05 * p,
-						rotate: -1.5 * (1 - p),
-					});
-				},
-			});
-
-			triggers.push(st);
 		});
 
-		return () => { triggers.forEach((st) => st.kill()); };
+		const tl = gsap.timeline({
+			scrollTrigger: {
+				trigger: el,
+				start: "top top",
+				end: "bottom bottom",
+				scrub: 1.2,
+				invalidateOnRefresh: true,
+			},
+		});
+
+		articles.forEach((article, i) => {
+			if (i === 0) return;
+
+			tl.fromTo(
+				article,
+				{ opacity: 0, y: 120, scale: 0.94, rotate: -1.5, filter: "blur(8px)" },
+				{
+					opacity: 1,
+					y: 0,
+					scale: 1,
+					rotate: 0,
+					filter: "blur(0px)",
+					ease: "power2.out",
+					duration: step,
+				},
+				(i - 1) * step,
+			);
+		});
+
+		const refresh = () => ScrollTrigger.refresh();
+
+		if (document.readyState === "complete") {
+			refresh();
+		} else {
+			window.addEventListener("load", refresh);
+		}
+		document.fonts?.ready?.then(refresh);
+
+		const raf1 = requestAnimationFrame(() => {
+			requestAnimationFrame(() => {
+				refresh();
+			});
+		});
+
+		let roTimer: ReturnType<typeof setTimeout> | undefined;
+		const ro = new ResizeObserver(() => {
+			clearTimeout(roTimer);
+			roTimer = setTimeout(refresh, 150);
+		});
+		ro.observe(el);
+
+		return () => {
+			window.removeEventListener("load", refresh);
+			cancelAnimationFrame(raf1);
+			clearTimeout(roTimer);
+			ro.disconnect();
+			tl.scrollTrigger?.kill();
+			tl.kill();
+		};
 	}, [containerRef]);
+}
+
+export function useApproachProgress(
+	containerRef: React.RefObject<HTMLDivElement | null>,
+	counterRef: React.RefObject<HTMLSpanElement | null>,
+	barRef: React.RefObject<HTMLDivElement | null>,
+	total: number,
+) {
+	useEffect(() => {
+		const el = containerRef.current;
+		if (!el || total <= 0) return;
+
+		const update = (progress: number) => {
+			const p = Math.max(0, Math.min(1, progress));
+			const active = Math.min(total, Math.floor(p * total) + 1);
+			if (counterRef.current) {
+				counterRef.current.textContent = `Phase ${String(active).padStart(2, "0")} / ${String(total).padStart(2, "0")}`;
+			}
+			if (barRef.current) {
+				barRef.current.style.transform = `scaleX(${p})`;
+			}
+		};
+
+		const st = ScrollTrigger.create({
+			trigger: el,
+			start: "top top",
+			end: "bottom bottom",
+			scrub: true,
+			onUpdate: (self) => update(self.progress),
+		});
+
+		update(0);
+
+		return () => {
+			st.kill();
+		};
+	}, [containerRef, counterRef, barRef, total]);
 }
 
 let globalLenis: Lenis | null = null;
@@ -594,9 +749,18 @@ export function useClientsReveal(
     if (label) targets.push(label);
     if (marquee) targets.push(marquee);
 
-    targets.forEach((t) => {
-      gsap.set(t, { opacity: 0, y: 24, filter: "blur(4px)" });
-    });
+    if (!targets.length) return;
+
+    const labelLine = label?.querySelector<HTMLElement>("i");
+    if (label) {
+      gsap.set(label, { opacity: 0, clipPath: "inset(0 100% 0 0)", filter: "blur(4px)" });
+    }
+    if (labelLine) {
+      gsap.set(labelLine, { opacity: 0, scaleX: 0, transformOrigin: "left center" });
+    }
+    if (marquee) {
+      gsap.set(marquee, { opacity: 0, y: 24, scale: 0.96, filter: "blur(4px)" });
+    }
 
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -607,19 +771,23 @@ export function useClientsReveal(
       },
     });
 
-    targets.forEach((t) => {
+    if (label) {
+      if (labelLine) {
+        tl.to(labelLine, { opacity: 1, scaleX: 1, duration: 0.4, ease: "power2.out" }, 0);
+      }
       tl.to(
-        t,
-        {
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-          ease: "power3.out",
-          duration: 0.8,
-        },
-        "-=0.15",
+        label,
+        { opacity: 1, clipPath: "inset(0 0% 0 0)", filter: "blur(0px)", duration: 0.6, ease: "power3.out" },
+        "-=0.2",
       );
-    });
+    }
+    if (marquee) {
+      tl.to(
+        marquee,
+        { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", ease: "power3.out", duration: 0.8 },
+        "-=0.35",
+      );
+    }
 
     return () => {
       tl.kill();
