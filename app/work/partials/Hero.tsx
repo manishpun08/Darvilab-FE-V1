@@ -35,7 +35,7 @@ export function Hero({
 
   return (
     <section
-      className={`min-h-screen overflow-hidden overflow-x-clip bg-[#050b1f] text-white ${
+      className={`min-h-screen overflow-hidden  overflow-x-clip max-md:overflow-y-visible bg-[#050b1f] text-white ${
         stickyLayerEnabled ? "sticky top-0 z-0" : "relative"
       }`}
       id="hero"
@@ -54,9 +54,9 @@ export function Hero({
         <LockedHeroBackgroundLayers />
       </div>
       <div
-        className={`${shell} relative z-10 grid min-h-screen grid-cols-[68px_minmax(0,1fr)_280px] pt-[72px] max-lg:grid-cols-[56px_1fr] max-md:block`}
+        className={`${shell} relative z-10 grid min-h-screen grid-cols-[68px_minmax(0,1fr)_280px] pt-18 max-lg:grid-cols-[56px_1fr] max-md:block max-md:pt-4`}
       >
-        <aside className="flex flex-col items-center border-r border-white/16 py-11 max-md:absolute max-md:bottom-8 max-md:left-0 max-md:top-[134px]">
+        <aside className="flex flex-col items-center border-r border-white/16 py-11 max-md:absolute max-md:bottom-8 max-md:left-0 max-md:top-33.5">
           <span className={`${label} [writing-mode:vertical-rl] rotate-180`}>
             Case Record
           </span>
@@ -64,7 +64,7 @@ export function Hero({
           <b className="font-display text-[13px] font-normal">01</b>
         </aside>
 
-        <div className="flex min-w-0 flex-col justify-center px-[clamp(32px,5vw,80px)] pb-14 pt-[clamp(64px,8vh,104px)] max-lg:px-9 max-md:px-10 max-md:pt-40">
+        <div className="flex min-w-0 flex-col justify-center px-[clamp(32px,5vw,80px)] pb-14 pt-[clamp(64px,8vh,104px)] max-lg:px-9 max-md:px-4 max-md:pt-20 ">
           <div className="flex max-w-[820px] items-center justify-between border-b border-white/16 pb-4 max-sm:flex-col max-sm:items-start max-sm:gap-3">
             <span className={label} data-hero-tagline>
               Work / 7 client projects
@@ -75,7 +75,7 @@ export function Hero({
           </div>
 
           <h1
-            className={`${sectionTitle} mt-[clamp(72px,11vh,132px)] max-w-[980px] text-[clamp(58px,7.35vw,114px)] text-white`}
+            className={`${sectionTitle} mt-[clamp(72px,11vh,132px)] max-md:mt-6 max-md:text-4xl lg:max-w-245 text-[clamp(58px,7.35vw,114px)] text-white`}
           >
             <span className="block" data-hero-line>
               Seven problems solved.
@@ -88,7 +88,7 @@ export function Hero({
             </span>
           </h1>
 
-          <div className="mt-auto grid max-w-[820px] grid-cols-[1.25fr_.75fr] gap-10 max-md:grid-cols-1">
+          <div className="mt-auto max-md:mt-0 grid max-w-[820px] grid-cols-[1.25fr_.75fr] gap-10 max-md:grid-cols-1">
             <p
               className="max-w-[500px] text-[16px] leading-[1.58] text-white/76"
               data-hero-paragraph
@@ -111,7 +111,7 @@ export function Hero({
                 className="grid grid-cols-[92px_1fr] border-t border-white/16 pt-3"
                 data-hero-stat
               >
-                <dt className="font-mono text-[8px] font-semibold uppercase tracking-[0.1em] text-white/48">
+                <dt className="font-mono text-[8px] font-semibold uppercase tracking-widest text-white/48">
                   Reading model
                 </dt>
                 <dd className="m-0 text-[12px] font-semibold">
@@ -122,12 +122,12 @@ export function Hero({
           </div>
         </div>
 
-        <aside className="grid grid-rows-[auto_1fr_auto] border-l border-white/16 py-11 pl-7 max-lg:col-start-2 max-lg:mt-10 max-lg:border-l-0 max-lg:border-t max-lg:pl-0 max-lg:pt-8 max-md:mx-10 max-md:mt-12">
+        <aside className="grid grid-rows-[auto_1fr_auto] max-md:grid-rows-[auto_auto_auto] border-l border-white/16 py-11 max-md:py-4 pl-7 max-lg:col-start-2 max-lg:mt-10 max-lg:border-l-0 max-lg:border-t max-lg:pl-0 max-lg:pt-8 max-md:mx-10 max-md:mt-4">
           <div className="flex justify-between">
             <span className={label}>Recent work / 2023-2026</span>
           </div>
           <h2
-            className="self-center font-display text-[clamp(118px,13vw,214px)] leading-[0.8] tracking-[-0.08em] text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.4)]"
+            className="self-center font-display text-[clamp(118px,13vw,214px)] leading-[0.8] max-md:text-[6rem] tracking-[-0.08em] text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.4)]"
             data-hero-counter
           >
             07
