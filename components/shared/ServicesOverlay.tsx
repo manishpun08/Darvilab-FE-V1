@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
+import { useIsLg } from "@/hooks/useIsLg";
 import { Icon } from "./Icons";
 import { SmartLink } from "./SmartLink";
 
@@ -72,7 +73,7 @@ function ServiceCard({
 	if (isCurrentPage) {
 		return (
 			<button
-				className={`group relative flex min-h-[208px] w-full flex-col px-8 py-9 text-left text-white/84 transition duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-dl-blue hover:text-white motion-reduce:transition-none ${className}`}
+				className={`group relative flex min-h-[208px] w-full flex-col px-8 py-9 max-lg:pt-6 text-left text-white/84 transition duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-dl-blue hover:text-white motion-reduce:transition-none ${className}`}
 				onClick={onClose}
 				type="button"
 			>
@@ -94,7 +95,7 @@ function ServiceCard({
 
 	return (
 		<Tag
-			className={`group relative flex min-h-[208px] flex-col px-8 py-9 text-white/84 transition duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-dl-blue hover:text-white motion-reduce:transition-none ${
+			className={`group relative flex min-h-[208px] flex-col px-8 py-9 max-lg:pt-6 text-white/84 transition duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-dl-blue hover:text-white motion-reduce:transition-none ${
 				item.href
 					? "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-white"
 					: ""
@@ -131,6 +132,7 @@ export function ServicesOverlay({
 }: ServicesOverlayProps) {
 	const pathname = usePathname();
 	const closeButtonRef = useRef<HTMLButtonElement | null>(null);
+	const isLg = useIsLg();
 
 	useEffect(() => {
 		if (!open) {
@@ -177,8 +179,11 @@ export function ServicesOverlay({
 				<div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(10,26,69,0.32),rgba(28,91,255,0.08)_62%,rgba(247,247,249,0.04)_100%)]" />
 				<div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_38%,rgba(183,217,255,0.1),transparent_36%),radial-gradient(circle_at_50%_76%,rgba(255,255,255,0.06),transparent_42%)]" />
 
-				<div className="relative flex h-full flex-col overflow-hidden max-lg:overflow-y-auto">
-					<div className="flex items-start justify-end px-5 pt-5 sm:px-8 sm:pt-8">
+				<div
+					className="relative flex h-full flex-col overflow-y-auto overscroll-y-contain lg:overflow-hidden"
+					data-lenis-prevent={isLg ? undefined : true}
+				>
+					<div className="flex items-start justify-end px-5 pt-3 sm:px-8 sm:pt-8">
 						<button
 							aria-label="Close services overlay"
 							className="grid h-12 w-12 place-items-center rounded-full bg-white/[0.08] text-white/90 transition hover:bg-white/[0.14] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/80"
@@ -192,7 +197,7 @@ export function ServicesOverlay({
 						</button>
 					</div>
 
-					<div className="mx-auto flex w-full max-w-[1360px] flex-1 flex-col px-4 pb-6 pt-2 sm:px-8 sm:pb-8 lg:px-10">
+					<div className="mx-auto flex w-full max-w-[1360px] flex-1 flex-col px-4 pb-6 pt-2 max-lg:pt-0 sm:px-8 sm:pb-8 lg:px-10">
 						<div className="hidden flex-1 lg:flex lg:flex-col">
 							<div className="grid flex-1 grid-cols-6 grid-rows-[1fr_1fr]">
 								<ServiceCard

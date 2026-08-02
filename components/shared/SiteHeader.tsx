@@ -48,6 +48,7 @@ export function SiteHeader({
 	useEffect(() => {
 		const isLocked = open || servicesOpen;
 		document.body.classList.toggle("overflow-hidden", isLocked);
+		document.documentElement.classList.toggle("overflow-hidden", isLocked);
 
 		const lenis = getLenis();
 		if (lenis) {
@@ -60,6 +61,7 @@ export function SiteHeader({
 
 		return () => {
 			document.body.classList.remove("overflow-hidden");
+			document.documentElement.classList.remove("overflow-hidden");
 			getLenis()?.start();
 		};
 	}, [open, servicesOpen]);
