@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+import { toast } from "sonner";
 import { primaryButton } from "../../lib/classes";
 
 type InquiryFormCardProps = {
@@ -18,38 +20,6 @@ type InquiryFormCardProps = {
 	subjectPrefix?: string;
 };
 
-function buildMailtoHref({
-	companyBodyLabel,
-	companyName,
-	fullName,
-	problem,
-	problemBodyLabel,
-	subjectPrefix,
-	workEmail,
-}: {
-	companyBodyLabel: string;
-	companyName: string;
-	fullName: string;
-	problem: string;
-	problemBodyLabel: string;
-	subjectPrefix: string;
-	workEmail: string;
-}) {
-	const subject = companyName
-		? `${subjectPrefix} - ${fullName} / ${companyName}`
-		: `${subjectPrefix} - ${fullName}`;
-	const body = [
-		`Full Name: ${fullName}`,
-		`Work Email: ${workEmail}`,
-		`${companyBodyLabel}: ${companyName || "Not provided"}`,
-		"",
-		problemBodyLabel,
-		problem,
-	].join("\n");
-
-	return `mailto:hello@darvilabs.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-}
-
 export function InquiryFormCard({
 	badgeLabel = "Tell us what is blocking progress",
 	buttonLabel = "Send this to our team",
@@ -65,8 +35,11 @@ export function InquiryFormCard({
 	responseNote,
 	subjectPrefix = "DarviLabs inquiry",
 }: InquiryFormCardProps) {
-	function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+	const [sending, setSending] = useState(false);
+
+	async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
+		setSending(true);
 
 		const form = event.currentTarget;
 		const data = new FormData(form);
@@ -75,15 +48,37 @@ export function InquiryFormCard({
 		const companyName = (data.get("companyName") ?? "").toString().trim();
 		const problem = (data.get("problem") ?? "").toString().trim();
 
-		window.location.href = buildMailtoHref({
-			companyBodyLabel,
-			companyName,
-			fullName,
-			problem,
-			problemBodyLabel,
-			subjectPrefix,
-			workEmail,
-		});
+		const subject = companyName
+			? `${subjectPrefix} - ${fullName} / ${companyName}`
+			: `${subjectPrefix} - ${fullName}`;
+
+		try {
+			const res = await fetch("/api/send-email", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					fullName,
+					workEmail,
+					companyName,
+					problem,
+					subject,
+				}),
+			});
+
+			if (!res.ok) {
+				const body = await res.json();
+				throw new Error(body.error || "Failed to send email.");
+			}
+
+			toast.success("Inquiry sent successfully!");
+			form.reset();
+		} catch (err) {
+			toast.error(
+				err instanceof Error ? err.message : "Something went wrong.",
+			);
+		} finally {
+			setSending(false);
+		}
 	}
 
 	const fieldClassName =
@@ -152,10 +147,11 @@ export function InquiryFormCard({
 					<div className="flex justify-stretch md:justify-end">
 						<button
 							className={`${primaryButton} min-h-14 w-full px-5 md:w-auto`}
+							disabled={sending}
 							type="submit"
 						>
-							<span>{buttonLabel}</span>
-							<span aria-hidden="true">↗</span>
+							<span>{sending ? "Sending..." : buttonLabel}</span>
+							{!sending && <span aria-hidden="true">↗</span>}
 						</button>
 					</div>
 					{responseNote ? (
