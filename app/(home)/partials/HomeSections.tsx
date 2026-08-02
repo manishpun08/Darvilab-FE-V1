@@ -1,16 +1,24 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import type { ReactNode, RefObject } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Icon } from "@/components/shared/Icons";
 import { SmartLink } from "@/components/shared/SmartLink";
 import { getHeroIntroParallaxStyle } from "@/hooks/useHeroIntroParallax";
+
+gsap.registerPlugin(ScrollTrigger);
 import {
   getRevealStyle,
   usePrefersReducedMotion,
   useReveal,
 } from "@/hooks/useRevealMotion";
-import { useSelectedWorkReveal, useHomeServicesSectionReveal } from "@/hooks/usePortfolioAnimations";
+import {
+  useHomeServicesSectionReveal,
+  useSelectedWorkReveal,
+  useTestimonialsReveal,
+} from "@/hooks/usePortfolioAnimations";
 import { label, shell } from "@/lib/classes";
 import {
   fitColumns,
@@ -43,7 +51,7 @@ function SectionRuleLabel({
   className?: string;
 }) {
   return (
-    <div className={`flex items-center gap-3 ${className}`}>
+    <div className={`relative overflow-hidden flex items-center gap-3 ${className}`}>
       <i className="h-px w-16 bg-[#9fb0c5]" />
       <span className={label}>{children}</span>
     </div>
@@ -60,6 +68,38 @@ function ProjectAccentMark() {
       <span className="h-4 w-[6px] skew-x-[-14deg] bg-current" />
       <span className="h-3 w-[6px] skew-x-[-14deg] bg-current" />
       <span className="h-2 w-[6px] skew-x-[-14deg] bg-current" />
+    </div>
+  );
+}
+
+export function SectionDivider() {
+  const dividerRef = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
+
+  useEffect(() => {
+    const el = dividerRef.current;
+    if (!el || prefersReducedMotion) return;
+
+    gsap.set(el, { scaleX: 0, transformOrigin: "center" });
+    const st = ScrollTrigger.create({
+      trigger: el,
+      start: "top bottom-=20",
+      onEnter: () =>
+        gsap.to(el, { scaleX: 1, duration: 1.1, ease: "power4.inOut" }),
+    });
+
+    return () => {
+      st.kill();
+    };
+  }, [prefersReducedMotion]);
+
+  return (
+    <div className={`${shell} relative isolate`}>
+      <div
+        ref={dividerRef}
+        aria-hidden="true"
+        className="h-px w-full bg-line"
+      />
     </div>
   );
 }
@@ -737,9 +777,11 @@ export function TestimonialsSection({
   parallaxDisabled?: boolean;
   sectionRef?: RefObject<HTMLElement | null> | null;
 }) {
-  const { ref, visible, reducedMotion } = useReveal({ threshold: 0.12 });
+  const { ref } = useReveal({ threshold: 0.12 });
   const prefersReducedMotion = usePrefersReducedMotion();
-  const testimonialLoop = [...testimonials, ...testimonials];
+  const containerRef = useRef<HTMLDivElement>(null);
+  useTestimonialsReveal(containerRef);
+  const testimonialLoop = [...testimonials, ...testimonials, ...testimonials];
   const enableFooterParallax = Boolean(sectionRef) && !parallaxDisabled;
   const enableIntroParallax =
     Boolean(introParallaxRef) && !introParallaxDisabled;
@@ -762,19 +804,22 @@ export function TestimonialsSection({
           introVariableName,
         })}
       >
-        <div className={shell}>
-          <div
-            className="grid grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)] items-end gap-[clamp(28px,6vw,96px)] max-lg:grid-cols-1"
-            style={getRevealStyle({ visible, reducedMotion, y: 18 })}
-          >
+        <div className={shell} ref={containerRef}>
+          <div className="grid grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)] items-end gap-[clamp(28px,6vw,96px)] max-lg:grid-cols-1">
             <div className="max-w-[52.8rem]">
-              <SectionRuleLabel>Testimonials</SectionRuleLabel>
-              <h2 className="mt-7 max-w-none text-[clamp(34px,4vw,54px)] font-semibold leading-[0.96] tracking-[-0.055em] text-ink">
+              <SectionRuleLabel data-animate-t-label>Testimonials</SectionRuleLabel>
+              <h2
+                className="mt-7 max-w-none text-[clamp(34px,4vw,54px)] font-semibold leading-[0.96] tracking-[-0.055em] text-ink"
+                data-animate-t-heading
+              >
                 <span className="block">What holds up</span>
                 <span className="block">after launch gets remembered.</span>
               </h2>
             </div>
-            <p className="max-w-[28rem] justify-self-end text-[14px] leading-[1.72] text-muted max-lg:justify-self-start">
+            <p
+              className="max-w-[28rem] justify-self-end text-[14px] leading-[1.72] text-muted max-lg:justify-self-start"
+              data-animate-t-paragraph
+            >
               A lighter, continuous read rather than a heavy card stack. Each
               note stays compact, with the motion carrying the rhythm.
             </p>
@@ -783,7 +828,7 @@ export function TestimonialsSection({
 
         <div
           className="mt-14 overflow-hidden border-y border-line"
-          style={getRevealStyle({ visible, reducedMotion, delay: 70, y: 18 })}
+          data-animate-t-marquee
         >
           {prefersReducedMotion ? (
             <div className="grid gap-0 md:grid-cols-2 xl:grid-cols-3">

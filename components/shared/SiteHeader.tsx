@@ -41,8 +41,8 @@ export function SiteHeader({
 	const { isVisible, hasScrolled } = useHeaderVisibility({
 		locked: open || servicesOpen,
 	});
-	const activeNavKey = servicesOpen ? "services" : currentRoute;
 	const pathname = usePathname();
+	const activeNavKey = navRoutes.find((r) => isActive(r.href))?.key ?? "home";
 
 	useEffect(() => {
 		document.body.classList.toggle("overflow-hidden", open || servicesOpen);

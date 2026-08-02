@@ -133,6 +133,76 @@ export function useFrameScroll(
   }, [sectionRef, canvasRef]);
 }
 
+export function useHeadingReveal(
+  containerRef: React.RefObject<HTMLDivElement | null>,
+) {
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const label = el.querySelector(":scope > div");
+    const heading = el.querySelector("h2");
+    const lines = heading
+      ? Array.from(heading.querySelectorAll(":scope > span"))
+      : [];
+
+    if (!label && !lines.length) return;
+
+    if (label) {
+      const line = label.querySelector<HTMLElement>("i");
+      gsap.set(label, { opacity: 0, clipPath: "inset(0 100% 0 0)", filter: "blur(6px)", x: -8 });
+      if (line) gsap.set(line, { opacity: 0, scaleX: 0, transformOrigin: "left center" });
+    }
+    lines.forEach((line) => {
+      gsap.set(line, { opacity: 0, y: 44, filter: "blur(10px)" });
+    });
+
+    const st = ScrollTrigger.create({
+      trigger: el,
+      start: "top bottom-=60",
+      onEnter: () => {
+        const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+        if (label) {
+          const line = label.querySelector<HTMLElement>("i");
+          if (line) {
+            tl.to(line, { opacity: 1, scaleX: 1, duration: 0.4, ease: "power2.out" });
+          }
+          tl.to(
+            label,
+            { opacity: 1, clipPath: "inset(0 0% 0 0)", filter: "blur(0px)", x: 0, duration: 0.6 },
+            "-=0.25",
+          );
+
+          const shimmer = document.createElement("span");
+          shimmer.setAttribute("aria-hidden", "true");
+          shimmer.style.cssText =
+            "position:absolute;inset:0;pointer-events:none;will-change:transform;" +
+            "background:linear-gradient(100deg,transparent 20%,rgba(255,255,255,0.5) 50%,transparent 80%);";
+          label.appendChild(shimmer);
+          gsap.fromTo(
+            shimmer,
+            { xPercent: -120 },
+            { xPercent: 220, duration: 0.7, ease: "none", delay: 0.2, onComplete: () => shimmer.remove() },
+          );
+        }
+
+        lines.forEach((line, i) => {
+          tl.to(
+            line,
+            { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.8 },
+            i === 0 ? "-=0.35" : "-=0.5",
+          );
+        });
+      },
+    });
+
+    return () => {
+      st.kill();
+    };
+  }, [containerRef]);
+}
+
 export function useArticlesReveal(
   containerRef: React.RefObject<HTMLDivElement | null>,
 ) {
@@ -594,9 +664,18 @@ export function useClientsReveal(
     if (label) targets.push(label);
     if (marquee) targets.push(marquee);
 
-    targets.forEach((t) => {
-      gsap.set(t, { opacity: 0, y: 24, filter: "blur(4px)" });
-    });
+    if (!targets.length) return;
+
+    const labelLine = label?.querySelector<HTMLElement>("i");
+    if (label) {
+      gsap.set(label, { opacity: 0, clipPath: "inset(0 100% 0 0)", filter: "blur(4px)" });
+    }
+    if (labelLine) {
+      gsap.set(labelLine, { opacity: 0, scaleX: 0, transformOrigin: "left center" });
+    }
+    if (marquee) {
+      gsap.set(marquee, { opacity: 0, y: 24, scale: 0.96, filter: "blur(4px)" });
+    }
 
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -607,19 +686,23 @@ export function useClientsReveal(
       },
     });
 
-    targets.forEach((t) => {
+    if (label) {
+      if (labelLine) {
+        tl.to(labelLine, { opacity: 1, scaleX: 1, duration: 0.4, ease: "power2.out" }, 0);
+      }
       tl.to(
-        t,
-        {
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-          ease: "power3.out",
-          duration: 0.8,
-        },
-        "-=0.15",
+        label,
+        { opacity: 1, clipPath: "inset(0 0% 0 0)", filter: "blur(0px)", duration: 0.6, ease: "power3.out" },
+        "-=0.2",
       );
-    });
+    }
+    if (marquee) {
+      tl.to(
+        marquee,
+        { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", ease: "power3.out", duration: 0.8 },
+        "-=0.35",
+      );
+    }
 
     return () => {
       tl.kill();

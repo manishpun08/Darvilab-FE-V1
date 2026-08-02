@@ -47,6 +47,11 @@ export function usePortfolioHeroReveal(
 			tl.to(paragraph, { opacity: 1, y: 0, duration: 0.8 }, "-=0.5");
 		}
 
+		if (scopeItems.length) {
+			gsap.set(scopeItems, { opacity: 0, x: -20 });
+			tl.to(scopeItems, { opacity: 1, x: 0, duration: 0.35, stagger: 0.04 }, "-=0.3");
+		}
+
 		if (stats.length) {
 			stats.forEach((stat) => gsap.set(stat, { opacity: 0, y: 20 }));
 			stats.forEach((stat) => {
@@ -65,12 +70,6 @@ export function usePortfolioHeroReveal(
 			}, "-=0.6");
 		}
 
-		if (scopeItems.length) {
-			gsap.set(scopeItems, { opacity: 0, x: -20 });
-			scopeItems.forEach((item) => {
-				tl.to(item, { opacity: 1, x: 0, duration: 0.4 }, "-=0.05");
-			});
-		}
 	}, [containerRef]);
 }
 
@@ -729,10 +728,12 @@ export function useHomeServicesSectionReveal(
 		const cards = el.querySelectorAll<HTMLElement>("[data-animate-card]");
 		const cta = el.querySelector("[data-animate-cta]");
 
-		// --- Header: label clips in, then each h2 line flips up from below ---
+		// --- Header: label wipes in via a multi-phase shutter, then each h2 line flips up from below ---
 		if (header) {
 			if (headerLabel) {
-				gsap.set(headerLabel, { opacity: 0, clipPath: "inset(0 100% 0 0)" });
+				const headerLine = headerLabel.querySelector<HTMLElement>("i");
+				gsap.set(headerLabel, { opacity: 0, clipPath: "inset(0 100% 0 0)", filter: "blur(6px)", x: -6 });
+				if (headerLine) gsap.set(headerLine, { opacity: 0, scaleX: 0, transformOrigin: "left center" });
 			}
 			if (headerH2Lines?.length) {
 				gsap.set(headerH2Lines, { opacity: 0, y: 60, rotateX: 30, transformOrigin: "bottom center" });
@@ -744,7 +745,27 @@ export function useHomeServicesSectionReveal(
 				onEnter: () => {
 					const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
 					if (headerLabel) {
-						tl.to(headerLabel, { opacity: 1, clipPath: "inset(0 0% 0 0)", duration: 0.7 });
+						const headerLine = headerLabel.querySelector<HTMLElement>("i");
+						if (headerLine) {
+							tl.to(headerLine, { opacity: 1, scaleX: 1, duration: 0.4, ease: "power2.out" });
+						}
+						tl.to(
+							headerLabel,
+							{ opacity: 1, clipPath: "inset(0 0% 0 0)", filter: "blur(0px)", x: 0, duration: 0.6 },
+							"-=0.2",
+						);
+
+						const shimmer = document.createElement("span");
+						shimmer.setAttribute("aria-hidden", "true");
+						shimmer.style.cssText =
+							"position:absolute;inset:0;pointer-events:none;will-change:transform;" +
+							"background:linear-gradient(100deg,transparent 20%,rgba(255,255,255,0.55) 50%,transparent 80%);";
+						headerLabel.appendChild(shimmer);
+						gsap.fromTo(
+							shimmer,
+							{ xPercent: -120 },
+							{ xPercent: 220, duration: 0.7, ease: "none", delay: 0.25, onComplete: () => shimmer.remove() },
+						);
 					}
 					if (headerH2Lines?.length) {
 						tl.to(headerH2Lines, { opacity: 1, y: 0, rotateX: 0, duration: 0.95, stagger: 0.1 }, "-=0.4");
@@ -792,5 +813,99 @@ export function useHomeServicesSectionReveal(
 					gsap.to(cta, { opacity: 1, scale: 1, duration: 0.65, ease: "back.out(1.6)" }),
 			});
 		}
+	}, [containerRef]);
+}
+
+export function useTestimonialsReveal(
+	containerRef: React.RefObject<HTMLDivElement | null>,
+) {
+	useEffect(() => {
+		const el = containerRef.current;
+		if (!el) return;
+
+		if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+			return;
+		}
+
+		const label = el.querySelector("[data-animate-t-label]");
+		const labelLine = label?.querySelector<HTMLElement>("i");
+		const heading = el.querySelector("[data-animate-t-heading]");
+		const headingLines = heading
+			? Array.from(heading.querySelectorAll(":scope > span"))
+			: [];
+		const paragraph = el.querySelector("[data-animate-t-paragraph]");
+		const marquee = el.querySelector("[data-animate-t-marquee]");
+
+		// Initial hidden states
+		if (label) {
+			gsap.set(label, { opacity: 0, clipPath: "inset(0 100% 0 0)", filter: "blur(6px)", x: -8 });
+		}
+		if (labelLine) {
+			gsap.set(labelLine, { opacity: 0, scaleX: 0, transformOrigin: "left center" });
+		}
+		headingLines.forEach((line) => {
+			gsap.set(line, { opacity: 0, y: 34, filter: "blur(8px)" });
+		});
+		if (paragraph) {
+			gsap.set(paragraph, { opacity: 0, y: 20 });
+		}
+		if (marquee) {
+			gsap.set(marquee, { opacity: 0, y: 28, scale: 0.96, filter: "blur(4px)" });
+		}
+
+		const st = ScrollTrigger.create({
+			trigger: el,
+			start: "top bottom-=60",
+			onEnter: () => {
+				const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+				if (label) {
+					if (labelLine) {
+						tl.to(labelLine, { opacity: 1, scaleX: 1, duration: 0.4, ease: "power2.out" });
+					}
+					tl.to(
+						label,
+						{ opacity: 1, clipPath: "inset(0 0% 0 0)", filter: "blur(0px)", x: 0, duration: 0.6 },
+						"-=0.25",
+					);
+
+					const shimmer = document.createElement("span");
+					shimmer.setAttribute("aria-hidden", "true");
+					shimmer.style.cssText =
+						"position:absolute;inset:0;pointer-events:none;will-change:transform;" +
+						"background:linear-gradient(100deg,transparent 20%,rgba(255,255,255,0.55) 50%,transparent 80%);";
+					label.appendChild(shimmer);
+					gsap.fromTo(
+						shimmer,
+						{ xPercent: -120 },
+						{ xPercent: 220, duration: 0.7, ease: "none", delay: 0.2, onComplete: () => shimmer.remove() },
+					);
+				}
+
+				headingLines.forEach((line, i) => {
+					tl.to(
+						line,
+						{ opacity: 1, y: 0, filter: "blur(0px)", duration: 0.8 },
+						i === 0 ? "-=0.35" : "-=0.5",
+					);
+				});
+
+				if (paragraph) {
+					tl.to(paragraph, { opacity: 1, y: 0, duration: 0.7 }, "-=0.5");
+				}
+
+				if (marquee) {
+					tl.to(
+						marquee,
+						{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 0.9 },
+						"-=0.6",
+					);
+				}
+			},
+		});
+
+		return () => {
+			st.kill();
+		};
 	}, [containerRef]);
 }
