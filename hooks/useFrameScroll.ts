@@ -560,6 +560,10 @@ export function useApproachProgress(
 
 let globalLenis: Lenis | null = null;
 
+export function getLenis(): Lenis | null {
+  return globalLenis;
+}
+
 export function useLenis() {
   const pathname = usePathname();
 

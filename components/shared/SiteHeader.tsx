@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useHeaderVisibility } from "../../hooks/useHeaderVisibility";
+import { getLenis } from "@/hooks/useFrameScroll";
 import { shell } from "../../lib/classes";
 import { BrandMark } from "./BrandMark";
 import { Icon } from "./Icons";
@@ -48,22 +49,18 @@ export function SiteHeader({
 		const isLocked = open || servicesOpen;
 		document.body.classList.toggle("overflow-hidden", isLocked);
 
-		// Stop smooth scrolling via Lenis when overlay is open
-		// @ts-ignore
-		if (window.lenis) {
+		const lenis = getLenis();
+		if (lenis) {
 			if (isLocked) {
-				// @ts-ignore
-				window.lenis.stop();
+				lenis.stop();
 			} else {
-				// @ts-ignore
-				window.lenis.start();
+				lenis.start();
 			}
 		}
 
 		return () => {
 			document.body.classList.remove("overflow-hidden");
-			// @ts-ignore
-			if (window.lenis) window.lenis.start();
+			getLenis()?.start();
 		};
 	}, [open, servicesOpen]);
 
