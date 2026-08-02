@@ -418,7 +418,7 @@ export function SelectedWorkSection({
                   </div>
 
                   <div
-                    className={`${reverse ? "lg:order-2" : "lg:order-1"} grid ${isClearLedger ? "w-[calc(100%-74px)] justify-self-end max-w-[calc(100%-74px)]" : "w-full max-w-[calc(44rem+30px)]"} gap-5`}
+                    className={`${reverse ? "lg:order-2" : "lg:order-1"} grid ${isClearLedger ? "w-[calc(100%-74px)] justify-self-end max-w-[calc(100%-74px)] max-lg:w-full max-lg:max-w-full max-lg:justify-self-start" : "w-full max-w-[calc(44rem+30px)]"} gap-5`}
                     data-animate-copy
                   >
                     <ProjectAccentMark />
@@ -705,7 +705,7 @@ export function ClientFitSection({
           </div>
 
           <div
-            className="grid w-full max-w-[72rem] grid-cols-2 gap-x-[clamp(28px,4vw,48px)] gap-y-12"
+            className="grid w-full max-w-[72rem] grid-cols-1 gap-x-[clamp(28px,4vw,48px)] gap-y-12 md:grid-cols-2"
             style={getRevealStyle({ visible, reducedMotion, delay: 80, y: 18 })}
           >
             <div className="mx-auto w-full max-w-[33rem]">

@@ -141,7 +141,7 @@ export function useHeadingReveal(
     if (!el) return;
 
     const label = el.querySelector(":scope > div");
-    const heading = el.querySelector("h2");
+    const heading = el.querySelector("h1, h2, h3");
     const lines = heading
       ? Array.from(heading.querySelectorAll(":scope > span"))
       : [];

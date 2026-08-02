@@ -1222,3 +1222,101 @@ export function useWhereWeWorkReveal(
 
 
 
+
+export function useBlogHeroReveal(
+	containerRef: React.RefObject<HTMLDivElement | null>,
+) {
+	useEffect(() => {
+		const el = containerRef.current;
+		if (!el) return;
+
+		const taglines = el.querySelectorAll("[data-animate-tagline]");
+		const headingLines = el.querySelectorAll("[data-animate-line]");
+		const paragraphs = el.querySelectorAll("[data-animate-paragraph]");
+		const ctas = el.querySelectorAll("[data-animate-cta]");
+		const images = el.querySelectorAll("[data-animate-image]");
+
+		const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+
+		if (taglines.length) {
+			gsap.set(taglines, { opacity: 0, y: -12 });
+			tl.to(taglines, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1 });
+		}
+
+		if (headingLines.length) {
+			headingLines.forEach((line) => gsap.set(line, { opacity: 0, y: 60, filter: "blur(12px)" }));
+			headingLines.forEach((line, i) => {
+				tl.to(line, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.9 }, i === 0 ? "-=0.2" : "-=0.7");
+			});
+		}
+
+		if (paragraphs.length) {
+			gsap.set(paragraphs, { opacity: 0, y: 20 });
+			tl.to(paragraphs, { opacity: 1, y: 0, duration: 0.8, stagger: 0.1 }, "-=0.5");
+		}
+
+		if (ctas.length) {
+			gsap.set(ctas, { opacity: 0, y: 20 });
+			tl.to(ctas, { opacity: 1, y: 0, duration: 0.8, stagger: 0.1 }, "-=0.6");
+		}
+
+		if (images.length) {
+			gsap.set(images, { opacity: 0, scale: 0.95 });
+			tl.to(images, { opacity: 1, scale: 1, duration: 1.2, ease: "power3.out", stagger: 0.1 }, "-=0.8");
+		}
+	}, [containerRef]);
+}
+
+export function useBlogSectionReveal(
+	containerRef: React.RefObject<HTMLDivElement | null>,
+) {
+	useEffect(() => {
+		const el = containerRef.current;
+		if (!el) return;
+
+		const taglines = el.querySelectorAll("[data-animate-tagline]");
+		const headingLines = el.querySelectorAll("[data-animate-line]");
+		const paragraphs = el.querySelectorAll("[data-animate-paragraph]");
+		const ctas = el.querySelectorAll("[data-animate-cta]");
+		const cards = el.querySelectorAll("[data-animate-card]");
+		const images = el.querySelectorAll("[data-animate-image]");
+
+		const observer = createObserver(el, () => {
+			const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+
+			if (taglines.length) {
+				gsap.set(taglines, { opacity: 0, y: -12 });
+				tl.to(taglines, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1 });
+			}
+
+			if (headingLines.length) {
+				headingLines.forEach((line) => gsap.set(line, { opacity: 0, y: 60, filter: "blur(12px)" }));
+				headingLines.forEach((line, i) => {
+					tl.to(line, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.9 }, i === 0 ? "-=0.2" : "-=0.7");
+				});
+			}
+
+			if (paragraphs.length) {
+				gsap.set(paragraphs, { opacity: 0, y: 20 });
+				tl.to(paragraphs, { opacity: 1, y: 0, duration: 0.8, stagger: 0.1 }, "-=0.5");
+			}
+
+			if (ctas.length) {
+				gsap.set(ctas, { opacity: 0, y: 20 });
+				tl.to(ctas, { opacity: 1, y: 0, duration: 0.8, stagger: 0.1 }, "-=0.6");
+			}
+
+			if (cards.length) {
+				gsap.set(cards, { opacity: 0, y: 40 });
+				tl.to(cards, { opacity: 1, y: 0, duration: 0.8, stagger: 0.1 }, "-=0.7");
+			}
+
+			if (images.length) {
+				gsap.set(images, { opacity: 0, scale: 0.95 });
+				tl.to(images, { opacity: 1, scale: 1, duration: 1.2, ease: "power3.out", stagger: 0.1 }, "-=0.8");
+			}
+		}, 0.15);
+
+		return () => observer.disconnect();
+	}, [containerRef]);
+}

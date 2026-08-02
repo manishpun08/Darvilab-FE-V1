@@ -45,8 +45,26 @@ export function SiteHeader({
 	const activeNavKey = navRoutes.find((r) => isActive(r.href))?.key ?? "home";
 
 	useEffect(() => {
-		document.body.classList.toggle("overflow-hidden", open || servicesOpen);
-		return () => document.body.classList.remove("overflow-hidden");
+		const isLocked = open || servicesOpen;
+		document.body.classList.toggle("overflow-hidden", isLocked);
+
+		// Stop smooth scrolling via Lenis when overlay is open
+		// @ts-ignore
+		if (window.lenis) {
+			if (isLocked) {
+				// @ts-ignore
+				window.lenis.stop();
+			} else {
+				// @ts-ignore
+				window.lenis.start();
+			}
+		}
+
+		return () => {
+			document.body.classList.remove("overflow-hidden");
+			// @ts-ignore
+			if (window.lenis) window.lenis.start();
+		};
 	}, [open, servicesOpen]);
 
 	useEffect(() => {
@@ -84,11 +102,13 @@ export function SiteHeader({
 		}
 	}, [servicesOpen]);
 
-	const surfaceBase = "border-[rgba(255,255,255,0.12)] bg-[rgba(5,11,31,0.55)]";
-	const surfaceGlass = hasScrolled
+	const surfaceBase = open
+		? "border-b-white/10 bg-[#050b1f]"
+		: "border-[rgba(255,255,255,0.12)] bg-[rgba(5,11,31,0.55)]";
+	const surfaceGlass = (hasScrolled && !open)
 		? "bg-white/28 supports-[backdrop-filter]:bg-white/22 border border-white/30 shadow-[0_10px_28px_rgba(15,23,42,0.08)] before:absolute before:inset-0 before:rounded-inherit before:bg-[linear-gradient(180deg,rgba(255,255,255,0.42)_0%,rgba(255,255,255,0.16)_38%,rgba(255,255,255,0.04)_100%)] before:pointer-events-none after:absolute after:inset-x-[10%] after:top-0 after:h-px after:bg-white/45 after:blur-[0.5px] after:pointer-events-none"
 		: "";
-	const contentTone = hasScrolled ? "text-ink" : "text-white";
+	const contentTone = (hasScrolled && !open) ? "text-ink" : "text-white";
 
 	function isActive(itemHref: string) {
 		if (itemHref === routes.home) {
@@ -114,7 +134,7 @@ export function SiteHeader({
 				Skip to content
 			</a>
 			<header
-				className={`fixed inset-x-0 top-0 z-50 h-[72px] transition-transform duration-[400ms] will-change-transform ${isVisible ? "translate-y-0 ease-[cubic-bezier(0,0,0.2,1)]" : "-translate-y-full ease-[cubic-bezier(0.4,0,1,1)]"}`}
+				className={`fixed inset-x-0 top-0 z-50 h-[72px] overflow-x-clip transition-transform duration-[400ms] will-change-transform ${isVisible ? "translate-y-0 ease-[cubic-bezier(0,0,0.2,1)]" : "-translate-y-full ease-[cubic-bezier(0.4,0,1,1)]"}`}
 			>
 				<div
 					aria-hidden="true"
@@ -191,51 +211,76 @@ export function SiteHeader({
 			</header>
 
 			<nav
-				className={`fixed left-4 right-4 top-[72px] z-40 grid overflow-hidden border border-line bg-white/95 shadow-[0_20px_40px_rgba(10,10,20,0.08)] backdrop-blur-xl transition md:hidden ${
+				className={`fixed inset-x-0 bottom-0 top-[72px] z-40 overflow-x-clip bg-[#050b1f]/98 backdrop-blur-2xl transition-all duration-[500ms] ease-[cubic-bezier(0.22,1,0.36,1)] md:hidden ${
 					open
-						? "translate-y-0 opacity-100"
-						: "pointer-events-none -translate-y-2 opacity-0"
+						? "opacity-100 pointer-events-auto"
+						: "opacity-0 pointer-events-none"
 				}`}
 				id="mobile-nav"
 				ref={mobileNavRef}
 			>
-				{navRoutes.map((item) =>
-					item.key === "services" ? (
-						<button
-							className={`border-b border-line px-5 py-4 text-left text-[13px] font-medium last:border-b-0 ${
-								item.key === activeNavKey ? "text-dl-blue" : ""
-							}`}
-							key={item.key}
-							onClick={() => {
-								setOpen(false);
-								setServicesOpen(true);
-							}}
-							type="button"
-						>
-							{item.label}
-						</button>
-					) : (
-						<Link
-							className={`border-b border-line px-5 py-4 text-[13px] font-medium last:border-b-0 ${
-								isActive(item.href) ? "text-dl-blue" : ""
-							}`}
-							key={item.key}
-							onClick={(e) => handleLinkClick(e, item.href, true)}
-							href={item.href}
-						>
-							{item.label}
-						</Link>
-					),
-				)}
-				{showContactCta ? (
-					<Link
-						className="px-5 py-4 text-[13px] font-medium text-dl-blue"
-						onClick={(e) => handleLinkClick(e, routes.contact, true)}
-						href={routes.contact}
-					>
-						Contact Us
-					</Link>
-				) : null}
+				<div className="flex h-full flex-col justify-between px-8 pb-12 pt-8">
+					<div className="flex flex-col gap-6">
+						{navRoutes.map((item, index) => {
+							const isActiveItem = item.key === "services" ? item.key === activeNavKey : isActive(item.href);
+							return (
+								<div key={item.key} className="overflow-hidden">
+									{item.key === "services" ? (
+										<button
+											className={`block font-case text-[clamp(36px,9vw,48px)] font-semibold tracking-[-0.04em] text-left transition-colors ${
+												isActiveItem ? "text-dl-blue" : "text-white"
+											}`}
+											style={{
+												transform: open ? "translateY(0)" : "translateY(100%)",
+												opacity: open ? 1 : 0,
+												transition: `transform 0.6s cubic-bezier(0.22, 1, 0.36, 1) ${0.1 + index * 0.05}s, opacity 0.6s ease ${0.1 + index * 0.05}s`
+											}}
+											onClick={() => {
+												setOpen(false);
+												setServicesOpen(true);
+											}}
+											type="button"
+										>
+											{item.label}
+										</button>
+									) : (
+										<Link
+											className={`block font-case text-[clamp(36px,9vw,48px)] font-semibold tracking-[-0.04em] transition-colors ${
+												isActiveItem ? "text-dl-blue" : "text-white"
+											}`}
+											style={{
+												transform: open ? "translateY(0)" : "translateY(100%)",
+												opacity: open ? 1 : 0,
+												transition: `transform 0.6s cubic-bezier(0.22, 1, 0.36, 1) ${0.1 + index * 0.05}s, opacity 0.6s ease ${0.1 + index * 0.05}s`
+											}}
+											onClick={(e) => handleLinkClick(e, item.href, true)}
+											href={item.href}
+										>
+											{item.label}
+										</Link>
+									)}
+								</div>
+							);
+						})}
+					</div>
+
+					{showContactCta && (
+						<div className="overflow-hidden pt-10 border-t border-white/10 mt-8">
+							<Link
+								className="block font-case text-[20px] font-medium text-dl-blue"
+								style={{
+									transform: open ? "translateY(0)" : "translateY(100%)",
+									opacity: open ? 1 : 0,
+									transition: `transform 0.6s cubic-bezier(0.22, 1, 0.36, 1) ${0.1 + navRoutes.length * 0.05}s, opacity 0.6s ease ${0.1 + navRoutes.length * 0.05}s`
+								}}
+								onClick={(e) => handleLinkClick(e, routes.contact, true)}
+								href={routes.contact}
+							>
+								Start a Conversation &rarr;
+							</Link>
+						</div>
+					)}
+				</div>
 			</nav>
 
 			<ServicesOverlay
