@@ -432,45 +432,130 @@ export function useApproachStack(
 		const el = containerRef.current;
 		if (!el) return;
 
-		const articles = el.querySelectorAll("article");
-		if (!articles.length) return;
+		const articles = Array.from(el.querySelectorAll("article"));
+		const count = articles.length;
+		if (!count) return;
 
-		const triggers: ScrollTrigger[] = [];
+		const step = 1 / Math.max(count - 1, 1);
 
 		articles.forEach((article, i) => {
 			if (i === 0) {
-				gsap.set(article, { opacity: 1, y: 0, scale: 1, rotate: 0 });
+				gsap.set(article, {
+					opacity: 1,
+					y: 0,
+					scale: 1,
+					rotate: 0,
+					filter: "blur(0px)",
+				});
 				return;
 			}
 
 			gsap.set(article, {
 				opacity: 0,
-				y: 80,
-				scale: 0.95,
+				y: 120,
+				scale: 0.94,
 				rotate: -1.5,
+				filter: "blur(8px)",
 			});
-
-			const st = ScrollTrigger.create({
-				trigger: article,
-				start: "top bottom",
-				end: "top 30%",
-				scrub: 2,
-				onUpdate: (self) => {
-					const p = self.progress;
-					gsap.set(article, {
-						opacity: p,
-						y: 80 * (1 - p),
-						scale: 0.95 + 0.05 * p,
-						rotate: -1.5 * (1 - p),
-					});
-				},
-			});
-
-			triggers.push(st);
 		});
 
-		return () => { triggers.forEach((st) => st.kill()); };
+		const tl = gsap.timeline({
+			scrollTrigger: {
+				trigger: el,
+				start: "top top",
+				end: "bottom bottom",
+				scrub: 1.2,
+				invalidateOnRefresh: true,
+			},
+		});
+
+		articles.forEach((article, i) => {
+			if (i === 0) return;
+
+			tl.fromTo(
+				article,
+				{ opacity: 0, y: 120, scale: 0.94, rotate: -1.5, filter: "blur(8px)" },
+				{
+					opacity: 1,
+					y: 0,
+					scale: 1,
+					rotate: 0,
+					filter: "blur(0px)",
+					ease: "power2.out",
+					duration: step,
+				},
+				(i - 1) * step,
+			);
+		});
+
+		const refresh = () => ScrollTrigger.refresh();
+
+		if (document.readyState === "complete") {
+			refresh();
+		} else {
+			window.addEventListener("load", refresh);
+		}
+		document.fonts?.ready?.then(refresh);
+
+		const raf1 = requestAnimationFrame(() => {
+			requestAnimationFrame(() => {
+				refresh();
+			});
+		});
+
+		let roTimer: ReturnType<typeof setTimeout> | undefined;
+		const ro = new ResizeObserver(() => {
+			clearTimeout(roTimer);
+			roTimer = setTimeout(refresh, 150);
+		});
+		ro.observe(el);
+
+		return () => {
+			window.removeEventListener("load", refresh);
+			cancelAnimationFrame(raf1);
+			clearTimeout(roTimer);
+			ro.disconnect();
+			tl.scrollTrigger?.kill();
+			tl.kill();
+		};
 	}, [containerRef]);
+}
+
+export function useApproachProgress(
+	containerRef: React.RefObject<HTMLDivElement | null>,
+	counterRef: React.RefObject<HTMLSpanElement | null>,
+	barRef: React.RefObject<HTMLDivElement | null>,
+	total: number,
+) {
+	useEffect(() => {
+		const el = containerRef.current;
+		if (!el || total <= 0) return;
+
+		const update = (progress: number) => {
+			const p = Math.max(0, Math.min(1, progress));
+			const active = Math.min(total, Math.floor(p * total) + 1);
+			if (counterRef.current) {
+				counterRef.current.textContent = `Phase ${String(active).padStart(2, "0")} / ${String(total).padStart(2, "0")}`;
+			}
+			if (barRef.current) {
+				barRef.current.style.transform = `scaleX(${p})`;
+			}
+		};
+
+		const st = ScrollTrigger.create({
+			trigger: el,
+			start: "top top",
+			end: "bottom bottom",
+			scrub: true,
+			onUpdate: (self) => update(self.progress),
+		});
+
+		update(0);
+
+		return () => {
+			st.kill();
+		};
+	}, [containerRef, counterRef, barRef, total]);
 }
 
 let globalLenis: Lenis | null = null;

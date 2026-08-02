@@ -1,9 +1,10 @@
 "use client";
 
 import type { RefObject } from "react";
+import { useRef } from "react";
 import Image from "next/image";
 import { getFooterParallaxStyle } from "@/hooks/useFooterRevealMotion";
-import { getRevealStyle, useReveal } from "@/hooks/useRevealMotion";
+import { useWhereWeWorkReveal } from "@/hooks/usePortfolioAnimations";
 import { shell } from "@/lib/classes";
 
 type WhereWeWorkSectionProps = {
@@ -15,11 +16,11 @@ export function WhereWeWorkSection({
 	parallaxDisabled = false,
 	sectionRef = null,
 }: WhereWeWorkSectionProps) {
-	const { ref, visible, reducedMotion } = useReveal({ threshold: 0.18 });
+	const containerRef = useRef<HTMLElement>(null);
+	useWhereWeWorkReveal(containerRef as unknown as React.RefObject<HTMLDivElement>);
+
 	const enableParallax = Boolean(sectionRef) && !parallaxDisabled;
 	const setSectionRef = (node: HTMLElement | null) => {
-		(ref as React.MutableRefObject<HTMLElement | null>).current = node;
-
 		if (sectionRef) {
 			(sectionRef as React.MutableRefObject<HTMLElement | null>).current = node;
 		}
@@ -27,7 +28,7 @@ export function WhereWeWorkSection({
 
 	return (
 		<section
-			className={`overflow-hidden bg-paper pb-[clamp(84px,9vw,132px)] pt-0 ${
+			className={`overflow-hidden bg-paper py-[clamp(84px,9vw,132px)] ${
 				enableParallax ? "relative z-10" : ""
 			}`}
 			id="team"
@@ -35,17 +36,15 @@ export function WhereWeWorkSection({
 		>
 			<div
 				className={`${shell} relative`}
+				ref={containerRef as unknown as React.RefObject<HTMLDivElement>}
 				style={getFooterParallaxStyle(enableParallax)}
 			>
-				<div
-					className="relative z-20 max-w-[430px] pt-3"
-					style={getRevealStyle({ visible, reducedMotion, y: 22 })}
-				>
+				<div className="relative z-20 max-w-[430px] pt-3">
 					<h2 className="text-[clamp(44px,5.2vw,78px)] font-semibold leading-[0.92] tracking-[-0.065em] text-ink">
 						Where We Work.
 					</h2>
 					<div className="mt-8 flex flex-col items-start gap-3 text-[15px] leading-[1.5] text-muted">
-						<div className="inline-flex items-center gap-3">
+						<div className="inline-flex items-center gap-3" data-animate-location-item>
 							<svg
 								aria-hidden="true"
 								className="h-[18px] w-[18px] shrink-0 text-muted"
@@ -68,7 +67,7 @@ export function WhereWeWorkSection({
 							</svg>
 							<span>Kathmandu, Nepal</span>
 						</div>
-						<div className="inline-flex items-center gap-3">
+						<div className="inline-flex items-center gap-3" data-animate-location-item>
 							<svg
 								aria-hidden="true"
 								className="h-[18px] w-[18px] shrink-0 text-muted"
@@ -96,12 +95,7 @@ export function WhereWeWorkSection({
 
 				<div
 					className="relative mt-8 h-[320px] w-full overflow-hidden max-lg:min-h-[300px] lg:pointer-events-none lg:absolute lg:inset-y-0 lg:mt-0 lg:[right:clamp(-360px,-20vw,-200px)] lg:[width:clamp(980px,86vw,1480px)]"
-					style={getRevealStyle({
-						visible,
-						reducedMotion,
-						delay: 90,
-						y: 22,
-					})}
+					data-animate-map
 				>
 					<div
 						className="relative h-full w-full overflow-hidden"
@@ -141,3 +135,4 @@ export function WhereWeWorkSection({
 		</section>
 	);
 }
+

@@ -1,29 +1,37 @@
+"use client";
+
+import { useRef } from "react";
+import { useProofSectionReveal } from "@/hooks/usePortfolioAnimations";
 import { label, shell } from "@/lib/classes";
 import { proofMetrics } from "../data/aboutData";
 
 export function ProofSection() {
+	const containerRef = useRef<HTMLElement>(null);
+	useProofSectionReveal(containerRef as unknown as React.RefObject<HTMLDivElement>);
+
 	return (
 		<section
 			className="bg-paper pb-[clamp(56px,6vw,88px)] pt-[clamp(56px,6vw,88px)]"
 			id="proof"
+			ref={containerRef}
 		>
 			<div className={shell}>
 				<div className="grid grid-cols-[.95fr_1.05fr] items-end gap-[clamp(56px,9vw,140px)] max-lg:grid-cols-1">
 					<div>
-						<div className="flex items-center gap-3 text-ink">
+						<div className="flex items-center gap-3 text-ink" data-animate-tagline>
 							<i className="h-px w-16 bg-[#9fb0c5]" />
 							<span className={label}>Relationships</span>
 						</div>
-						<div className="mt-8">
-							<strong className="block text-[clamp(78px,9vw,118px)] font-bold leading-[0.84] tracking-[-0.07em]">
+						<div className="mt-8" style={{ perspective: "1000px" }}>
+							<strong className="block text-[clamp(78px,9vw,118px)] font-bold leading-[0.84] tracking-[-0.07em]" data-animate-title>
 								Clients
 							</strong>
-							<em className="block text-[clamp(78px,9vw,118px)] font-bold italic leading-[0.84] tracking-[-0.07em] text-dl-blue">
+							<em className="block text-[clamp(78px,9vw,118px)] font-bold italic leading-[0.84] tracking-[-0.07em] text-dl-blue" data-animate-title>
 								Return.
 							</em>
 						</div>
 					</div>
-					<p className="mb-[14px] max-w-[580px] text-[17px] leading-[1.65] text-ink">
+					<p className="mb-[14px] max-w-[580px] text-[17px] leading-[1.65] text-ink" data-animate-desc>
 						Because when work is honest, trust compounds. Our longest active
 						client relationship is nine years old. These are not vanity metrics
 						- they are what happens when you say hard things early and stay
@@ -48,9 +56,10 @@ export function ProofSection() {
 									: ""
 							}`}
 							key={item.value}
+							data-animate-metric-card
 						>
 							<strong className="flex items-end gap-1 font-case text-[clamp(52px,5.6vw,76px)] font-bold leading-[0.92] tracking-[-0.07em] text-ink">
-								{item.value}
+								<span data-animate-counter>{item.value}</span>
 								<span className="text-[0.52em] tracking-[-0.04em] text-dl-blue">
 									{item.suffix}
 								</span>
@@ -65,3 +74,4 @@ export function ProofSection() {
 		</section>
 	);
 }
+

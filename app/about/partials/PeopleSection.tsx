@@ -1,8 +1,9 @@
 "use client";
 
+import { useRef } from "react";
 import type { CSSProperties, RefObject } from "react";
 import { getHeroIntroParallaxStyle } from "@/hooks/useHeroIntroParallax";
-import { getRevealStyle, useReveal } from "@/hooks/useRevealMotion";
+import { usePeopleSectionReveal } from "@/hooks/usePortfolioAnimations";
 import { label, shell } from "@/lib/classes";
 import type { CoreTeamMember, Founder } from "../data/aboutData";
 import { coreTeam, founders } from "../data/aboutData";
@@ -22,6 +23,7 @@ function FounderAvatar({ person, align = "left" }: FounderAvatarProps) {
 					? "justify-end text-right max-sm:justify-start max-sm:text-left"
 					: ""
 			}`}
+			data-animate-founder-avatar
 		>
 			<div
 				className={`group relative h-[clamp(56px,5.6vw,76px)] w-[clamp(56px,5.6vw,76px)] shrink-0 overflow-hidden rounded-full border border-white/12 bg-paper-blue ${
@@ -63,6 +65,7 @@ function FounderStatement({ person, index }: FounderStatementProps) {
 	return (
 		<article
 			className={`group w-full max-w-none ${alignedRight ? "mt-[clamp(64px,8vw,112px)] text-right max-sm:text-left" : "text-left"}`}
+			data-animate-founder-statement
 		>
 			<blockquote className="block w-full max-w-none text-[clamp(30px,4vw,54px)] font-semibold leading-[1.05] tracking-[-0.052em] text-white transition duration-500 ease-out group-hover:text-white/92">
 				{person.statement}
@@ -90,6 +93,7 @@ function SpecialistProfile({
 					? "before:absolute before:left-0 before:top-1/2 before:hidden before:h-[clamp(44px,5vw,68px)] before:w-px before:-translate-y-1/2 before:bg-line md:before:block"
 					: ""
 			}`}
+			data-animate-specialist
 			style={style}
 		>
 			<div className="h-[clamp(150px,14vw,184px)] w-[clamp(150px,14vw,184px)] overflow-hidden rounded-full bg-paper-blue max-md:h-[clamp(130px,38vw,150px)] max-md:w-[clamp(130px,38vw,150px)]">
@@ -128,7 +132,8 @@ export function PeopleSection({
 	specialistsIntroParallaxRef = null,
 	stickyLayerEnabled = false,
 }: PeopleSectionProps) {
-	const { ref, visible, reducedMotion } = useReveal({ threshold: 0.16 });
+	const containerRef = useRef<HTMLElement>(null);
+	usePeopleSectionReveal(containerRef as unknown as React.RefObject<HTMLDivElement>);
 	const enableFoundersIntroParallax =
 		Boolean(foundersIntroParallaxRef) &&
 		!foundersIntroParallaxDisabled &&
@@ -157,7 +162,7 @@ export function PeopleSection({
 	};
 
 	return (
-		<section ref={ref}>
+		<section ref={containerRef as unknown as React.RefObject<HTMLElement>}>
 			<div
 				className={`bg-ink pb-[clamp(76px,9vw,128px)] pt-[clamp(36px,5vw,72px)] text-white ${
 					stickyLayerEnabled
@@ -179,8 +184,8 @@ export function PeopleSection({
 								: undefined,
 					}}
 				>
-					<div style={getRevealStyle({ visible, reducedMotion, y: 24 })}>
-						<div className="flex items-center justify-center gap-3 text-center text-ice">
+					<div>
+						<div className="flex items-center justify-center gap-3 text-center text-ice" data-animate-founders-label>
 							<i className="h-px w-16 bg-ice/55" />
 							<p className={label}>
 								The people accountable for what we deliver
@@ -212,12 +217,7 @@ export function PeopleSection({
 				>
 					<div
 						className="flex items-center justify-center gap-3 text-center text-muted"
-						style={getRevealStyle({
-							visible,
-							reducedMotion,
-							delay: 100,
-							y: 22,
-						})}
+						data-animate-specialists-label
 					>
 						<i className="h-px w-16 bg-[#9fb0c5]" />
 						<p className={label}>The specialists behind the systems</p>
@@ -230,12 +230,6 @@ export function PeopleSection({
 								key={`${person.role}-${index}`}
 								person={person}
 								showDivider={index > 0}
-								style={getRevealStyle({
-									visible,
-									reducedMotion,
-									delay: 180 + index * 70,
-									y: 14,
-								})}
 							/>
 						))}
 					</div>
