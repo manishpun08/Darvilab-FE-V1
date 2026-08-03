@@ -80,12 +80,12 @@ export function SectionDivider() {
     const el = dividerRef.current;
     if (!el || prefersReducedMotion) return;
 
-    gsap.set(el, { scaleX: 0, transformOrigin: "center" });
+    gsap.set(el, { scaleX: 0, opacity: 0, transformOrigin: "center" });
     const st = ScrollTrigger.create({
       trigger: el,
       start: "top bottom-=20",
       onEnter: () =>
-        gsap.to(el, { scaleX: 1, duration: 1.1, ease: "power4.inOut" }),
+        gsap.to(el, { scaleX: 1, opacity: 1, duration: 1.3, ease: "power2.inOut" }),
     });
 
     return () => {

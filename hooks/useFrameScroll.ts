@@ -164,48 +164,48 @@ export function useHeadingReveal(
 
     if (label) {
       const line = label.querySelector<HTMLElement>("i");
-      gsap.set(label, { opacity: 0, clipPath: "inset(0 100% 0 0)", filter: "blur(6px)", x: -8 });
+      gsap.set(label, { opacity: 0, y: 12, filter: "blur(4px)" });
       if (line) gsap.set(line, { opacity: 0, scaleX: 0, transformOrigin: "left center" });
     }
     lines.forEach((line) => {
-      gsap.set(line, { opacity: 0, y: 44, filter: "blur(10px)" });
+      gsap.set(line, { opacity: 0, y: 30, filter: "blur(6px)" });
     });
 
     const st = ScrollTrigger.create({
       trigger: el,
       start: "top bottom-=60",
       onEnter: () => {
-        const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+        const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
 
         if (label) {
           const line = label.querySelector<HTMLElement>("i");
           if (line) {
-            tl.to(line, { opacity: 1, scaleX: 1, duration: 0.4, ease: "power2.out" });
+            tl.to(line, { opacity: 1, scaleX: 1, duration: 0.6, ease: "power2.out" });
           }
           tl.to(
             label,
-            { opacity: 1, clipPath: "inset(0 0% 0 0)", filter: "blur(0px)", x: 0, duration: 0.6 },
-            "-=0.25",
+            { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.9 },
+            "-=0.4",
           );
 
           const shimmer = document.createElement("span");
           shimmer.setAttribute("aria-hidden", "true");
           shimmer.style.cssText =
             "position:absolute;inset:0;pointer-events:none;will-change:transform;" +
-            "background:linear-gradient(100deg,transparent 20%,rgba(255,255,255,0.5) 50%,transparent 80%);";
+            "background:linear-gradient(100deg,transparent 20%,rgba(255,255,255,0.35) 50%,transparent 80%);";
           label.appendChild(shimmer);
           gsap.fromTo(
             shimmer,
             { xPercent: -120 },
-            { xPercent: 220, duration: 0.7, ease: "none", delay: 0.2, onComplete: () => shimmer.remove() },
+            { xPercent: 220, duration: 0.9, ease: "none", delay: 0.3, onComplete: () => shimmer.remove() },
           );
         }
 
         lines.forEach((line, i) => {
           tl.to(
             line,
-            { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.8 },
-            i === 0 ? "-=0.35" : "-=0.5",
+            { opacity: 1, y: 0, filter: "blur(0px)", duration: 1.0 },
+            i === 0 ? "-=0.5" : "-=0.6",
           );
         });
       },
@@ -253,7 +253,7 @@ export function useArticlesReveal(
     }
 
     articles.forEach((article) => {
-      gsap.set(article, { opacity: 0, y: 30, filter: "blur(6px)" });
+      gsap.set(article, { opacity: 0, y: 20, filter: "blur(4px)" });
     });
 
     const tl = gsap.timeline({
@@ -272,10 +272,10 @@ export function useArticlesReveal(
           opacity: 1,
           y: 0,
           filter: "blur(0px)",
-          ease: "power3.out",
-          duration: 0.7,
+          ease: "power2.out",
+          duration: 0.8,
         },
-        "-=0.2",
+        "-=0.3",
       );
     });
 
@@ -298,17 +298,17 @@ export function useHeroReveal(
     const stats = section.querySelectorAll("[data-hero-stat]");
     const icons = section.querySelectorAll("[data-hero-icon]");
 
-    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+    const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
 
     if (tagline) {
-      gsap.set(tagline, { opacity: 0, y: -20 });
-      tl.to(tagline, { opacity: 1, y: 0, duration: 0.7 });
+      gsap.set(tagline, { opacity: 0, y: -10 });
+      tl.to(tagline, { opacity: 1, y: 0, duration: 0.8 });
     }
 
     if (heading) {
       const lines = heading.querySelectorAll(":scope > span");
       lines.forEach((line) => {
-        gsap.set(line, { opacity: 0, y: 30, filter: "blur(8px)" });
+        gsap.set(line, { opacity: 0, y: 24, filter: "blur(6px)" });
       });
       lines.forEach((line) => {
         tl.to(
@@ -317,22 +317,21 @@ export function useHeroReveal(
             opacity: 1,
             y: 0,
             filter: "blur(0px)",
-            ease: "power3.out",
-            duration: 1,
+            duration: 1.0,
           },
-          "-=0.3",
+          "-=0.5",
         );
       });
     }
 
     if (paragraph) {
-      gsap.set(paragraph, { opacity: 0, y: 24 });
-      tl.to(paragraph, { opacity: 1, y: 0, duration: 0.8 }, "-=0.4");
+      gsap.set(paragraph, { opacity: 0, y: 16 });
+      tl.to(paragraph, { opacity: 1, y: 0, duration: 0.9 }, "-=0.5");
     }
 
     if (stats.length) {
       stats.forEach((stat) => {
-        gsap.set(stat, { opacity: 0, y: 20 });
+        gsap.set(stat, { opacity: 0, y: 14 });
       });
       stats.forEach((stat) => {
         tl.to(
@@ -340,10 +339,10 @@ export function useHeroReveal(
           {
             opacity: 1,
             y: 0,
-            ease: "power3.out",
-            duration: 0.6,
+            ease: "power2.out",
+            duration: 0.7,
           },
-          "-=0.25",
+          "-=0.2",
         );
       });
     }
@@ -351,8 +350,8 @@ export function useHeroReveal(
     if (icons.length) {
       icons.forEach((icon) => {
         gsap.to(icon, {
-          opacity: 0.5,
-          duration: 2,
+          opacity: 0.7,
+          duration: 2.5,
           ease: "sine.inOut",
           yoyo: true,
           repeat: -1,
@@ -386,30 +385,30 @@ export function useClientFitReveal(
 
     if (!targets.length && !goodFitItems.length && !notFitItems.length) return;
 
-    targets.forEach((t) => gsap.set(t, { opacity: 0, y: 30, filter: "blur(6px)" }));
-    goodFitItems.forEach((item) => gsap.set(item, { opacity: 0, y: 20 }));
-    notFitItems.forEach((item) => gsap.set(item, { opacity: 0, y: 20 }));
+    targets.forEach((t) => gsap.set(t, { opacity: 0, y: 20, filter: "blur(3px)" }));
+    goodFitItems.forEach((item) => gsap.set(item, { opacity: 0, y: 14 }));
+    notFitItems.forEach((item) => gsap.set(item, { opacity: 0, y: 14 }));
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+            const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
 
             targets.forEach((t, i) => {
-              tl.to(t, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.7 }, i * 0.12);
+              tl.to(t, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.9 }, i * 0.08);
             });
 
             if (goodFitItems.length) {
               tl.to(goodFitItems, {
-                opacity: 1, y: 0, stagger: 0.06, duration: 0.4,
-              }, "-=0.3");
+                opacity: 1, y: 0, stagger: 0.04, duration: 0.5,
+              }, "-=0.4");
             }
 
             if (notFitItems.length) {
               tl.to(notFitItems, {
-                opacity: 1, y: 0, stagger: 0.06, duration: 0.4,
-              }, "-=0.3");
+                opacity: 1, y: 0, stagger: 0.04, duration: 0.5,
+              }, "-=0.4");
             }
 
             observer.disconnect();
@@ -442,15 +441,15 @@ export function useProcessHeroReveal(
 
     if (!targets.length) return;
 
-    targets.forEach((t) => gsap.set(t, { opacity: 0, y: 30, filter: "blur(6px)" }));
+    targets.forEach((t) => gsap.set(t, { opacity: 0, y: 20, filter: "blur(3px)" }));
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+            const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
             targets.forEach((t, i) => {
-              tl.to(t, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.8 }, i * 0.12);
+              tl.to(t, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.9 }, i * 0.08);
             });
             observer.disconnect();
           }
@@ -491,10 +490,10 @@ export function useApproachStack(
 
 			gsap.set(article, {
 				opacity: 0,
-				y: 120,
-				scale: 0.94,
-				rotate: -1.5,
-				filter: "blur(8px)",
+				y: 80,
+				scale: 0.96,
+				rotate: -0.8,
+				filter: "blur(4px)",
 			});
 		});
 
@@ -513,7 +512,7 @@ export function useApproachStack(
 
 			tl.fromTo(
 				article,
-				{ opacity: 0, y: 120, scale: 0.94, rotate: -1.5, filter: "blur(8px)" },
+				{ opacity: 0, y: 80, scale: 0.96, rotate: -0.8, filter: "blur(4px)" },
 				{
 					opacity: 1,
 					y: 0,
@@ -745,8 +744,8 @@ export function useProblemSpaceReveal(
     articles.forEach((article, i) => {
       gsap.set(article, {
         opacity: 0,
-        x: i % 2 === 0 ? -80 : 80,
-        filter: "blur(5px)",
+        x: i % 2 === 0 ? -50 : 50,
+        filter: "blur(3px)",
       });
 
       const tl = gsap.timeline({
@@ -763,7 +762,7 @@ export function useProblemSpaceReveal(
         x: 0,
         filter: "blur(0px)",
         ease: "power2.out",
-        duration: 0.6,
+        duration: 0.7,
       });
 
       triggers.push(tl.scrollTrigger!);
@@ -796,13 +795,13 @@ export function useClientsReveal(
 
     const labelLine = label?.querySelector<HTMLElement>("i");
     if (label) {
-      gsap.set(label, { opacity: 0, clipPath: "inset(0 100% 0 0)", filter: "blur(4px)" });
+      gsap.set(label, { opacity: 0, y: 10, filter: "blur(3px)" });
     }
     if (labelLine) {
       gsap.set(labelLine, { opacity: 0, scaleX: 0, transformOrigin: "left center" });
     }
     if (marquee) {
-      gsap.set(marquee, { opacity: 0, y: 24, scale: 0.96, filter: "blur(4px)" });
+      gsap.set(marquee, { opacity: 0, y: 16, scale: 0.98, filter: "blur(2px)" });
     }
 
     const tl = gsap.timeline({
@@ -820,15 +819,15 @@ export function useClientsReveal(
       }
       tl.to(
         label,
-        { opacity: 1, clipPath: "inset(0 0% 0 0)", filter: "blur(0px)", duration: 0.6, ease: "power3.out" },
+        { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.8, ease: "power2.out" },
         "-=0.2",
       );
     }
     if (marquee) {
       tl.to(
         marquee,
-        { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", ease: "power3.out", duration: 0.8 },
-        "-=0.35",
+        { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", ease: "power2.out", duration: 0.9 },
+        "-=0.4",
       );
     }
 
@@ -851,8 +850,8 @@ export function useProcessCardsReveal(
     cards.forEach((card, i) => {
       gsap.set(card, {
         opacity: 0,
-        x: -30,
-        filter: "blur(6px)",
+        y: 20,
+        filter: "blur(4px)",
       });
       card.setAttribute("data-card-index", String(i));
     });
@@ -871,12 +870,12 @@ export function useProcessCardsReveal(
         card,
         {
           opacity: 1,
-          x: 0,
+          y: 0,
           filter: "blur(0px)",
-          ease: "power3.out",
-          duration: 0.6,
+          ease: "power2.out",
+          duration: 0.7,
         },
-        "-=0.1",
+        "-=0.15",
       );
     });
 
