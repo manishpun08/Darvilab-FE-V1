@@ -37,14 +37,23 @@ export const foundingParagraphs: string[] = [
 ];
 
 export const clientLogos: ClientLogo[] = [
-	{ name: "Axiom Systems", mark: "orbit" },
-	{ name: "Northgate Group", mark: "bolt" },
-	{ name: "Meridian Health", mark: "atom" },
-	{ name: "Solaris Digital", mark: "stack" },
-	{ name: "Fenwick Co.", mark: "north" },
-	{ name: "Karuna Labs", mark: "grid" },
-	{ name: "Delta Infra", mark: "ribbon" },
-	{ name: "Orbit Ventures", mark: "drop" },
+	{ name: "Kubernetes", mark: "si-kubernetes" },
+	{ name: "Tailwind CSS", mark: "si-tailwindcss" },
+	{ name: "Python", mark: "si-python" },
+	{ name: "TensorFlow", mark: "si-tensorflow" },
+	{ name: "PostgreSQL", mark: "si-postgresql" },
+	{ name: "Node.js", mark: "si-nodedotjs" },
+	{ name: "Nest.js", mark: "si-nestjs" },
+	{ name: "Next.js", mark: "si-nextdotjs" },
+	{ name: "React", mark: "si-react" },
+	{ name: "Flutter", mark: "si-flutter" },
+	{ name: "PyTorch", mark: "si-pytorch" },
+	{ name: "FastAPI", mark: "si-fastapi" },
+	{ name: "Docker", mark: "si-docker" },
+	{ name: "React Native", mark: "si-reactnative" },
+	{ name: "Django", mark: "si-django" },
+	{ name: "Express", mark: "si-express" },
+	{ name: "AWS", mark: "si-amazonaws" },
 ];
 
 export const sectorEntries: SectorEntry[] = [
