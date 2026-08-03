@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useFaqAnimations } from "../../hooks/useFaqAnimations";
 import { getRevealStyle, useReveal } from "../../hooks/useRevealMotion";
 import { shell } from "../../lib/classes";
 import { SectionEyebrow } from "./SectionEyebrow";
@@ -32,6 +33,10 @@ export function FaqSection({
 }: FaqSectionProps) {
 	const [openIndex, setOpenIndex] = useState(0);
 	const { ref, visible, reducedMotion } = useReveal({ threshold: 0.12 });
+	const faqItemsRef = useRef<HTMLDivElement>(null);
+
+	useFaqAnimations({ containerRef: faqItemsRef, openIndex });
+
 	const faqJsonLd = {
 		"@context": "https://schema.org",
 		"@type": "FAQPage",
@@ -44,6 +49,7 @@ export function FaqSection({
 			name: item.question,
 		})),
 	};
+
 
 	return (
 		<section className={className} id={id}>
@@ -70,48 +76,71 @@ export function FaqSection({
 					) : null}
 				</div>
 
-				<div
-					style={getRevealStyle({ visible, reducedMotion, delay: 80, y: 18 })}
-				>
-					{items.map((item, index) => {
-						const isOpen = openIndex === index;
+			<div
+				ref={faqItemsRef}
+				style={getRevealStyle({ visible, reducedMotion, delay: 80, y: 18 })}
+			>
+				{items.map((item, index) => {
+					const isOpen = openIndex === index;
 
-						return (
-							<div className="border-b border-line" key={item.question}>
-								<button
-									aria-controls={`${id}-answer-${index}`}
-									aria-expanded={isOpen}
-									className="grid min-h-16 w-full grid-cols-[32px_minmax(0,1fr)_24px] items-center gap-4 py-5 text-left"
-									onClick={() =>
-										setOpenIndex((current) => (current === index ? -1 : index))
-									}
-									type="button"
+					return (
+						<div className="border-b border-line" data-faq-item key={item.question}>
+							<button
+								aria-controls={`${id}-answer-${index}`}
+								aria-expanded={isOpen}
+								className="grid min-h-16 w-full grid-cols-[32px_minmax(0,1fr)_24px] items-center gap-4 py-5 text-left"
+								onClick={() =>
+									setOpenIndex((current) => (current === index ? -1 : index))
+								}
+								type="button"
+							>
+								<span
+									className="font-mono text-[8px] font-semibold uppercase tracking-[0.1em] text-dl-blue"
+									data-faq-number
 								>
-									<span className="font-mono text-[8px] font-semibold uppercase tracking-[0.1em] text-dl-blue">
-										{String(index + 1).padStart(2, "0")}
-									</span>
-									<span className="text-[18px] font-semibold tracking-[-0.03em] text-ink">
-										{item.question}
-									</span>
-									<span
-										aria-hidden="true"
-										className="font-mono text-[18px] text-muted"
+									{String(index + 1).padStart(2, "0")}
+								</span>
+								<span className="text-[18px] font-semibold tracking-[-0.03em] text-ink">
+									{item.question}
+								</span>
+								<span
+									aria-hidden="true"
+									className="flex h-6 w-6 items-center justify-center text-muted"
+									data-faq-icon
+								>
+									<svg
+										width="14"
+										height="14"
+										viewBox="0 0 14 14"
+										fill="none"
+										xmlns="http://www.w3.org/2000/svg"
 									>
-										{isOpen ? "−" : "+"}
-									</span>
-								</button>
-								{isOpen ? (
+										<path
+											d="M7 1V13M1 7H13"
+											stroke="currentColor"
+											strokeWidth="1.5"
+											strokeLinecap="round"
+										/>
+									</svg>
+								</span>
+							</button>
+							<div
+								className="grid grid-rows-[0fr]"
+								data-faq-answer-wrapper
+							>
+								<div className="overflow-hidden" data-faq-answer-content>
 									<p
 										className="max-w-[720px] pb-6 pl-12 text-[15px] leading-[1.68] text-muted"
 										id={`${id}-answer-${index}`}
 									>
 										{item.answer}
 									</p>
-								) : null}
+								</div>
 							</div>
-						);
-					})}
-				</div>
+						</div>
+					);
+				})}
+			</div>
 			</div>
 		</section>
 	);
