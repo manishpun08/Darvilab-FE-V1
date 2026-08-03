@@ -419,7 +419,7 @@ export function useClientFitReveal(
     );
     observer.observe(el);
 
-    return () => observer.disconnect();
+    return () => st.kill();
   }, [containerRef]);
 }
 

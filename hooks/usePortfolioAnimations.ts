@@ -67,7 +67,7 @@ export function usePortfolioHeroReveal(
 				rotate: 0,
 				duration: 1.6,
 				ease: "elastic.out(1, 0.5)",
-			}, "-=0.6");
+			}, "-=0.5");
 		}
 
 	}, [containerRef]);

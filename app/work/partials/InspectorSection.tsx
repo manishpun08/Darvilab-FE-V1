@@ -22,7 +22,7 @@ export function IntroSection({
 
 	return (
 		<section
-			className={`border-y border-line bg-white py-[clamp(104px,11vw,176px)] ${
+			className={`border-y border-line bg-white pt-[clamp(104px,11vw,176px)] pb-[clamp(72px,7vw,112px)] ${
 				enableParallax ? "relative z-10" : ""
 			}`}
 			id="services"
