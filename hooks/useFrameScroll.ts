@@ -302,7 +302,7 @@ export function useHeroReveal(
 
     if (tagline) {
       gsap.set(tagline, { opacity: 0, y: -10 });
-      tl.to(tagline, { opacity: 1, y: 0, duration: 0.8 });
+      tl.to(tagline, { opacity: 1, y: 0, duration: 0.45 });
     }
 
     if (heading) {
@@ -317,16 +317,16 @@ export function useHeroReveal(
             opacity: 1,
             y: 0,
             filter: "blur(0px)",
-            duration: 1.0,
+            duration: 0.6,
           },
-          "-=0.5",
+          "-=0.3",
         );
       });
     }
 
     if (paragraph) {
       gsap.set(paragraph, { opacity: 0, y: 16 });
-      tl.to(paragraph, { opacity: 1, y: 0, duration: 0.9 }, "-=0.5");
+      tl.to(paragraph, { opacity: 1, y: 0, duration: 0.5 }, "-=0.3");
     }
 
     if (stats.length) {
@@ -340,9 +340,9 @@ export function useHeroReveal(
             opacity: 1,
             y: 0,
             ease: "power2.out",
-            duration: 0.7,
+            duration: 0.45,
           },
-          "-=0.2",
+          "-=0.15",
         );
       });
     }
@@ -386,8 +386,8 @@ export function useClientFitReveal(
     if (!targets.length && !goodFitItems.length && !notFitItems.length) return;
 
     targets.forEach((t) => gsap.set(t, { opacity: 0, y: 20, filter: "blur(3px)" }));
-    goodFitItems.forEach((item) => gsap.set(item, { opacity: 0, y: 14 }));
-    notFitItems.forEach((item) => gsap.set(item, { opacity: 0, y: 14 }));
+    goodFitItems.forEach((item) => gsap.set(item, { opacity: 0, x: -32 }));
+    notFitItems.forEach((item) => gsap.set(item, { opacity: 0, x: 32 }));
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -401,13 +401,13 @@ export function useClientFitReveal(
 
             if (goodFitItems.length) {
               tl.to(goodFitItems, {
-                opacity: 1, y: 0, stagger: 0.04, duration: 0.5,
+                opacity: 1, x: 0, stagger: 0.04, duration: 0.5,
               }, "-=0.4");
             }
 
             if (notFitItems.length) {
               tl.to(notFitItems, {
-                opacity: 1, y: 0, stagger: 0.04, duration: 0.5,
+                opacity: 1, x: 0, stagger: 0.04, duration: 0.5,
               }, "-=0.4");
             }
 
@@ -419,7 +419,7 @@ export function useClientFitReveal(
     );
     observer.observe(el);
 
-    return () => st.kill();
+    return () => observer.disconnect();
   }, [containerRef]);
 }
 
