@@ -2,7 +2,7 @@
 
 import type { RefObject } from "react";
 import { useRef } from "react";
-import Image from "next/image";
+
 import { getFooterParallaxStyle } from "@/hooks/useFooterRevealMotion";
 import { useWhereWeWorkReveal } from "@/hooks/usePortfolioAnimations";
 import { shell } from "@/lib/classes";
@@ -97,15 +97,15 @@ export function WhereWeWorkSection({
 					className="relative mt-8 h-[320px] w-full overflow-hidden max-lg:min-h-[300px] lg:pointer-events-none lg:absolute lg:inset-y-0 lg:mt-0 lg:[right:clamp(-360px,-20vw,-200px)] lg:[width:clamp(980px,86vw,1480px)]"
 					data-animate-map
 				>
-					<div
-						className="relative h-full w-full overflow-hidden"
-						style={{
-							maskImage:
-								"linear-gradient(to right, transparent 0%, black 18%, black 100%)",
-							WebkitMaskImage:
-								"linear-gradient(to right, transparent 0%, black 18%, black 100%)",
-						}}
-					>
+						<div
+							className="relative h-full w-full overflow-hidden"
+							style={{
+								maskImage:
+									"linear-gradient(to right, transparent 0%, black 35%, black 100%)",
+								WebkitMaskImage:
+									"linear-gradient(to right, transparent 0%, black 35%, black 100%)",
+							}}
+						>
 						<div
 							className="relative h-full w-full overflow-hidden"
 							style={{
@@ -116,15 +116,17 @@ export function WhereWeWorkSection({
 							}}
 						>
 							<div className="absolute inset-0 flex items-center justify-end">
-								<Image
-									alt=""
-									aria-hidden="true"
-									className="object-cover object-center opacity-[0.94]"
-									fill
-									sizes="100vw"
-									src="/about-map-blend.webp"
+								<iframe
+									title="Darvilab Office Location"
+									src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3531.6968553979814!2d85.33826047546808!3d27.72664457617154!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46426a2b9871a727%3A0xacd5005e3a2a198c!2sDarvilab%20Pvt.%20Ltd.!5e0!3m2!1sen!2snp!4v1785754475341!5m2!1sen!2snp"
+									className="h-full w-full object-cover opacity-[0.94] pointer-events-auto"
+									style={{ border: 0, overflow: "hidden" }}
+									allowFullScreen
+									loading="lazy"
+									referrerPolicy="strict-origin-when-cross-origin"
 								/>
 							</div>
+							<div className="pointer-events-none absolute top-0 left-0 z-30 h-[100px] w-[250px] bg-gradient-to-r from-white via-white/95 to-transparent" />
 						</div>
 						<div className="pointer-events-none absolute inset-x-[-12%] top-[-16%] z-20 h-[34%] bg-gradient-to-b from-white via-white/96 to-transparent blur-[34px]" />
 						<div className="pointer-events-none absolute inset-x-[-12%] bottom-[-16%] z-20 h-[34%] bg-gradient-to-t from-white via-white/96 to-transparent blur-[34px]" />
