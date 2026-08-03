@@ -131,12 +131,6 @@ export function HomeFooter({
 	const enableRevealMotion = Boolean(footerRef) && !revealMotionDisabled;
 	const isLg = useIsLg();
 	const stickyActive = stickyRevealEnabled && isLg;
-	const footerMotionStyle = enableRevealMotion && isLg
-		? {
-				transform: "translate3d(0, var(--home-footer-reveal-y, 0px), 0)",
-				willChange: "transform",
-			}
-		: undefined;
 	const footerDriftStyle = enableRevealMotion && isLg
 		? {
 				transform: "translate3d(0, var(--home-footer-content-drift-y, 0px), 0)",
@@ -151,11 +145,11 @@ export function HomeFooter({
 			}`}
 			ref={footerRef}
 		>
-			<div className="relative min-h-full" style={footerMotionStyle}>
+			<div className="relative min-h-full" style={footerDriftStyle}>
 				<div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,#000520_0%,#000f44_93.69%)]" />
 				<div className="pointer-events-none absolute inset-x-0 bottom-0 h-[340px] bg-[radial-gradient(circle_at_50%_102%,rgba(64,106,255,0.14),rgba(5,19,88,0)_60%)]" />
 				<div className="pointer-events-none absolute inset-x-0 top-[39%] h-[180px] bg-[radial-gradient(ellipse_at_center,rgba(61,104,255,0.06),transparent_70%)]" />
-				<div className="relative z-10" style={footerDriftStyle}>
+				<div className="relative z-10">
 					<div className={`${footerShell} pt-[62px]`}>
 						<div className="grid grid-cols-2 gap-x-[clamp(28px,4vw,40px)] gap-y-14 lg:grid-cols-[minmax(300px,1.35fr)_minmax(128px,.62fr)_minmax(104px,.48fr)_minmax(220px,.9fr)] lg:items-start lg:gap-x-[clamp(36px,4vw,64px)]">
 							<div className="grid gap-8 max-lg:gap-5">
@@ -247,7 +241,7 @@ export function HomeFooter({
 									© {new Date().getFullYear()} DarviLabs. All rights reserved.
 								</p>
 							</div>
-							<div className="h-[60px] md:h-[100px]" aria-hidden="true" />
+							<div className="h-[40px] md:h-[80px]" aria-hidden="true" />
 						</div>
 					</div>
 				</div>

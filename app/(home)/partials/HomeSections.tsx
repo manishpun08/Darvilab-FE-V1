@@ -405,7 +405,7 @@ export function SelectedWorkSection({
 
               return (
                 <article
-                  className={`grid items-center ${isClearLedger ? "gap-[clamp(10px,1.4vw,20px)] lg:grid-cols-[minmax(0,0.64fr)_minmax(0,1.36fr)]" : "gap-[clamp(16px,2vw,30px)] lg:grid-cols-[minmax(0,1.18fr)_minmax(0,0.82fr)]"}`}
+                  className={`grid items-start ${isClearLedger ? "gap-[clamp(10px,1.4vw,20px)] lg:grid-cols-[minmax(0,0.64fr)_minmax(0,1.36fr)]" : "gap-[clamp(16px,2vw,30px)] lg:grid-cols-[minmax(0,1.18fr)_minmax(0,0.82fr)]"}`}
                   key={item.project}
                   data-animate-work-item
                   data-reverse={reverse ? "true" : "false"}
@@ -490,6 +490,7 @@ export function HomeProcessSection() {
     <section ref={secRef} className="relative" id="how-we-work">
       <div className="sticky top-0 z-0 h-screen w-full overflow-hidden bg-[#050b1f]">
         <canvas ref={canvasRef} className="block h-full w-full" />
+        <div className="pointer-events-none absolute inset-0 rounded-none border-0 border-white/15 bg-white/[0.06] backdrop-blur-[4px]" />
         <div className="pointer-events-none absolute inset-0 bg-black/65" />
       </div>
 
@@ -599,7 +600,7 @@ export function HomeServicesSection({
                 const Tag = item.href ? SmartLink : "article";
                 return (
                   <Tag
-                    className={`group grid gap-5 border-b border-line pb-8 ${index >= 2 ? "md:pt-6" : ""}`}
+                    className={`group grid grid-rows-[auto_auto_1fr] gap-5 border-b border-line pb-8 ${index >= 2 ? "md:pt-6" : ""}`}
                     href={item.href}
                     key={item.title}
                     data-animate-card
@@ -612,7 +613,7 @@ export function HomeServicesSection({
                         {String(index + 1).padStart(2, "0")}
                       </span>
                     </div>
-                    <h3 className="max-w-[14ch] text-[30px] font-semibold leading-[1] tracking-[-0.05em] text-ink transition group-hover:text-dl-blue">
+                    <h3 className="min-h-[2.2em] max-w-[14ch] text-[30px] font-semibold leading-[1] tracking-[-0.05em] text-ink transition group-hover:text-dl-blue">
                       {item.title}
                     </h3>
                     <p className="max-w-[34ch] text-[15px] leading-[1.72] text-muted">

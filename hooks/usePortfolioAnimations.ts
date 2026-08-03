@@ -24,7 +24,7 @@ export function usePortfolioHeroReveal(
 
 		if (tagline) {
 			gsap.set(tagline, { opacity: 0, y: -8 });
-			tl.to(tagline, { opacity: 1, y: 0, duration: 0.7 });
+			tl.to(tagline, { opacity: 1, y: 0, duration: 0.45 });
 		}
 
 		if (heading) {
@@ -37,25 +37,25 @@ export function usePortfolioHeroReveal(
 					opacity: 1,
 					y: 0,
 					filter: "blur(0px)",
-					duration: 1.0,
-				}, "-=0.5");
+					duration: 0.55,
+				}, "-=0.45");
 			});
 		}
 
 		if (paragraph) {
 			gsap.set(paragraph, { opacity: 0, y: 18 });
-			tl.to(paragraph, { opacity: 1, y: 0, duration: 0.9 }, "-=0.5");
+			tl.to(paragraph, { opacity: 1, y: 0, duration: 0.5 }, "-=0.35");
 		}
 
 		if (scopeItems.length) {
 			gsap.set(scopeItems, { opacity: 0, x: -14 });
-			tl.to(scopeItems, { opacity: 1, x: 0, duration: 0.4, stagger: 0.03 }, "-=0.4");
+			tl.to(scopeItems, { opacity: 1, x: 0, duration: 0.3, stagger: 0.03 }, "-=0.3");
 		}
 
 		if (stats.length) {
 			stats.forEach((stat) => gsap.set(stat, { opacity: 0, y: 14 }));
 			stats.forEach((stat) => {
-				tl.to(stat, { opacity: 1, y: 0, duration: 0.6 }, "-=0.15");
+				tl.to(stat, { opacity: 1, y: 0, duration: 0.4 }, "-=0.1");
 			});
 		}
 
@@ -65,9 +65,9 @@ export function usePortfolioHeroReveal(
 				opacity: 1,
 				scale: 1,
 				rotate: 0,
-				duration: 1.6,
+				duration: 0.8,
 				ease: "elastic.out(1, 0.5)",
-			}, "-=0.6");
+			}, "-=0.5");
 		}
 
 	}, [containerRef]);
@@ -114,7 +114,7 @@ export function useIntroReveal(
 			const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
 			lines.forEach((line) => {
 				tl.to(line, {
-					opacity: 1, y: 0, filter: "blur(0px)", duration: 1.0,
+					opacity: 1, y: 0, filter: "blur(0px)", duration: 0.55,
 				}, "-=0.15");
 			});
 		});
@@ -354,7 +354,7 @@ export function useContactHeroReveal(
 
 		if (tagline) {
 			gsap.set(tagline, { opacity: 0, x: -20 });
-			tl.to(tagline, { opacity: 1, x: 0, duration: 0.7 });
+			tl.to(tagline, { opacity: 1, x: 0, duration: 0.45 });
 		}
 
 		if (headingLines.length) {
@@ -366,14 +366,14 @@ export function useContactHeroReveal(
 					opacity: 1,
 					y: 0,
 					filter: "blur(0px)",
-					duration: 1.0,
-				}, "-=0.5");
+					duration: 0.55,
+				}, "-=0.4");
 			});
 		}
 
 		if (paragraph) {
 			gsap.set(paragraph, { opacity: 0, y: 14 });
-			tl.to(paragraph, { opacity: 1, y: 0, duration: 0.8 }, "-=0.5");
+			tl.to(paragraph, { opacity: 1, y: 0, duration: 0.5 }, "-=0.35");
 		}
 
 		if (steps.length) {
@@ -385,9 +385,9 @@ export function useContactHeroReveal(
 			});
 
 			steps.forEach((step, i) => {
-				tl.to(step, { opacity: 1, y: 0, duration: 0.9 }, "-=0.7");
+				tl.to(step, { opacity: 1, y: 0, duration: 0.55 }, "-=0.8");
 				if (stepNumbers[i]) {
-					tl.to(stepNumbers[i], { opacity: 1, scale: 1, rotate: 0, duration: 1.0, ease: "elastic.out(1, 0.6)" }, "-=0.8");
+					tl.to(stepNumbers[i], { opacity: 1, scale: 1, rotate: 0, duration: 0.7, ease: "elastic.out(1, 0.6)" }, "-=0.45");
 				}
 			});
 		}
