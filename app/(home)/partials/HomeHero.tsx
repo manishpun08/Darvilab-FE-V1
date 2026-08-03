@@ -51,12 +51,12 @@ export function HomeHero({ horizonShift }: HomeHeroProps) {
         <div className="flex w-full max-w-350 flex-col items-center justify-center px-2 pb-[clamp(44px,6vh,72px)] pt-[clamp(64px,9vh,112px)] text-center">
           <span
             data-hero-tagline
-            className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-white/74"
+            className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-white/74 max-md:text-[8px]"
           >
             Built for the problem after launch
           </span>
 
-          <h1 className="mt-[clamp(28px,4.7vh,43px)] max-md:mt-6 max-w-[17ch] text-[clamp(36px,7vw,108px)] font-semibold leading-[0.88] tracking-[-0.072em] max-md:max-w-none">
+          <h1 className="mt-[clamp(28px,4.7vh,43px)] max-md:mt-6 max-w-[17ch] text-[clamp(36px,7vw,108px)] font-semibold leading-[0.88] tracking-[-0.072em] max-md:max-w-none max-md:text-[46px]">
             <span className="md:block">We build the systems your </span>
             <span className="md:block">
               business{" "}

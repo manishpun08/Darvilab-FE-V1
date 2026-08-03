@@ -50,6 +50,8 @@ export function useFrameScroll(
   const readyRef = useRef(false);
 
   useEffect(() => {
+    if (window.matchMedia("(max-width: 767px)").matches) return;
+
     const section = sectionRef.current;
     const canvas = canvasRef.current;
     if (!section || !canvas) return;
@@ -643,6 +645,8 @@ export function useProcessFrames(
   const readyRef = useRef(false);
 
   useEffect(() => {
+    if (window.matchMedia("(max-width: 767px)").matches) return;
+
     const section = sectionRef.current;
     const canvas = canvasRef.current;
     if (!section || !canvas) return;

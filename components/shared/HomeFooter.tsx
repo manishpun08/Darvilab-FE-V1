@@ -232,16 +232,16 @@ export function HomeFooter({
 							style={{
 								backgroundImage: "url('/footer.svg')",
 								backgroundRepeat: "no-repeat",
-								backgroundPosition: "center bottom",
 								backgroundSize: "cover",
+								backgroundPosition: "center bottom",
 							}}
 						>
 							<div className={`${footerShell} relative z-10 py-[18px]`}>
-								<p className="text-center text-[15px] font-medium leading-[1.4] text-[#c3c3c3]">
+								<p className="text-center text-[15px] font-medium leading-[1.4] text-[#c3c3c3] max-md:text-[12px]">
 									© {new Date().getFullYear()} DarviLabs. All rights reserved.
 								</p>
 							</div>
-							<div className="h-[40px] md:h-[80px]" aria-hidden="true" />
+							<div className="h-[60px] md:h-[80px]" aria-hidden="true" />
 						</div>
 					</div>
 				</div>

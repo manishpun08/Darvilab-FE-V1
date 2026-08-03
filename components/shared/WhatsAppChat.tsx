@@ -100,7 +100,7 @@ export function WhatsAppChat() {
             />
           </svg>
         ) : (
-          <FaWhatsapp className="size-8" />
+          <FaWhatsapp className="size-6" />
         )}
       </button>
     </div>

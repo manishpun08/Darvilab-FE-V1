@@ -52,7 +52,7 @@ function SectionRuleLabel({
 }) {
   return (
     <div className={`relative overflow-hidden flex items-center gap-3 ${className}`}>
-      <i className="h-px w-16 bg-[#9fb0c5]" />
+      <i className="h-px w-16 bg-[#9fb0c5] max-md:w-8" />
       <span className={label}>{children}</span>
     </div>
   );
@@ -145,25 +145,25 @@ function ProjectVisual({ index }: { index: number }) {
     {
       back: "from-[#29334f] via-[#4f6ba8] to-[#c9d8ff]",
       front: "from-[#04060b] via-[#111827] to-[#0b1021]",
-      backPosition: "right-[20%] top-0 h-[70%] w-[48%]",
-      frontPosition: "right-0 top-[22%] h-[66%] w-[54%]",
+      backPosition: "right-[20%] top-0 h-[70%] w-[48%] max-md:left-0 max-md:right-auto max-md:h-[80%] max-md:w-[52%]",
+      frontPosition: "right-0 top-[22%] h-[66%] w-[54%] max-md:top-[20%] max-md:h-[80%] max-md:w-[62%]",
     },
     {
       back: "from-[#29334f] via-[#4f6ba8] to-[#c9d8ff]",
       front: "from-[#04060b] via-[#111827] to-[#0b1021]",
-      backPosition: "left-[20%] top-0 h-[70%] w-[48%]",
-      frontPosition: "left-0 top-[22%] h-[66%] w-[54%]",
+      backPosition: "left-[20%] top-0 h-[70%] w-[48%] max-md:left-0 max-md:h-[80%] max-md:w-[52%]",
+      frontPosition: "left-0 top-[22%] h-[66%] w-[54%] max-md:right-0 max-md:left-auto max-md:top-[20%] max-md:h-[80%] max-md:w-[62%]",
     },
     {
       back: "from-[#0f274f] via-[#6f8cff] to-[#89d8ff]",
       front: "from-[#05070f] via-[#1c1230] to-[#0b0f1b]",
-      backPosition: "right-[6%] top-0 h-[70%] w-[44%]",
-      frontPosition: "left-[4%] top-[20%] h-[66%] w-[54%]",
+      backPosition: "right-[6%] top-0 h-[70%] w-[44%] max-md:left-0 max-md:right-auto max-md:h-[80%] max-md:w-[52%]",
+      frontPosition: "left-[4%] top-[20%] h-[66%] w-[54%] max-md:right-0 max-md:left-auto max-md:top-[20%] max-md:h-[80%] max-md:w-[62%]",
     },
   ][index % 3];
 
   return (
-    <div className="relative h-[430px] w-full max-w-[470px] max-md:h-[340px] max-md:max-w-[340px]">
+    <div className="relative h-[430px] w-full max-w-[470px] max-md:h-[340px] max-md:max-w-none">
       <div
         className={`absolute ${variants.backPosition} overflow-hidden rounded-[2px] bg-gradient-to-br ${variants.back} shadow-[0_22px_54px_rgba(7,16,43,0.16)]`}
       >
@@ -264,28 +264,28 @@ export function ProblemRecognitionSection() {
 
   return (
     <section ref={sectionRef} className="relative" id="problem-space">
-      <div className="sticky top-0 z-0 h-dvh w-full overflow-hidden bg-[#0a0a1a]">
+      <div className="sticky top-0 z-0 h-dvh w-full overflow-hidden bg-[#0a0a1a] max-md:hidden">
         <canvas ref={canvasRef} className="block h-full w-full" />
         <div className="pointer-events-none absolute inset-0 bg-[#050b1f]/50 " />
       </div>
 
-      <div className="relative z-10 -mt-[30vh]">
+      <div className="relative z-10 -mt-[30vh] max-md:mt-0 max-md:bg-white max-md:pt-[clamp(48px,10vw,72px)]">
         <div className="pb-[clamp(40px,5vw,64px)] pt-0">
           <div
             className={`${shell} grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] gap-x-[clamp(44px,8vw,120px)] gap-y-[clamp(36px,6vw,72px)] max-lg:grid-cols-1`}
           >
             <div
               ref={headingRef}
-              className="max-w-[36rem] [text-shadow:0_2px_12px_rgba(0,0,0,0.6)]"
+              className="max-w-[36rem] [text-shadow:0_2px_12px_rgba(0,0,0,0.6)] max-md:[text-shadow:none]"
             >
-              <SectionRuleLabel className="text-white">
+              <SectionRuleLabel className="text-white max-md:text-ink">
                 The real system starts after launch
               </SectionRuleLabel>
-              <h2 className="mt-6 max-w-[12.6ch] text-[clamp(44px,5.6vw,82px)] font-semibold leading-[0.9] tracking-[-0.07em] text-white max-lg:text-[clamp(36px,9vw,48px)]">
+              <h2 className="mt-6 max-w-[12.6ch] text-[clamp(44px,5.6vw,82px)] font-semibold leading-[0.9] tracking-[-0.07em] text-white max-lg:text-[clamp(36px,9vw,48px)] max-md:text-ink max-md:text-[clamp(42px,10.5vw,52px)]">
                 <span className="block max-md:whitespace-normal md:whitespace-nowrap">
                   The build gets done.
                 </span>
-                <span className="mt-2 block font-display text-[0.48em] font-normal leading-[1.24] tracking-[-0.04em] text-white">
+                <span className="mt-2 block font-display text-[0.48em] font-normal leading-[1.24] tracking-[-0.04em] text-white max-md:text-ink">
                   The real system starts after.
                 </span>
               </h2>
@@ -297,46 +297,46 @@ export function ProblemRecognitionSection() {
             >
               <div className="max-lg:hidden" />
 
-              <article className="lg:-mt-[29px] max-w-[42rem] border-t border-white/20 pt-6 [text-shadow:0_2px_8px_rgba(0,0,0,0.5)]">
-                <span className="font-case text-[clamp(44px,4.8vw,62px)] font-semibold leading-[0.9] tracking-[-0.06em] text-white/60 max-lg:text-[clamp(28px,9vw,36px)]">
+              <article className="lg:-mt-[29px] max-w-[42rem] border-t border-white/20 pt-6 [text-shadow:0_2px_8px_rgba(0,0,0,0.5)] max-md:border-line max-md:[text-shadow:none]">
+                <span className="font-case text-[clamp(44px,4.8vw,62px)] font-semibold leading-[0.9] tracking-[-0.06em] text-white/60 max-lg:text-[clamp(28px,9vw,36px)] max-md:text-muted">
                   01
                 </span>
-                <blockquote className="mt-4 max-w-[24ch] text-[clamp(24px,2.9vw,34px)] font-semibold leading-[1.08] tracking-[-0.05em] text-white max-lg:max-w-none max-lg:text-[clamp(18px,5vw,22px)] max-lg:leading-[1.18]">
+                <blockquote className="mt-4 max-w-[24ch] text-[clamp(24px,2.9vw,34px)] font-semibold leading-[1.08] tracking-[-0.05em] text-white max-lg:max-w-none max-lg:text-[clamp(18px,5vw,22px)] max-lg:leading-[1.18] max-md:text-ink">
                   &ldquo;{problemRecognitionItems[0].quote}&rdquo;
                 </blockquote>
-                <p className="mt-4 max-w-[40ch] font-body text-[15px] italic leading-[1.45] text-white/80">
+                <p className="mt-4 max-w-[40ch] font-body text-[15px] italic leading-[1.45] text-white/80 max-md:text-muted">
                   {problemRecognitionItems[0].response}
                 </p>
               </article>
 
-              <article className="lg:-mt-[15px] max-w-[46rem] border-t border-white/20 pt-6 [text-shadow:0_2px_8px_rgba(0,0,0,0.5)]">
-                <span className="font-case text-[clamp(44px,4.8vw,62px)] font-semibold leading-[0.9] tracking-[-0.06em] text-white/60 max-lg:text-[clamp(28px,9vw,36px)]">
+              <article className="lg:-mt-[15px] max-w-[46rem] border-t border-white/20 pt-6 [text-shadow:0_2px_8px_rgba(0,0,0,0.5)] max-md:border-line max-md:[text-shadow:none]">
+                <span className="font-case text-[clamp(44px,4.8vw,62px)] font-semibold leading-[0.9] tracking-[-0.06em] text-white/60 max-lg:text-[clamp(28px,9vw,36px)] max-md:text-muted">
                   02
                 </span>
-                <blockquote className="mt-4 max-w-[24ch] text-[clamp(24px,2.9vw,34px)] font-semibold leading-[1.08] tracking-[-0.05em] text-white max-lg:max-w-none max-lg:text-[clamp(18px,5vw,22px)] max-lg:leading-[1.18]">
+                <blockquote className="mt-4 max-w-[24ch] text-[clamp(24px,2.9vw,34px)] font-semibold leading-[1.08] tracking-[-0.05em] text-white max-lg:max-w-none max-lg:text-[clamp(18px,5vw,22px)] max-lg:leading-[1.18] max-md:text-ink">
                   &ldquo;{problemRecognitionItems[1].quote}&rdquo;
                 </blockquote>
-                <p className="mt-4 max-w-[42ch] font-body text-[15px] italic leading-[1.45] text-white/80">
+                <p className="mt-4 max-w-[42ch] font-body text-[15px] italic leading-[1.45] text-white/80 max-md:text-muted">
                   {problemRecognitionItems[1].response}
                 </p>
               </article>
 
               <div className="max-lg:hidden" />
-              <article className="lg:-mt-[15px] lg:col-start-2 max-w-[42rem] border-t border-white/20 pt-6 [text-shadow:0_2px_8px_rgba(0,0,0,0.5)]">
-                <span className="font-case text-[clamp(44px,4.8vw,62px)] font-semibold leading-[0.9] tracking-[-0.06em] text-white/60 max-lg:text-[clamp(28px,9vw,36px)]">
+              <article className="lg:-mt-[15px] lg:col-start-2 max-w-[42rem] border-t border-white/20 pt-6 [text-shadow:0_2px_8px_rgba(0,0,0,0.5)] max-md:border-line max-md:[text-shadow:none]">
+                <span className="font-case text-[clamp(44px,4.8vw,62px)] font-semibold leading-[0.9] tracking-[-0.06em] text-white/60 max-lg:text-[clamp(28px,9vw,36px)] max-md:text-muted">
                   03
                 </span>
-                <blockquote className="mt-4 max-w-[22ch] text-[clamp(24px,2.9vw,34px)] font-semibold leading-[1.06] tracking-[-0.05em] text-white max-lg:max-w-none max-lg:text-[clamp(18px,5vw,22px)] max-lg:leading-[1.15]">
+                <blockquote className="mt-4 max-w-[22ch] text-[clamp(24px,2.9vw,34px)] font-semibold leading-[1.06] tracking-[-0.05em] text-white max-lg:max-w-none max-lg:text-[clamp(18px,5vw,22px)] max-lg:leading-[1.15] max-md:text-ink">
                   We&apos;ve already paid for one rebuild. We&apos;re not making
                   another.
                 </blockquote>
-                <p className="mt-4 max-w-[42ch] font-body text-[15px] italic leading-[1.45] text-white/80">
+                <p className="mt-4 max-w-[42ch] font-body text-[15px] italic leading-[1.45] text-white/80 max-md:text-muted">
                   {problemRecognitionItems[2].response}
                 </p>
               </article>
 
               <div className="col-span-2 mt-16 max-w-[48rem] max-md:mt-10 max-lg:col-span-1">
-                <p className="text-[clamp(20px,2.5vw,28px)] font-semibold leading-[1.2] tracking-[-0.03em] text-white">
+                <p className="text-[clamp(20px,2.5vw,28px)] font-semibold leading-[1.2] tracking-[-0.03em] text-white max-md:text-ink">
                   If that sounds familiar, the fix usually isn&apos;t more
                   engineers. It&apos;s a different starting point.
                 </p>
@@ -411,7 +411,7 @@ export function SelectedWorkSection({
                   data-reverse={reverse ? "true" : "false"}
                 >
                   <div
-                    className={`${reverse ? "lg:order-1" : "lg:order-2"} flex w-full ${reverse ? "justify-start" : "justify-end"}`}
+                    className={`${reverse ? "lg:order-1" : "lg:order-2"} flex w-full ${reverse ? "justify-start" : "justify-end"} max-md:justify-start`}
                     data-animate-visual
                   >
                     <ProjectVisual index={index} />
@@ -487,15 +487,15 @@ export function HomeProcessSection() {
   useProcessHeroReveal(headingAreaRef);
 
   return (
-    <section ref={secRef} className="relative" id="how-we-work">
-      <div className="sticky top-0 z-0 h-screen w-full overflow-hidden bg-[#050b1f]">
+    <section ref={secRef} className="relative max-md:bg-[#050b1f]" id="how-we-work">
+      <div className="sticky top-0 z-0 h-screen w-full overflow-hidden bg-[#050b1f] max-md:hidden">
         <canvas ref={canvasRef} className="block h-full w-full" />
         <div className="pointer-events-none absolute inset-0 rounded-none border-0 border-white/15 bg-white/[0.06] backdrop-blur-[4px]" />
         <div className="pointer-events-none absolute inset-0 bg-black/65" />
       </div>
 
       <div className="relative z-10">
-        <div className="pb-[clamp(64px,8vw,104px)] pt-[clamp(20px,2vw,32px)] -mt-[30vh]">
+        <div className="pb-[clamp(64px,8vw,104px)] pt-[clamp(20px,2vw,32px)] -mt-[30vh] max-md:mt-0 max-md:pt-[clamp(48px,8vw,72px)]">
           <div className={`${shell}`}>
             <div
               ref={headingAreaRef}
@@ -548,7 +548,7 @@ export function HomeProcessSection() {
           </div>
         </div>
 
-        <div className="h-[90vh]" />
+        <div className="h-[90vh] max-md:hidden" />
       </div>
     </section>
   );
@@ -600,7 +600,7 @@ export function HomeServicesSection({
                 const Tag = item.href ? SmartLink : "article";
                 return (
                   <Tag
-                    className={`group grid grid-rows-[auto_auto_1fr] gap-5 border-b border-line pb-8 ${index >= 2 ? "md:pt-6" : ""}`}
+                    className={`group grid grid-rows-[auto_auto_1fr] gap-5 border-b border-line pb-8 max-md:gap-4 max-md:pb-1 ${index >= 2 ? "md:pt-6" : ""}`}
                     href={item.href}
                     key={item.title}
                     data-animate-card
@@ -613,7 +613,7 @@ export function HomeServicesSection({
                         {String(index + 1).padStart(2, "0")}
                       </span>
                     </div>
-                    <h3 className="min-h-[2.2em] max-w-[14ch] text-[30px] font-semibold leading-[1] tracking-[-0.05em] text-ink transition group-hover:text-dl-blue">
+                    <h3 className="min-h-[2.2em] max-w-[14ch] text-[30px] font-semibold leading-[1] tracking-[-0.05em] text-ink transition group-hover:text-dl-blue max-md:min-h-0">
                       {item.title}
                     </h3>
                     <p className="max-w-[34ch] text-[15px] leading-[1.72] text-muted">
@@ -686,7 +686,7 @@ export function ClientFitSection({
               <SectionRuleLabel>Client Fit</SectionRuleLabel>
             </div>
             <h2
-              className="mt-[44px] max-w-[18ch] text-[clamp(38px,4.25vw,72px)] font-semibold leading-[0.92] tracking-[-0.066em] text-ink"
+              className="mt-[44px] max-w-[18ch] text-[clamp(38px,4.25vw,72px)] font-semibold leading-[0.92] tracking-[-0.066em] text-ink max-md:text-[clamp(48px,10vw,60px)]"
               data-fit-heading
             >
               <span className="block max-md:whitespace-normal md:whitespace-nowrap">
@@ -810,7 +810,7 @@ export function TestimonialsSection({
             <div className="max-w-[52.8rem]">
               <SectionRuleLabel data-animate-t-label>Testimonials</SectionRuleLabel>
               <h2
-                className="mt-7 max-w-none text-[clamp(34px,4vw,54px)] font-semibold leading-[0.96] tracking-[-0.055em] text-ink"
+                className="mt-7 max-w-none text-[clamp(34px,4vw,54px)] font-semibold leading-[0.96] tracking-[-0.055em] text-ink max-md:text-[clamp(44px,9vw,54px)]"
                 data-animate-t-heading
               >
                 <span className="block">What holds up</span>
