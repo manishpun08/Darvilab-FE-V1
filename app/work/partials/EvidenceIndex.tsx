@@ -80,39 +80,45 @@ function IndexRow({ expanded, item, onToggle }: IndexRowProps) {
 				</i>
 			</button>
 
-			{expanded && (
-				<div
-					className="bg-[linear-gradient(180deg,rgba(247,247,249,0.94),rgba(255,255,255,0.98))]"
-					data-expand-panel
-					id={`case-expand-${item.no}`}
-				>
-					<div className="grid grid-cols-[1.15fr_1fr_auto] gap-6 px-[76px] pb-[22px] max-[1100px]:grid-cols-1 max-[1100px]:pl-[68px] max-sm:px-[10px] max-sm:pb-[18px]">
-						<div className="border-t border-[#e3e3ea] pt-[18px]">
-							<span className={`${label} text-dl-blue`}>Situation</span>
-							<p className="mt-3 max-w-[430px] text-[12px] leading-[1.65] text-[#565661]">
-								{item.situation}
-							</p>
-						</div>
-						<div className="border-t border-[#e3e3ea] pt-[18px]">
-							<span className={`${label} text-dl-blue`}>Decision made</span>
-							<p className="mt-3 max-w-[430px] text-[12px] leading-[1.65] text-[#565661]">
-								{item.decision}
-							</p>
-						</div>
-						<div className="flex items-start justify-end border-t border-[#e3e3ea] pt-[18px] max-[1100px]:justify-start">
-							<SmartLink
-								className="inline-flex min-h-11 items-center gap-3 border border-ink bg-white px-4 text-[12px] font-semibold transition hover:border-dl-blue hover:text-dl-blue max-sm:w-full max-sm:justify-between"
-								href={getCaseStudyUrl(item)}
-							>
-								<span>Inspect Full Evidence</span>
-								<b aria-hidden="true" className="text-[18px] font-normal">
-									→
-								</b>
-							</SmartLink>
+			<div
+				className={`grid transition-[grid-template-rows] duration-350 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none ${
+					expanded ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+				}`}
+				data-expand-panel
+				id={`case-expand-${item.no}`}
+			>
+				<div className="overflow-hidden">
+					<div className={`bg-[linear-gradient(180deg,rgba(247,247,249,0.94),rgba(255,255,255,0.98))] transition-opacity duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none ${
+						expanded ? "opacity-100" : "opacity-0"
+					}`}>
+						<div className="grid grid-cols-[1.15fr_1fr_auto] gap-6 px-[76px] pb-[22px] max-[1100px]:grid-cols-1 max-[1100px]:pl-[68px] max-sm:px-[10px] max-sm:pb-[18px]">
+							<div className="border-t border-[#e3e3ea] pt-[18px]">
+								<span className={`${label} text-dl-blue`}>Situation</span>
+								<p className="mt-3 max-w-[430px] text-[12px] leading-[1.65] text-[#565661]">
+									{item.situation}
+								</p>
+							</div>
+							<div className="border-t border-[#e3e3ea] pt-[18px]">
+								<span className={`${label} text-dl-blue`}>Decision made</span>
+								<p className="mt-3 max-w-[430px] text-[12px] leading-[1.65] text-[#565661]">
+									{item.decision}
+								</p>
+							</div>
+							<div className="flex items-start justify-end border-t border-[#e3e3ea] pt-[18px] max-[1100px]:justify-start">
+								<SmartLink
+									className="inline-flex min-h-11 items-center gap-3 border border-ink bg-white px-4 text-[12px] font-semibold transition hover:border-dl-blue hover:text-dl-blue max-sm:w-full max-sm:justify-between"
+									href={getCaseStudyUrl(item)}
+								>
+									<span>Inspect Full Evidence</span>
+									<b aria-hidden="true" className="text-[18px] font-normal">
+										→
+									</b>
+								</SmartLink>
+							</div>
 						</div>
 					</div>
 				</div>
-			)}
+			</div>
 		</div>
 	);
 }
