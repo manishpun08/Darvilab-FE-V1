@@ -264,7 +264,7 @@ export function ProblemRecognitionSection() {
 
   return (
     <section ref={sectionRef} className="relative" id="problem-space">
-      <div className="sticky top-0 z-0 h-screen w-full overflow-hidden bg-[#0a0a1a]">
+      <div className="sticky top-0 z-0 h-dvh w-full overflow-hidden bg-[#0a0a1a]">
         <canvas ref={canvasRef} className="block h-full w-full" />
         <div className="pointer-events-none absolute inset-0 bg-[#050b1f]/50 " />
       </div>
@@ -278,10 +278,10 @@ export function ProblemRecognitionSection() {
               ref={headingRef}
               className="max-w-[36rem] [text-shadow:0_2px_12px_rgba(0,0,0,0.6)]"
             >
-              <SectionRuleLabel>
+              <SectionRuleLabel className="text-white">
                 The real system starts after launch
               </SectionRuleLabel>
-              <h2 className="mt-6 max-w-[12.6ch] text-[clamp(44px,5.6vw,82px)] font-semibold leading-[0.9] tracking-[-0.07em] text-white">
+              <h2 className="mt-6 max-w-[12.6ch] text-[clamp(44px,5.6vw,82px)] font-semibold leading-[0.9] tracking-[-0.07em] text-white max-lg:text-[clamp(36px,9vw,48px)]">
                 <span className="block max-md:whitespace-normal md:whitespace-nowrap">
                   The build gets done.
                 </span>
@@ -295,13 +295,13 @@ export function ProblemRecognitionSection() {
               ref={articlesRef}
               className="col-span-2 grid grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] gap-x-[clamp(44px,8vw,120px)] gap-y-[clamp(36px,6vw,72px)] max-lg:col-span-1 max-lg:grid-cols-1"
             >
-              <div />
+              <div className="max-lg:hidden" />
 
-              <article className="-mt-[29px] max-w-[42rem] border-t border-white/20 pt-6 [text-shadow:0_2px_8px_rgba(0,0,0,0.5)]">
-                <span className="font-case text-[clamp(44px,4.8vw,62px)] font-semibold leading-[0.9] tracking-[-0.06em] text-white/60">
+              <article className="lg:-mt-[29px] max-w-[42rem] border-t border-white/20 pt-6 [text-shadow:0_2px_8px_rgba(0,0,0,0.5)]">
+                <span className="font-case text-[clamp(44px,4.8vw,62px)] font-semibold leading-[0.9] tracking-[-0.06em] text-white/60 max-lg:text-[clamp(28px,9vw,36px)]">
                   01
                 </span>
-                <blockquote className="mt-4 max-w-[24ch] text-[clamp(24px,2.9vw,34px)] font-semibold leading-[1.08] tracking-[-0.05em] text-white">
+                <blockquote className="mt-4 max-w-[24ch] text-[clamp(24px,2.9vw,34px)] font-semibold leading-[1.08] tracking-[-0.05em] text-white max-lg:max-w-none max-lg:text-[clamp(18px,5vw,22px)] max-lg:leading-[1.18]">
                   &ldquo;{problemRecognitionItems[0].quote}&rdquo;
                 </blockquote>
                 <p className="mt-4 max-w-[40ch] font-body text-[15px] italic leading-[1.45] text-white/80">
@@ -309,11 +309,11 @@ export function ProblemRecognitionSection() {
                 </p>
               </article>
 
-              <article className="-mt-[15px] max-w-[46rem] border-t border-white/20 pt-6 [text-shadow:0_2px_8px_rgba(0,0,0,0.5)]">
-                <span className="font-case text-[clamp(44px,4.8vw,62px)] font-semibold leading-[0.9] tracking-[-0.06em] text-white/60">
+              <article className="lg:-mt-[15px] max-w-[46rem] border-t border-white/20 pt-6 [text-shadow:0_2px_8px_rgba(0,0,0,0.5)]">
+                <span className="font-case text-[clamp(44px,4.8vw,62px)] font-semibold leading-[0.9] tracking-[-0.06em] text-white/60 max-lg:text-[clamp(28px,9vw,36px)]">
                   02
                 </span>
-                <blockquote className="mt-4 max-w-[24ch] text-[clamp(24px,2.9vw,34px)] font-semibold leading-[1.08] tracking-[-0.05em] text-white">
+                <blockquote className="mt-4 max-w-[24ch] text-[clamp(24px,2.9vw,34px)] font-semibold leading-[1.08] tracking-[-0.05em] text-white max-lg:max-w-none max-lg:text-[clamp(18px,5vw,22px)] max-lg:leading-[1.18]">
                   &ldquo;{problemRecognitionItems[1].quote}&rdquo;
                 </blockquote>
                 <p className="mt-4 max-w-[42ch] font-body text-[15px] italic leading-[1.45] text-white/80">
@@ -321,12 +321,12 @@ export function ProblemRecognitionSection() {
                 </p>
               </article>
 
-              <div />
-              <article className="-mt-[15px] col-start-2 max-w-[42rem] border-t border-white/20 pt-6 max-lg:col-start-auto [text-shadow:0_2px_8px_rgba(0,0,0,0.5)]">
-                <span className="font-case text-[clamp(44px,4.8vw,62px)] font-semibold leading-[0.9] tracking-[-0.06em] text-white/60">
+              <div className="max-lg:hidden" />
+              <article className="lg:-mt-[15px] lg:col-start-2 max-w-[42rem] border-t border-white/20 pt-6 [text-shadow:0_2px_8px_rgba(0,0,0,0.5)]">
+                <span className="font-case text-[clamp(44px,4.8vw,62px)] font-semibold leading-[0.9] tracking-[-0.06em] text-white/60 max-lg:text-[clamp(28px,9vw,36px)]">
                   03
                 </span>
-                <blockquote className="mt-4 max-w-[22ch] text-[clamp(24px,2.9vw,34px)] font-semibold leading-[1.06] tracking-[-0.05em] text-white">
+                <blockquote className="mt-4 max-w-[22ch] text-[clamp(24px,2.9vw,34px)] font-semibold leading-[1.06] tracking-[-0.05em] text-white max-lg:max-w-none max-lg:text-[clamp(18px,5vw,22px)] max-lg:leading-[1.15]">
                   We&apos;ve already paid for one rebuild. We&apos;re not making
                   another.
                 </blockquote>
@@ -335,7 +335,7 @@ export function ProblemRecognitionSection() {
                 </p>
               </article>
 
-              <div className="col-span-2 mt-16 max-w-[48rem]">
+              <div className="col-span-2 mt-16 max-w-[48rem] max-md:mt-10 max-lg:col-span-1">
                 <p className="text-[clamp(20px,2.5vw,28px)] font-semibold leading-[1.2] tracking-[-0.03em] text-white">
                   If that sounds familiar, the fix usually isn&apos;t more
                   engineers. It&apos;s a different starting point.

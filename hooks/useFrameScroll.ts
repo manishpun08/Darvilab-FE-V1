@@ -62,7 +62,8 @@ export function useFrameScroll(
 
     let cw = 0,
       ch = 0,
-      cdpr = 1;
+      cdpr = 1,
+      currentIndex = 0;
 
     for (let i = 0; i < TOTAL_FRAMES; i++) {
       const img = new Image();
@@ -107,11 +108,22 @@ export function useFrameScroll(
 
       const img = imagesRef.current[index];
       if (img?.complete) {
+        const iw = img.naturalWidth;
+        const ih = img.naturalHeight;
+        const ar = iw / ih;
+        const car = cw / ch;
+        const scale = ar > car ? ch / ih : cw / iw;
+        ctx.imageSmoothingEnabled = scale > 1.05;
         coverFill(ctx, img, cw, ch);
       }
     }
 
-    const ro = new ResizeObserver(() => draw(0));
+    let roTimer: ReturnType<typeof setTimeout> | undefined;
+    const ro = new ResizeObserver(() => {
+      draw(currentIndex);
+      clearTimeout(roTimer);
+      roTimer = setTimeout(() => ScrollTrigger.refresh(), 200);
+    });
     ro.observe(canvas.parentElement ?? section);
 
     const st = ScrollTrigger.create({
@@ -120,13 +132,15 @@ export function useFrameScroll(
       end: "bottom bottom",
       scrub: 1.5,
       onUpdate(self) {
-        draw(Math.floor(self.progress * (TOTAL_FRAMES - 1)));
+        currentIndex = Math.floor(self.progress * (TOTAL_FRAMES - 1));
+        draw(currentIndex);
       },
     });
 
     draw(0);
 
     return () => {
+      clearTimeout(roTimer);
       st.kill();
       ro.disconnect();
     };
@@ -212,6 +226,31 @@ export function useArticlesReveal(
 
     const articles = el.querySelectorAll("article");
     if (!articles.length) return;
+
+    const isNarrow = window.matchMedia("(max-width: 63.99rem)").matches;
+
+    if (isNarrow) {
+      articles.forEach((article) => {
+        gsap.set(article, { opacity: 0 });
+      });
+
+      const st = ScrollTrigger.create({
+        trigger: el,
+        start: "top bottom-=40",
+        once: true,
+        onEnter: () =>
+          gsap.to(articles, {
+            opacity: 1,
+            duration: 0.8,
+            stagger: 0.08,
+            ease: "power2.out",
+          }),
+      });
+
+      return () => {
+        st.kill();
+      };
+    }
 
     articles.forEach((article) => {
       gsap.set(article, { opacity: 0, y: 30, filter: "blur(6px)" });

@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import { useIsLg } from "./useIsLg";
 import {
 	clamp,
 	easeInOut,
@@ -62,6 +63,7 @@ export function useFooterRevealMotion(): {
 } {
 	const testimonialsRef = useRef<HTMLElement | null>(null);
 	const footerRef = useRef<HTMLElement | null>(null);
+	const isLg = useIsLg();
 	const reducedMotion = useScrollParallax({
 		createInitialState: () => ({
 			currentTestimonialsY: 0,
@@ -217,5 +219,5 @@ export function useFooterRevealMotion(): {
 		},
 	});
 
-	return { testimonialsRef, footerRef, reducedMotion };
+	return { testimonialsRef, footerRef, reducedMotion: reducedMotion || !isLg };
 }

@@ -3,6 +3,7 @@
 import type { RefObject } from "react";
 import { FaFacebook, FaInstagram, FaLinkedinIn } from "react-icons/fa6";
 import { FiMail, FiMapPin, FiPhone } from "react-icons/fi";
+import { useIsLg } from "@/hooks/useIsLg";
 import { shell } from "@/lib/classes";
 import { SmartLink } from "./SmartLink";
 
@@ -128,13 +129,15 @@ export function HomeFooter({
 	stickyRevealEnabled = false,
 }: HomeFooterProps) {
 	const enableRevealMotion = Boolean(footerRef) && !revealMotionDisabled;
-	const footerMotionStyle = enableRevealMotion
+	const isLg = useIsLg();
+	const stickyActive = stickyRevealEnabled && isLg;
+	const footerMotionStyle = enableRevealMotion && isLg
 		? {
 				transform: "translate3d(0, var(--home-footer-reveal-y, 0px), 0)",
 				willChange: "transform",
 			}
 		: undefined;
-	const footerDriftStyle = enableRevealMotion
+	const footerDriftStyle = enableRevealMotion && isLg
 		? {
 				transform: "translate3d(0, var(--home-footer-content-drift-y, 0px), 0)",
 				willChange: "transform",
@@ -144,7 +147,7 @@ export function HomeFooter({
 	return (
 		<footer
 			className={`overflow-hidden bg-[#000520] text-white ${
-				stickyRevealEnabled ? "sticky bottom-0 z-0" : "relative z-0"
+				stickyActive ? "sticky bottom-0 z-0" : "relative z-0"
 			}`}
 			ref={footerRef}
 		>
@@ -154,8 +157,8 @@ export function HomeFooter({
 				<div className="pointer-events-none absolute inset-x-0 top-[39%] h-[180px] bg-[radial-gradient(ellipse_at_center,rgba(61,104,255,0.06),transparent_70%)]" />
 				<div className="relative z-10" style={footerDriftStyle}>
 					<div className={`${footerShell} pt-[62px]`}>
-						<div className="grid gap-y-14 lg:grid-cols-[minmax(300px,1.35fr)_minmax(128px,.62fr)_minmax(104px,.48fr)_minmax(220px,.9fr)] lg:items-start lg:gap-x-[clamp(36px,4vw,64px)]">
-							<div className="grid gap-8">
+						<div className="grid grid-cols-2 gap-x-[clamp(28px,4vw,40px)] gap-y-14 lg:grid-cols-[minmax(300px,1.35fr)_minmax(128px,.62fr)_minmax(104px,.48fr)_minmax(220px,.9fr)] lg:items-start lg:gap-x-[clamp(36px,4vw,64px)]">
+							<div className="grid gap-8 max-lg:gap-5">
 								<FooterTitle>Services</FooterTitle>
 								<div className="grid gap-x-[30px] gap-y-2 sm:grid-cols-2">
 									{serviceColumns.map((column, columnIndex) => (
@@ -177,7 +180,7 @@ export function HomeFooter({
 								</div>
 							</div>
 
-							<div className="grid content-start gap-8 lg:pt-[2px]">
+							<div className="grid content-start gap-8 max-lg:gap-5 lg:pt-[2px]">
 								<FooterTitle>Quick Links</FooterTitle>
 								<div className="grid gap-2">
 									{quickLinks.map(({ href, label }) => (
@@ -192,7 +195,7 @@ export function HomeFooter({
 								</div>
 							</div>
 
-							<div className="grid content-start gap-8 lg:justify-items-start lg:pt-[2px]">
+							<div className="grid content-start gap-8 max-lg:gap-5 lg:justify-items-start lg:pt-[2px]">
 								<FooterTitle>Follow</FooterTitle>
 								<div className="flex items-center gap-[14px]">
 									{socialLinks.map(({ href, icon: Icon, label }) => (
@@ -208,16 +211,16 @@ export function HomeFooter({
 								</div>
 							</div>
 
-							<div className="grid content-start gap-8 justify-self-start lg:w-full">
+							<div className="grid content-start gap-8 max-lg:gap-5 justify-self-start lg:w-full">
 								<FooterTitle>Contact Us</FooterTitle>
 								<div className="grid gap-2">
 									{contactLinks.map(({ href, icon: Icon, label }) => (
 										<SmartLink
-											className="inline-flex items-center gap-[10px] text-[15px] leading-6 text-white transition hover:text-white/72"
+											className="inline-flex items-start gap-[10px] text-[15px] leading-6 text-white transition hover:text-white/72"
 											href={href}
 											key={label}
 										>
-											<Icon className="shrink-0 text-[15px]" />
+											<Icon className="mt-[4px] shrink-0 text-[15px]" />
 											<span>{label}</span>
 										</SmartLink>
 									))}
