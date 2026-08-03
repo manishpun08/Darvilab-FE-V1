@@ -130,7 +130,7 @@ export function OurClientsSection({
 	return (
 		<section
 			ref={revealRef}
-			className={`relative ${isDark ? "bg-[#050b1f]" : "bg-paper"} pb-0 ${tightToPrevious ? "pt-0 pb-[clamp(96px,10vw,136px)]" : "py-[clamp(96px,10vw,136px)]"}`}
+			className={`relative ${isDark ? "bg-[#050b1f]" : "bg-paper"} pb-0 ${tightToPrevious ? "pt-0 pb-[clamp(96px,10vw,136px)]" : "py-[clamp(96px,10vw,136px)] max-md:pt-[clamp(84px,9vw,132px)]"}`}
 			id="principles"
 		>
 			{hideLabel ? null : (

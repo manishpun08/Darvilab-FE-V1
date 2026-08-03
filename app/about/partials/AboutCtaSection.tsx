@@ -32,7 +32,7 @@ export function AboutCtaSection({
 			>
 				<div>
 					<p className={`${label} text-ice`}>Start with the constraint</p>
-					<h2 className="mt-7 max-w-[840px] text-[clamp(58px,7.2vw,108px)] font-semibold leading-[0.88] tracking-[-0.066em]">
+					<h2 className="mt-7 max-w-[840px] text-[clamp(58px,7.2vw,108px)] font-semibold leading-[0.88] tracking-[-0.066em] max-md:text-[clamp(42px,10vw,52px)] max-md:leading-[0.95] max-md:tracking-[-0.05em]">
 						Tell us what has to
 						<span className="block font-display text-[0.52em] font-normal leading-[1.28] tracking-[-0.035em] text-ice">
 							keep working.

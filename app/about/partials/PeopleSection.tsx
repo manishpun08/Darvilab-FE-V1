@@ -45,7 +45,7 @@ function FounderAvatar({ person, align = "left" }: FounderAvatarProps) {
 				)}
 			</div>
 			<div className="max-w-[420px]">
-				<h3 className="text-[clamp(20px,2vw,28px)] font-semibold leading-[1] tracking-[-0.04em] text-white">
+				<h3 className="text-[clamp(20px,2vw,28px)] font-semibold leading-[1] tracking-[-0.04em] text-white max-md:text-[18px]">
 					{person.name}
 				</h3>
 				<p className={`${label} mt-3 text-ice/78`}>{person.role}</p>
@@ -105,7 +105,7 @@ function SpecialistProfile({
 					/>
 				) : null}
 			</div>
-			<h3 className="mt-6 text-[clamp(24px,2.2vw,32px)] font-semibold leading-[0.96] tracking-[-0.052em] text-ink">
+			<h3 className="mt-6 text-[clamp(24px,2.2vw,32px)] font-semibold leading-[0.96] tracking-[-0.052em] text-ink max-md:mt-3">
 				{person.name}
 			</h3>
 			<p className={`${label} mt-2 text-muted`}>{person.role}</p>

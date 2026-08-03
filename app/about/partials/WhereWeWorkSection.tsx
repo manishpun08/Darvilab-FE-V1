@@ -103,7 +103,7 @@ export function WhereWeWorkSection({
         </div>
 
         <div
-          className="relative mt-8 h-[320px] w-full overflow-hidden max-lg:min-h-[300px] lg:pointer-events-none lg:absolute lg:inset-y-0 lg:mt-0 lg:[right:clamp(-360px,-20vw,-200px)] lg:[width:clamp(980px,86vw,1480px)]"
+          className="relative mt-8 h-[320px] w-full overflow-hidden max-sm:-mx-4 max-sm:w-[calc(100%+32px)] sm:max-md:-mx-5 sm:max-md:w-[calc(100%+40px)] max-lg:min-h-[300px] lg:pointer-events-none lg:absolute lg:inset-y-0 lg:mt-0 lg:[right:clamp(-360px,-20vw,-200px)] lg:[width:clamp(980px,86vw,1480px)]"
           data-animate-map
         >
           <div
