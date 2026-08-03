@@ -156,7 +156,7 @@ export function ServicesOverlay({
 	return (
 		<div
 			aria-hidden={!open}
-			className={`fixed inset-0 z-[45] transition duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none ${
+			className={`fixed inset-0 z-[45] bg-[rgba(7,16,43,0.12)] backdrop-blur-[10px] transition duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none ${
 				open
 					? "pointer-events-auto opacity-100"
 					: "pointer-events-none opacity-0"
@@ -165,14 +165,14 @@ export function ServicesOverlay({
 		>
 			<button
 				aria-label="Close services overlay"
-				className="absolute inset-0 bg-[rgba(7,16,43,0.12)] backdrop-blur-[10px]"
+				className="absolute inset-0"
 				onClick={onClose}
 				type="button"
 			/>
 
 			<section
 				aria-label="DarviLabs services"
-				className={`absolute inset-0 overflow-hidden bg-[rgba(255,255,255,0.035)] backdrop-blur-[12px] transition duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none ${
+				className={`absolute inset-0 overflow-hidden bg-[rgba(255,255,255,0.035)] transition duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none ${
 					open ? "translate-y-0 scale-100" : "translate-y-3 scale-[0.985]"
 				}`}
 			>
