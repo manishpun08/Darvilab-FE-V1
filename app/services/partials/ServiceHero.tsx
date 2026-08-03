@@ -78,7 +78,7 @@ export function ServiceHero({
           </div>
 
           <div className="grid items-end gap-7 lg:grid-cols-[minmax(0,0.7fr)_minmax(520px,0.72fr)] lg:gap-7">
-            <div className="relative self-end pb-[clamp(24px,3.2vw,40px)]">
+            <div className="relative self-end pb-[clamp(48px,6vw,84px)]">
               <div className="mb-[clamp(12px,2vw,20px)] flex items-center gap-3 text-white/38" data-animate-number>
                 <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.14em]">
                   01
@@ -96,7 +96,7 @@ export function ServiceHero({
               </h1>
             </div>
 
-            <aside className="self-end pb-[clamp(24px,3.2vw,40px)] shrink-0 lg:ml-auto">
+            <aside className="self-end pb-[clamp(48px,6vw,84px)] shrink-0 lg:ml-auto">
               <p
                 className="max-w-[47ch] text-left text-[clamp(1rem,1.4vw,1.12rem)] leading-[1.58] tracking-[-0.02em] text-white/76"
                 data-animate-paragraph

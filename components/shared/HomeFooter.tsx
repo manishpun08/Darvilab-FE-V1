@@ -241,7 +241,7 @@ export function HomeFooter({
 									© {new Date().getFullYear()} DarviLabs. All rights reserved.
 								</p>
 							</div>
-							<div className="h-[60px] md:h-[100px]" aria-hidden="true" />
+							<div className="h-[40px] md:h-[80px]" aria-hidden="true" />
 						</div>
 					</div>
 				</div>

@@ -60,7 +60,7 @@ export function ApproachSection({ service }: Props) {
           {service.phases.map((phase, index) => {
             return (
               <article
-                className="group grid gap-8 rounded-2xl border border-[rgba(7,16,43,0.06)] bg-white p-8 shadow-[0_2px_20px_rgba(7,16,43,0.06)] transition-[border-color,box-shadow] duration-300 hover:border-dl-blue/40 hover:shadow-[0_28px_70px_rgba(7,16,43,0.14)] lg:grid-cols-[minmax(220px,0.28fr)_minmax(0,0.72fr)] lg:gap-14 lg:p-10"
+                className="group grid gap-8 rounded-[20px] border border-[rgba(7,16,43,0.06)] bg-white p-8 shadow-[0_2px_20px_rgba(7,16,43,0.06)] transition-[border-color,box-shadow] duration-300 hover:border-dl-blue/40 hover:shadow-[0_28px_70px_rgba(7,16,43,0.14)] lg:grid-cols-[minmax(220px,0.28fr)_minmax(0,0.72fr)] lg:gap-14 lg:p-10"
                 key={phase.name}
                 style={{
                   position: "sticky",
@@ -68,16 +68,18 @@ export function ApproachSection({ service }: Props) {
                   zIndex: index + 1,
                 }}
               >
-                <div className="grid content-start gap-2">
+                <div className="grid content-start gap-5 pt-[20px]">
                   <span className="font-case text-[clamp(4.6rem,9vw,8rem)] font-semibold leading-[0.82] tracking-[-0.09em] text-[rgba(7,16,43,0.08)] transition-colors duration-300 group-hover:text-dl-blue/20">
                     {String(index + 1).padStart(2, "0")}
                   </span>
-                  <h3 className="text-[24px] font-semibold tracking-[-0.045em] text-ink">
-                    {phase.name}
-                  </h3>
-                  <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.14em] text-dl-blue/70">
-                    Phase {String(index + 1).padStart(2, "0")} of {String(total).padStart(2, "0")}
-                  </span>
+                  <div className="grid gap-2">
+                    <h3 className="text-[24px] font-semibold tracking-[-0.045em] text-ink">
+                      {phase.name}
+                    </h3>
+                    <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.14em] text-dl-blue/70">
+                      Phase {String(index + 1).padStart(2, "0")} of {String(total).padStart(2, "0")}
+                    </span>
+                  </div>
                 </div>
 
                 <div className="grid w-full gap-7 lg:ml-auto lg:max-w-[59ch]">
