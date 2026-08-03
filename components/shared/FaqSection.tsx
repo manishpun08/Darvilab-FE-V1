@@ -130,7 +130,7 @@ export function FaqSection({
 							>
 								<div className="overflow-hidden" data-faq-answer-content>
 									<p
-										className="max-w-[720px] pb-6 pl-12 text-[15px] leading-[1.68] text-muted"
+										className="max-w-[720px] pb-6 pl-12 text-[15px] leading-[1.68] text-muted max-md:pl-0"
 										id={`${id}-answer-${index}`}
 									>
 										{item.answer}
