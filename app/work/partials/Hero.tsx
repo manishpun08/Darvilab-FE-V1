@@ -67,7 +67,7 @@ export function Hero({
         <div className="flex min-w-0 flex-col justify-center px-[clamp(32px,5vw,80px)] pb-14 pt-[clamp(64px,8vh,104px)] max-lg:px-9 max-md:px-4 max-md:pt-20 ">
           <div className="flex max-w-[820px] items-center justify-between border-b border-white/16 pb-4 max-sm:flex-col max-sm:items-start max-sm:gap-3">
             <span className={label} data-hero-tagline>
-              Work / 7 client projects
+              WORK / CLIENT PROJECTS
             </span>
             <span className={`${label} text-ice`} data-hero-tagline>
               Outcomes on record / 2023-2026
@@ -78,7 +78,7 @@ export function Hero({
             className={`${sectionTitle} mt-[clamp(72px,11vh,132px)] max-md:mt-6 max-md:text-4xl lg:max-w-245 text-[clamp(58px,7.35vw,114px)] text-white`}
           >
             <span className="block" data-hero-line>
-              Seven problems solved.
+              Real problems solved.
             </span>
             <span
               className="mt-2 block font-display text-[0.54em] font-normal leading-[1.24] tracking-[-0.04em] text-ice"
@@ -105,7 +105,9 @@ export function Hero({
                 <dt className="font-mono text-[8px] font-semibold uppercase tracking-[0.1em] text-white/48">
                   Projects
                 </dt>
-                <dd className="m-0 text-[12px] font-semibold">001-007</dd>
+                <dd className="m-0 text-[12px] font-semibold">
+                  SELECTED PROJECTS
+                </dd>
               </div>
               <div
                 className="grid grid-cols-[92px_1fr] border-t border-white/16 pt-3"

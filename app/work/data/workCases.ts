@@ -1,375 +1,276 @@
 export const workCases = [
 	{
 		no: "01",
-		project: "Atlas Dispatch",
-		industry: "Logistics SaaS",
-		domain: "OPERATIONS",
+		project: "Chynabazar",
+		industry: "E-Commerce",
+		domain: "E-COMMERCE",
 		year: "2025",
-		type: "WORKFLOW SYSTEM",
-		status: "MONITORED",
+		type: "COMMERCE ECOSYSTEM",
+		status: "IN PRODUCTION",
 		subtitle:
-			"An exception-first control surface for high-pressure dispatch operations.",
+			"A full commerce ecosystem — web, mobile, and admin — built from zero, not stitched together.",
 		situation:
-			"Dispatch teams were coordinating live work across six tools, each carrying a different version of operational truth.",
+			"The client needed a full commerce ecosystem, not a single storefront — a customer-facing web platform, a native mobile app, and a complete administrative system to run the business behind it. There was no existing platform to extend; this was architecture through launch, end to end.",
 		challenge:
-			"Exceptions surfaced late. Operators reconciled state by hand, increasing response time exactly when the system was under pressure.",
+			"A platform with three live client-facing surfaces and a full admin system creates a coordination problem before it creates a technical one. Backend and infrastructure, admin dashboard development, B2C and mobile frontend, and QA all had to move in parallel without priorities drifting as scope expanded. The other constraint was operational control: an e-commerce business this size needed precise, granular control over who on the team could view or act on what, not a flat admin system where every user had the same access.",
 		decision:
-			"Replace task lists with one event model, then make unresolved exceptions, not routine work, the primary operating view.",
+			"Built a full admin dashboard supporting 19 distinct roles and permission sets, in-house Live Stream and Shorts features instead of third-party integration, and structured DEV → QA → UAT cycle with consistent client status reporting.",
 		outcomeRecord:
-			"Evidence slots track handoffs, exception age, and recovery time after the new operating model went live.",
-		signal: "EVENT MODEL",
-		evidenceId: "OPS-AC-014",
-		variant: "operations",
+			"A fully functional admin system supporting 19 role-based permission tiers across all core commerce operations, a live B2C web storefront and companion mobile app, integrated payment (eSewa, Khalti, Connect IPS), logistics (Pathao), SMS notifications, and finance/invoice systems, and in-house-built Live Stream and Shorts features.",
+		signal: "ROLE-BASED COMMERCE",
+		evidenceId: "ECOM-CB-001",
+		variant: "commerce",
 		metrics: [
-			["Manual handoffs", "↓ 31%"],
-			["Recovery time", "↓ 44%"],
-			["State coverage", "↑ 96%"],
+			["Role tiers", "19"],
+			["Surfaces", "3 (Web, Mobile, Admin)"],
+			["Live features", "Stream + Shorts"],
 		],
-		problem: "Exceptions kept slipping across handoffs.",
-		whatChanged: "Rebuilt tracking around live exception state.",
+		problem: "Needed a full commerce ecosystem — web, mobile, admin — built from zero.",
+		whatChanged:
+			"Built granular 19-role admin RBAC, native mobile app, and in-house live-commerce features instead of third-party integrations.",
 		outcome: [
-			["↓31%", "resolution time"],
-			["↑98%", "adoption"],
-			["↓46%", "escalations"],
+			["19", "role-based permission tiers"],
+			["3", "client-facing surfaces"],
+			["In-house", "Live Stream & Shorts"],
 		],
 		metricPlainEnglish:
-			"Teams were spending around four hours a day reconciling updates. After launch, exception review dropped below forty minutes.",
+			"The client needed a full commerce ecosystem built from zero — web, mobile, and admin. After launch, all three surfaces run in production with granular RBAC controlling access across 19 distinct roles, integrated payment, logistics, and SMS systems, and native live-commerce features.",
 		clientQuote:
-			"We stopped managing around the system and finally had one place to run the operation.",
+			"Before this, our team was managing three different systems just to keep operations running. Now everything — inventory, orders, customer support — lives in one platform we actually trust. It's changed how fast we can move.",
 	},
 	{
 		no: "02",
-		project: "Northstar",
-		industry: "Commerce",
-		domain: "COMMERCE",
+		project: "HumanEdge LMS",
+		industry: "EdTech / Corporate Training",
+		domain: "EDTECH",
 		year: "2025",
-		type: "CONFIGURATION ENGINE",
-		status: "VALIDATED",
+		type: "ROLE-BASED LMS",
+		status: "LIVE",
 		subtitle:
-			"A rule-led buying system for products too complex for a standard catalogue.",
+			"Five function-specific access tiers replacing one generic training interface.",
 		situation:
-			"A fast-growing catalogue depended on a small internal team to interpret product, pricing, and fulfilment rules.",
+			"Corporate training needed to run at scale across very different roles, each requiring a different level of access and responsibility. A single generic interface couldn't accommodate the operational differences between administrators, trainers, managers, and learners.",
 		challenge:
-			"Invalid combinations reached quoting, creating rework and making commercial accuracy dependent on tribal knowledge.",
+			"One generic interface forced every role into the same workflow, creating friction for power users and confusion for casual ones. Training rollout couldn't scale because each role had different needs that a single interface couldn't serve.",
 		decision:
-			"Encode commercial constraints as visible validation gates shared by customers, sales, and operations.",
+			"Replace one generic interface with five function-specific access tiers, each built for exactly what that role needs to do, backed by full UAT and training documentation.",
 		outcomeRecord:
-			"The record measures invalid quote prevention, configuration completion, and operator intervention.",
-		signal: "RULE ENGINE",
-		evidenceId: "COM-NS-082",
-		variant: "commerce",
+			"Five distinct access tiers operational, organization-wide training rollout with clear role accountability, full UAT documentation, and training materials for each user type.",
+		signal: "ROLE-BASED ACCESS",
+		evidenceId: "EDU-HE-002",
+		variant: "edtech",
 		metrics: [
-			["Quote rework", "↓ 38%"],
-			["Valid orders", "↑ 29%"],
-			["Rule coverage", "↑ 94%"],
+			["Access tiers", "5"],
+			["Documentation", "Full UAT + Training"],
+			["Deployment", "Organization-wide"],
 		],
-		problem: "Quotes broke when rules lived in people.",
-		whatChanged: "Made validation gates visible before quoting.",
+		problem: "Needed structured, org-wide training delivery across very different user roles.",
+		whatChanged:
+			"Built five distinct, function-specific access tiers instead of one generic interface, backed by full UAT and training documentation.",
 		outcome: [
-			["↓38%", "quote rework"],
-			["↑29%", "valid orders"],
-			["↑94%", "rule coverage"],
+			["5", "function-specific tiers"],
+			["Full", "UAT documentation"],
+			["Smooth", "organization-wide rollout"],
 		],
 		metricPlainEnglish:
-			"Quoting used to bounce between teams for manual checks. After launch, invalid configurations were blocked before they reached operations.",
+			"Corporate training was stuck on a one-size-fits-all interface that couldn't scale across different organizational roles. After launch, five distinct access tiers let each role work exactly as needed, with full UAT and training documentation ensuring smooth rollout.",
 		clientQuote:
-			"The system now tells people what will work before a bad order gets any further.",
+			"Each team now has exactly the access they need — no more, no less. Training finally runs the way our organization actually works.",
 	},
 	{
 		no: "03",
-		project: "ClearLedger",
-		industry: "FinTech",
-		domain: "FINTECH",
-		year: "2024",
-		type: "DECISION PLATFORM",
-		status: "AUDIT READY",
+		project: "LifeRishi",
+		industry: "Consumer / Wellness Tech",
+		domain: "CONSUMER TECH",
+		year: "2025",
+		type: "TWO-SIDED PLATFORM",
+		status: "BETA 2.0",
 		subtitle:
-			"A traceable risk decision model built for analyst confidence and audit scrutiny.",
+			"An on-demand astrology consultation platform with dedicated dashboards for both consumers and astrologers.",
 		situation:
-			"Analysts could see a risk score, but not which source signals moved an account across a decision threshold.",
+			"Astrology consultation was still offline and appointment-based, with no way for users to connect with astrologers on demand. The service had no digital equivalent for real-time consultation.",
 		challenge:
-			"Reviews were slow and inconsistent because the system exposed conclusions without a defensible evidence chain.",
+			"Building a two-sided marketplace required solving for both supply (astrologers) and demand (consumers) simultaneously. Astrologers needed their own dashboard to manage availability and consultations, while consumers needed a seamless way to find and connect with them instantly.",
 		decision:
-			"Make every score traversable from source to rule to threshold to human review, with no hidden decision state.",
+			"Build a two-sided platform — consumer app plus a dedicated astrologer dashboard — so both sides of the marketplace could actually operate, delivered through sprint-based cycles to 2.0 beta.",
 		outcomeRecord:
-			"Review duration, exception rates, and decision consistency become inspectable operating evidence.",
-		signal: "TRACE GRAPH",
-		evidenceId: "FIN-CL-117",
-		variant: "finance",
+			"Two-sided platform reaching 2.0 beta, live on-demand consultations running, astrologer dashboard operational, and consumer app delivering real-time consultation booking.",
+		signal: "MARKETPLACE",
+		evidenceId: "CON-LR-003",
+		variant: "consumer",
 		metrics: [
-			["Review time", "↓ 38%"],
-			["Audit exceptions", "↓ 22%"],
-			["Consistency", "↑ 41%"],
+			["Version", "2.0 Beta"],
+			["Platform", "Two-sided"],
+			["Consultations", "On-demand live"],
 		],
-		problem: "Analysts saw scores, not the reason.",
-		whatChanged: "Exposed source-to-rule decision trace.",
+		problem: "An offline, appointment-based astrology service had no on-demand digital equivalent.",
+		whatChanged:
+			"Built a two-sided platform with a dedicated astrologer dashboard, delivered through sprint-based cycles to 2.0 beta.",
 		outcome: [
-			["↓38%", "review time"],
-			["↓22%", "audit exceptions"],
-			["↑41%", "consistency"],
+			["2.0", "beta reached"],
+			["Live", "on-demand consultations"],
+			["Two-sided", "marketplace operational"],
 		],
 		metricPlainEnglish:
-			"Analysts were manually rebuilding the reason behind a score. After launch, the review path was already visible inside the decision flow.",
+			"Astrology consultation was stuck in offline, appointment-based mode with no digital path to on-demand service. After build, a two-sided platform with dedicated consumer and astrologer dashboards reached 2.0 beta with live consultations running.",
 		clientQuote:
-			"Confidence improved because the team could inspect the decision instead of debating it.",
+			"For the first time, our astrologers and clients can connect instantly — no phone tag, no scheduling delays.",
 	},
 	{
 		no: "04",
-		project: "Fieldline",
-		industry: "Field Service",
-		domain: "FIELD SERVICE",
-		year: "2024",
-		type: "READINESS SYSTEM",
-		status: "FIELD PROVEN",
-		subtitle:
-			"A readiness protocol that determines whether a visit can succeed before dispatch.",
-		situation:
-			"Technicians received schedules without the history, parts, or escalation context required to finish the work.",
-		challenge:
-			"Calendar availability was mistaken for operational readiness, creating preventable repeat visits and support calls.",
-		decision:
-			"Gate dispatch through a readiness model and preserve evidence offline until the field device reconnects.",
-		outcomeRecord:
-			"First-visit completion, return rate, and offline sync integrity form the post-launch record.",
-		signal: "READINESS PROTOCOL",
-		evidenceId: "FLD-FL-055",
-		variant: "field",
-		metrics: [
-			["Return visits", "↓ 26%"],
-			["First-fix rate", "↑ 34%"],
-			["Sync integrity", "↑ 99%"],
-		],
-		problem: "Jobs arrived before teams were ready.",
-		whatChanged: "Gated dispatch behind readiness proof.",
-		outcome: [
-			["↓26%", "return visits"],
-			["↑34%", "first-fix rate"],
-			["↑99%", "sync integrity"],
-		],
-		metricPlainEnglish:
-			"A scheduled visit did not mean a completable visit. After launch, teams could stop dispatching work that was not actually ready.",
-		clientQuote:
-			"Readiness became something we could verify before a van ever left the depot.",
-	},
-	{
-		no: "05",
-		project: "RelayOS",
-		industry: "Logistics",
-		domain: "NETWORK OPERATIONS",
-		year: "2023",
-		type: "ROUTING PLATFORM",
-		status: "LIVE CONTROL",
-		subtitle:
-			"A recoverable routing network that treats capacity as a changing constraint.",
-		situation:
-			"Static routing rules worked at average volume and failed when capacity shifted across the network.",
-		challenge:
-			"Cost accumulated invisibly until a late delivery made the constraint visible, too late for low-cost recovery.",
-		decision:
-			"Model capacity continuously and surface the earliest exception with a viable recovery path.",
-		outcomeRecord:
-			"Route cost, intervention lead time, and delivery reliability are recorded against each constraint change.",
-		signal: "CAPACITY NETWORK",
-		evidenceId: "LOG-RO-063",
-		variant: "logistics",
-		metrics: [
-			["Route cost", "↓ 18%"],
-			["Late recovery", "↓ 32%"],
-			["On-time rate", "↑ 17%"],
-		],
-		problem: "Capacity risk appeared after recovery got expensive.",
-		whatChanged: "Modeled capacity as a live constraint.",
-		outcome: [
-			["↓18%", "route cost"],
-			["↓32%", "late recovery"],
-			["↑17%", "on-time rate"],
-		],
-		metricPlainEnglish:
-			"Teams were reacting after delivery risk had already materialized. After launch, they could intervene while the cheaper option still existed.",
-		clientQuote:
-			"We stopped learning about capacity problems at the point of failure.",
-	},
-	{
-		no: "06",
-		project: "CivicLink",
-		industry: "GovOps",
-		domain: "PUBLIC SERVICE OPS",
-		year: "2024",
-		type: "SERVICE INTAKE SYSTEM",
-		status: "ACCOUNTABLE",
-		subtitle:
-			"An intake model that makes ownership and SLA risk explicit before service failure.",
-		situation:
-			"Service requests moved between teams without visible ownership or next-step accountability.",
-		challenge:
-			"Service risk became visible only after a deadline had already slipped.",
-		decision:
-			"Organize work around accountable next actions and SLA exposure, not departments.",
-		outcomeRecord:
-			"First response time, reassignments, and SLA recovery become visible operational evidence.",
-		signal: "OWNERSHIP LEDGER",
-		evidenceId: "GOV-CV-041",
-		variant: "govops",
-		metrics: [
-			["First response", "↓ 41%"],
-			["Reassignments", "↓ 27%"],
-			["SLA recovery", "↑ 33%"],
-		],
-		problem: "Requests moved with no clear owner.",
-		whatChanged: "Reframed intake around accountable next actions.",
-		outcome: [
-			["↓41%", "first response"],
-			["↓27%", "reassignments"],
-			["↑33%", "SLA recovery"],
-		],
-		metricPlainEnglish:
-			"Risk used to appear only after a deadline slipped. After launch, service teams could see the next owner and intervention window before the breach.",
-		clientQuote:
-			"The queue stopped being a black box because ownership was explicit at every step.",
-	},
-	{
-		no: "07",
-		project: "Signal Room",
-		industry: "HealthTech",
-		domain: "KNOWLEDGE SYSTEMS",
-		year: "2025",
-		type: "GROUNDING SYSTEM",
-		status: "HUMAN GUARDED",
-		subtitle:
-			"A source-grounded answer system with explicit confidence and human ownership.",
-		situation:
-			"Fast support answers drew from source knowledge with no ownership, expiry, or confidence model.",
-		challenge:
-			"The system could sound certain while using stale policy, moving risk from response speed into answer quality.",
-		decision:
-			"Ground each response in approved sources and route low-confidence or conflicting evidence to a named human owner.",
-		outcomeRecord:
-			"Grounding coverage, human review rate, and corrected-answer recurrence become the quality trail.",
-		signal: "GROUNDING GRAPH",
-		evidenceId: "AIK-SR-091",
-		variant: "knowledge",
-		metrics: [
-			["Support load", "↓ 28%"],
-			["Grounded answers", "↑ 93%"],
-			["Repeat errors", "↓ 36%"],
-		],
-		problem: "Fast answers still carried policy risk.",
-		whatChanged: "Grounded replies in approved sources.",
-		outcome: [
-			["↓28%", "support load"],
-			["↑93%", "grounded answers"],
-			["↓36%", "repeat errors"],
-		],
-		metricPlainEnglish:
-			"The team was correcting confident but outdated answers after the fact. After launch, uncertain responses were escalated before they reached the client.",
-		clientQuote:
-			"Speed mattered less than being able to trust the answer that went out.",
-	},
-	{
-		no: "08",
-		project: "UK Uniladder",
-		industry: "Study Abroad Consultancy",
-		domain: "EDTECH",
-		year: "2025",
-		type: "CONSULTATION PLATFORM",
-		status: "LIVE",
-		subtitle:
-			"A consultation platform that proved counselor credibility before the first meeting.",
-		situation:
-			"Prospective students had no way to see counselor credentials or talk to someone before committing.",
-		challenge:
-			"Consultations were slow, and trust was hard to prove from a website alone.",
-		decision:
-			"Build video consultations with accredited counselors directly into the platform so trust was established before the first meeting.",
-		outcomeRecord:
-			"Visa success rate and consultation conversion track platform trust and student outcomes.",
-		signal: "TRUST MODEL",
-		evidenceId: "EDU-UK-001",
-		variant: "edtech",
-		metrics: [
-			["Visa success", "↑ 99.99%"],
-		],
-		problem:
-			"Consultations were slow, and trust was hard to prove from a website alone.",
-		whatChanged:
-			"Built video consultations with accredited counselors directly into the platform.",
-		outcome: [
-			["99.99%", "visa success rate"],
-		],
-		metricPlainEnglish:
-			"Prospective students had no way to see counselor credentials or talk to someone before committing. After launch, video consultations with British Council certified counselors happened directly through the platform.",
-		clientQuote:
-			"Trust used to be the hardest thing to prove from a website. Now it's built into every step before the first conversation.",
-	},
-	{
-		no: "09",
 		project: "Himalayan Bullion",
-		industry: "Precious Metals Trading",
+		industry: "FinTech / Precious Metals",
 		domain: "FINTECH",
 		year: "2025",
 		type: "REAL-TIME TRADING PLATFORM",
 		status: "LIVE",
 		subtitle:
-			"A precious metals trading platform built for price-sensitive buyers who need to act instantly.",
+			"Nepal's #1 silver trading platform built for real-time pricing reliability.",
 		situation:
-			"Silver prices move by the hour — a stale rate on screen erodes trust immediately.",
+			"Silver prices move by the minute, and customers had no live, trustworthy reference to trade against. A stale rate on screen erodes trust immediately for price-sensitive buyers.",
 		challenge:
-			"Customers needed to trust a price the moment they saw it.",
+			"Customers needed to trust a price the moment they saw it. Real-time pricing couldn't be a bolt-on feature — it had to be the platform's core reliability requirement for the trading experience to work.",
 		decision:
-			"Deliver real-time market rates and secure transactions so buyers could act on current prices with confidence.",
+			"Engineer real-time pricing as the platform's core reliability requirement, not a bolt-on feature, with live market rates and secure transactions buyers could act on instantly.",
 		outcomeRecord:
-			"Market rate accuracy, transaction speed, and customer trust form the post-launch record.",
-		signal: "LIVE PRICING",
-		evidenceId: "FIn-HB-002",
+			"Recognized as Nepal's #1 silver trading platform, trusted for real-time pricing, with market rate accuracy and transaction speed forming the post-launch record.",
+		signal: "REAL-TIME PRICING",
+		evidenceId: "FIN-HB-004",
 		variant: "finance",
 		metrics: [
-			["Market rank", "#1"],
+			["Market rank", "#1 in Nepal"],
+			["Pricing", "Real-time"],
+			["Trust", "Price-locked"],
 		],
-		problem:
-			"Customers needed to trust a price the moment they saw it.",
+		problem: "Silver prices move by the minute; customers had no live, trustworthy price reference.",
 		whatChanged:
-			"Delivered real-time market rates and secure transactions on a platform buyers could act on instantly.",
+			"Engineered real-time pricing as the platform's core reliability requirement, not a bolt-on feature.",
 		outcome: [
-			["Nepal's #1", "silver trading house"],
+			["#1", "silver trading platform"],
+			["Real-time", "market rates"],
+			["Trusted", "by price-sensitive buyers"],
 		],
 		metricPlainEnglish:
-			"Silver prices move by the hour — a stale rate on screen erodes trust immediately. After launch, real-time market rates and secure transactions gave Nepal's leading silver trading house a platform buyers could act on instantly.",
+			"Silver prices move by the minute, and customers had no live, trustworthy reference to trade against. After launch, real-time pricing became the platform's core reliability requirement, earning recognition as Nepal's #1 silver trading platform.",
 		clientQuote:
 			"Price trust was always the barrier. Now our customers move on the same rate we see.",
 	},
 	{
-		no: "10",
-		project: "HumanEdge Nepal",
-		industry: "Creative Agency Platform",
-		domain: "CREATIVE",
+		no: "05",
+		project: "AI-Powered PM Platform",
+		industry: "Internal Product / AI & Automation",
+		domain: "INTERNAL PRODUCT",
 		year: "2025",
-		type: "SERVICE ORGANIZATION PLATFORM",
+		type: "AI AUTOMATION PLATFORM",
+		status: "IN USE",
+		subtitle:
+			"Role-specific portals with integrated LLM automation for task routing, status, and reporting.",
+		situation:
+			"Generic PM tools don't adapt to how PM, Developer, QA, and Client roles actually make decisions. Status updates and task handoffs were eating up time that should have gone into actual project work.",
+		challenge:
+			"Each role needed a different view and different automation — PMs need portfolio oversight, developers need task context, QA needs validation workflows, clients need status transparency. A single generic tool couldn't serve these distinct decision-making patterns.",
+		decision:
+			"Build role-specific portals with an integrated LLM automation layer handling task routing, status, and reporting directly inside the workflow.",
+		outcomeRecord:
+			"AI automation handling real task routing and reporting in daily internal use, with role-specific portals serving PM, Developer, QA, and Client workflows.",
+		signal: "AI ROUTING",
+		evidenceId: "INT-PM-005",
+		variant: "internal",
+		metrics: [
+			["Portals", "4 role-specific"],
+			["Automation", "LLM-integrated"],
+			["Status", "Daily internal use"],
+		],
+		problem: "Generic PM tools don't adapt to how PM, Developer, QA, and Client roles actually make decisions.",
+		whatChanged:
+			"Built role-specific portals with an integrated LLM automation layer for task routing, status, and reporting.",
+		outcome: [
+			["4", "role-specific portals"],
+			["AI", "task routing active"],
+			["Daily", "internal use"],
+		],
+		metricPlainEnglish:
+			"Status updates and task handoffs were consuming time meant for actual project work. After launch, role-specific portals with LLM automation now handle task routing, status updates, and reporting directly in the workflow.",
+		clientQuote:
+			"The team spends time on project work now, not on telling people what's happening with project work.",
+	},
+	{
+		no: "06",
+		project: "NIET College",
+		industry: "Education / Engineering",
+		domain: "EDUCATION",
+		year: "2025",
+		type: "CMS WEBSITE",
 		status: "LIVE",
 		subtitle:
-			"A platform that organized a full-service agency's range into something clients could evaluate.",
+			"A website reflecting UGC-QAA accreditation, built as a CMS the college can maintain.",
 		situation:
-			"Visitors had no structured way to see development, content, and design work side by side.",
+			"Nepal's first UGC-QAA certified engineering college needed a website that actually reflected that credibility. The existing site didn't communicate the college's unique positioning or program differentiation.",
 		challenge:
-			"Prospective clients couldn't see the agency's actual range before reaching out.",
+			"A generic college template wouldn't work — the site needed to highlight Nepal's only Biomedical Engineering program and the UGC-QAA accreditation that sets NIET apart. The college also needed to maintain content without developer dependency.",
 		decision:
-			"Organize every service line into one clear structure so clients could evaluate the full range before engaging.",
+			"Structure the site around real program differentiation — including Nepal's only Biomedical Engineering program — instead of a generic college template, built as a CMS the college can maintain.",
 		outcomeRecord:
-			"Client engagement depth and service discovery rate measure platform effectiveness.",
-		signal: "SERVICE GRID",
-		evidenceId: "CRE-HE-003",
-		variant: "creative",
+			"Elevated digital credibility for admissions, reflecting UGC-QAA accreditation, with CMS-enabled content management and program-specific landing pages.",
+		signal: "PROGRAM DIFFERENTIATION",
+		evidenceId: "EDU-NI-006",
+		variant: "edtech",
 		metrics: [
-			["Service lines", "3"],
+			["Accreditation", "UGC-QAA"],
+			["Unique program", "Biomedical Engineering"],
+			["CMS", "College-maintained"],
 		],
-		problem:
-			"Prospective clients couldn't see the agency's actual range before reaching out.",
+		problem: "Nepal's first UGC-QAA certified engineering college needed a site reflecting that credibility.",
 		whatChanged:
-			"Organized every service line into one clear, evaluable structure.",
-		outcome: [],
+			"Structured content around real program differentiation (incl. Nepal's only Biomedical Engineering program), built as a CMS the college can maintain.",
+		outcome: [
+			["UGC-QAA", "accreditation reflected"],
+			["Only", "Biomedical Engineering in Nepal"],
+			["CMS", "for college maintenance"],
+		],
 		metricPlainEnglish:
-			"A full-service creative agency was competing on reputation alone — visitors had no structured way to see development, content, and design work side by side. After launch, the platform organized every service line into one clear structure, turning 'we do everything' into something a client could actually evaluate.",
+			"Nepal's first UGC-QAA certified engineering college had a site that didn't reflect its credibility. After launch, the site highlights unique program differentiation including Nepal's only Biomedical Engineering program, built as a CMS the college can maintain independently.",
 		clientQuote:
-			"Our range was always our strength, but nobody could see it at once. Now they can.",
+			"Our accreditation and programs finally show up the way they should. The site now matches the institution.",
+	},
+	{
+		no: "07",
+		project: "JobLadder (JL Recruitment)",
+		industry: "HR / Recruitment",
+		domain: "HR TECH",
+		year: "2025",
+		type: "DUAL-AUDIENCE PLATFORM",
+		status: "LIVE",
+		subtitle:
+			"A platform splitting employer and candidate journeys to serve two audiences without diluting either message.",
+		situation:
+			"A recruitment firm positioning itself as a strategic partner, not a staffing agency, needed a site serving two distinct audiences — employers and candidates — without diluting either message.",
+		challenge:
+			"Employers need to see capability and process; candidates need to see opportunity and support. One page trying to speak to both audiences weakens both messages. The firm also needed to prove credibility through real metrics, not just claims.",
+		decision:
+			"Split employer and candidate journeys at the top level, backed by a visible 4-step methodology and real placement metrics displayed directly on the page.",
+		outcomeRecord:
+			"500+ professionals placed, 2-4 week average time-to-placement, 10+ partner companies, with split employer/candidate journeys and visible methodology.",
+		signal: "SPLIT JOURNEYS",
+		evidenceId: "HR-JL-007",
+		variant: "hr",
+		metrics: [
+			["Placements", "500+"],
+			["Time-to-placement", "2-4 weeks avg"],
+			["Partner companies", "10+"],
+		],
+		problem: "A recruitment firm positioning itself as a strategic partner needed a site serving two distinct audiences without diluting either message.",
+		whatChanged:
+			"Split employer and candidate journeys at the top level, backed by a visible 4-step methodology and real placement metrics displayed directly on the page.",
+		outcome: [
+			["500+", "professionals placed"],
+			["2-4 week", "avg time-to-placement"],
+			["10+", "partner companies"],
+		],
+		metricPlainEnglish:
+			"A recruitment firm needed to speak to employers and candidates without weakening either message. After launch, split journeys let each audience see what matters to them, backed by a visible 4-step methodology and real placement metrics: 500+ professionals placed, 2-4 week average time-to-placement.",
+		clientQuote:
+			"Employers see our process, candidates see their path — and both see the numbers that prove we deliver.",
 	},
 ];
 
