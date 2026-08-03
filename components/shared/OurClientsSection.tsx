@@ -127,19 +127,19 @@ export function OurClientsSection({
   const isDark = variant === "dark";
   const baseColor = isDark ? "#ffffff" : "#c8ccd4";
 
-  return (
-    <section
-      ref={revealRef}
-      className={`relative ${isDark ? "bg-[#050b1f]" : "bg-paper"} pb-0 ${tightToPrevious ? "pt-0" : "pt-[clamp(96px,10vw,136px)]"}`}
-      id="principles"
-    >
-      {hideLabel ? null : (
-        <div className={shell}>
-          <p className={`${label} ${isDark ? "text-white/70" : "text-muted"}`}>
-            Technologies we work with
-          </p>
-        </div>
-      )}
+	return (
+		<section
+			ref={revealRef}
+			className={`relative ${isDark ? "bg-[#050b1f]" : "bg-paper"} pb-0 ${tightToPrevious ? "pt-0 pb-[clamp(96px,10vw,136px)]" : "py-[clamp(96px,10vw,136px)]"}`}
+			id="principles"
+		>
+			{hideLabel ? null : (
+				<div className={shell}>
+					<p className={`${label} ${isDark ? "text-white/70" : "text-muted"}`}>
+						Organisations we&apos;ve worked with
+					</p>
+				</div>
+			)}
 
       <div
         className={`${hideLabel ? "mt-0" : "mt-7"} border-y ${isDark ? "border-white/20" : "border-soft-line"} py-6 sm:py-8`}

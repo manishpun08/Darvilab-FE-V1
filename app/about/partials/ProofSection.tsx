@@ -11,7 +11,7 @@ export function ProofSection() {
 
 	return (
 		<section
-			className="bg-paper pb-[clamp(56px,6vw,88px)] pt-[clamp(56px,6vw,88px)]"
+			className="bg-paper pb-0 pt-[clamp(56px,6vw,88px)]"
 			id="proof"
 			ref={containerRef}
 		>

@@ -55,7 +55,7 @@ export function AboutCtaSection({
 							<span aria-hidden="true">↗</span>
 						</SmartLink>
 						<SmartLink
-							className={`${secondaryButton} min-h-14 border-white/35 bg-transparent px-5 text-white hover:bg-white hover:text-ink`}
+							className={`${secondaryButton} min-h-14 border-white/60 px-5 hover:border-ink`}
 							href={`${routes.portfolio}#all-cases`}
 						>
 							<span>Inspect our work</span>

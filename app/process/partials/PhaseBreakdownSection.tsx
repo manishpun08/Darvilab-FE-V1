@@ -40,7 +40,7 @@ export function PhaseBreakdownSection({
 							<article
 								className={`group -mx-4 border-b-[0.5px] px-4 transition-colors duration-200 sm:-mx-5 sm:px-5 lg:-mx-8 lg:px-8 ${
 									isOpen
-										? "border-[#1f00d9] bg-[#1f00d9] text-white"
+										? "border-[#1f00d9] bg-[#1f00d9]/80 text-white"
 										: "border-[#dbe3f2] bg-paper text-ink hover:bg-[#f4f8ff]"
 								}`}
 								data-animate-item
