@@ -82,7 +82,7 @@ export function InquiryFormCard({
 	}
 
 	const fieldClassName =
-		"min-h-14 rounded-[6px] border border-line bg-white px-4 text-[15px] text-ink outline-none transition placeholder:text-[#98a1b5] focus:border-dl-blue focus:shadow-[0_0_0_3px_rgba(38,0,255,0.12)] motion-reduce:transition-none";
+		"min-h-14 rounded-[6px] border border-line bg-white px-4 text-[15px] text-ink outline-none transition placeholder:text-[#98a1b5] max-md:placeholder:text-[13px] focus:border-dl-blue focus:shadow-[0_0_0_3px_rgba(38,0,255,0.12)] motion-reduce:transition-none";
 
 	return (
 		<div

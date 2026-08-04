@@ -27,7 +27,7 @@ export function ContactHero({
 	return (
 		<section
 			className={`min-h-screen overflow-hidden overflow-x-clip bg-[#050b1f] text-white ${
-				stickyLayerEnabled ? "sticky top-0 z-0" : "relative"
+				stickyLayerEnabled ? "sticky top-0 z-0 max-md:relative" : "relative"
 			}`}
 			id="hero"
 			ref={sectionRef}

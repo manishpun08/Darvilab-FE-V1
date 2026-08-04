@@ -16,7 +16,7 @@ export function BrandMark({ className }: { className?: string }) {
 			</g>
 			<defs>
 				<clipPath id="clip0_185_1068">
-					<rect width="900" height="900" rx="180" fill="white" />
+					<rect width="900" height="900" rx="240" fill="white" />
 				</clipPath>
 			</defs>
 		</svg>

@@ -172,7 +172,7 @@ export function EvidenceIndex({
 					</p>
 				</div>
 
-				<div className="border-t border-ink">
+				<div className="border-t border-ink max-md:border-line">
 					<div className="grid min-h-12 grid-cols-[62px_minmax(180px,1fr)_minmax(110px,.55fr)_minmax(220px,1.2fr)_minmax(220px,1fr)_minmax(220px,.9fr)] items-start gap-[22px] px-[14px] py-[10px] font-mono text-[8px] uppercase tracking-[0.08em] text-[#898993] max-sm:hidden">
 						<span className="block w-full text-left">No.</span>
 						<span className="block w-full text-left">Project</span>

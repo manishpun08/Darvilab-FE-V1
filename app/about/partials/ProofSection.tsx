@@ -42,7 +42,7 @@ export function ProofSection() {
 				<div className="mt-20 grid grid-cols-4 border-t border-line max-lg:grid-cols-2 max-md:grid-cols-1">
 					{proofMetrics.map((item, index) => (
 						<article
-							className={`min-h-[210px] pt-11 pr-[38px] max-md:pt-7 ${
+							className={`min-h-[210px] pt-11 pr-[38px] max-md:min-h-0 max-md:pb-8 max-md:pt-7 ${
 								index > 0
 									? "border-l border-line pl-[38px] max-lg:border-l-0 max-lg:pl-0"
 									: ""
@@ -51,9 +51,9 @@ export function ProofSection() {
 									? "max-lg:border-t max-lg:border-line max-lg:pt-7"
 									: ""
 							} ${
-								index === 1 || index === 3
-									? "max-lg:border-l max-lg:border-line max-lg:pl-[38px] max-md:border-l-0 max-md:pl-0"
-									: ""
+							index === 1 || index === 3
+								? "max-lg:border-l max-lg:border-line max-lg:pl-[38px] max-md:border-l-0 max-md:pl-0 max-md:border-t max-md:border-line"
+								: ""
 							}`}
 							key={item.value}
 							data-animate-metric-card

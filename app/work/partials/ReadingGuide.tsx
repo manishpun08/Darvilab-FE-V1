@@ -45,7 +45,7 @@ export function ReadingGuide({
 						<span className="block" data-reveal-line>screenshots.</span>
 					</h2>
 					<div className="self-center lg:pt-20">
-						<div className="max-w-[360px] border-t border-white/18 pt-4">
+						<div className="max-w-[360px] border-t border-white/18 pt-4 max-md:border-t-0 max-md:pt-0">
 							<p className="text-[14px] leading-[1.75] text-white/62">
 								Every case is documented through four questions: what was
 								happening, what was breaking, what decision changed the system,
@@ -65,7 +65,7 @@ export function ReadingGuide({
 								<span className="font-display text-[11px] font-normal tracking-[-0.02em] text-ice/95">
 									{no}
 								</span>
-								<h3 className="mt-20 text-[24px] font-medium tracking-[-0.05em] text-white max-sm:mt-10">
+								<h3 className="mt-20 text-[24px] font-medium tracking-[-0.05em] text-white max-sm:mt-4">
 									{title}
 								</h3>
 								<p className="mt-4 max-w-[220px] pr-6 text-[12px] leading-[1.55] text-white/46 max-sm:pr-0">
