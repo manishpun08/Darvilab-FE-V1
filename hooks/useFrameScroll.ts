@@ -226,63 +226,97 @@ export function useArticlesReveal(
     const el = containerRef.current;
     if (!el) return;
 
-    const articles = el.querySelectorAll("article");
+    const articles = el.querySelectorAll("article, [data-reveal-item]");
     if (!articles.length) return;
 
-    const isNarrow = window.matchMedia("(max-width: 63.99rem)").matches;
+    const containerRect = el.getBoundingClientRect();
+    const containerCenter = containerRect.left + containerRect.width / 2;
 
-    if (isNarrow) {
-      articles.forEach((article) => {
-        gsap.set(article, { opacity: 0 });
+    articles.forEach((article) => {
+      const rect = article.getBoundingClientRect();
+      const isFullWidth = rect.width > containerRect.width * 0.75;
+      const isLeft =
+        isFullWidth ||
+        rect.left + rect.width / 2 < containerCenter;
+      const travel = isLeft
+        ? -(rect.left + 24)
+        : window.innerWidth - rect.right + 24;
+      gsap.set(article, {
+        opacity: 0,
+        x: travel,
+        filter: "blur(4px)",
       });
+    });
 
+    const triggers: ScrollTrigger[] = [];
+
+    articles.forEach((article, i) => {
       const st = ScrollTrigger.create({
-        trigger: el,
-        start: "top bottom-=40",
+        trigger: article,
+        start: "top center",
         once: true,
         onEnter: () =>
-          gsap.to(articles, {
+          gsap.to(article, {
             opacity: 1,
+            x: 0,
+            filter: "blur(0px)",
             duration: 0.8,
-            stagger: 0.08,
+            delay: i * 0.05,
             ease: "power2.out",
           }),
       });
-
-      return () => {
-        st.kill();
-      };
-    }
-
-    articles.forEach((article) => {
-      gsap.set(article, { opacity: 0, y: 20, filter: "blur(4px)" });
-    });
-
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: el,
-        start: "top bottom-=40",
-        end: "top top+=60",
-        scrub: 1.5,
-      },
-    });
-
-    articles.forEach((article) => {
-      tl.to(
-        article,
-        {
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-          ease: "power2.out",
-          duration: 0.8,
-        },
-        "-=0.3",
-      );
+      triggers.push(st);
     });
 
     return () => {
-      tl.kill();
+      triggers.forEach((st) => st.kill());
+    };
+  }, [containerRef]);
+}
+
+export function useProblemHeadingReveal(
+  containerRef: React.RefObject<HTMLDivElement | null>,
+) {
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const label = el.querySelector(":scope > div");
+    const heading = el.querySelector("h2");
+    const lines = heading
+      ? Array.from(heading.querySelectorAll(":scope > span"))
+      : [];
+
+    const targets: Element[] = [];
+    if (label) {
+      gsap.set(label, { opacity: 0, y: 16 });
+      targets.push(label);
+    }
+    lines.forEach((line) => {
+      gsap.set(line, { opacity: 0, y: 30, filter: "blur(6px)" });
+      targets.push(line);
+    });
+
+    if (!targets.length) return;
+
+    const st = ScrollTrigger.create({
+      trigger: el,
+      start: "top bottom",
+      once: true,
+      onEnter: () => {
+        const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
+        targets.forEach((t, i) => {
+          tl.to(
+            t,
+            { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.8 },
+            i * 0.12,
+          );
+        });
+      },
+    });
+
+    return () => {
+      st.kill();
     };
   }, [containerRef]);
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { ReactNode, RefObject } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -250,6 +250,7 @@ import {
   useProcessFrames,
   useProcessCardsReveal,
   useProcessHeroReveal,
+  useProblemHeadingReveal,
   useClientFitReveal,
 } from "@/hooks/useFrameScroll";
 
@@ -261,6 +262,7 @@ export function ProblemRecognitionSection() {
 
   useFrameScroll(sectionRef, canvasRef);
   useArticlesReveal(articlesRef);
+  useProblemHeadingReveal(headingRef);
 
   return (
     <section ref={sectionRef} className="relative" id="problem-space">
@@ -335,7 +337,10 @@ export function ProblemRecognitionSection() {
                 </p>
               </article>
 
-              <div className="col-span-2 mt-16 max-w-[48rem] max-md:mt-10 max-lg:col-span-1">
+              <div
+                data-reveal-item
+                className="col-span-2 mt-16 max-w-[48rem] max-md:mt-10 max-lg:col-span-1"
+              >
                 <p className="text-[clamp(20px,2.5vw,28px)] font-semibold leading-[1.2] tracking-[-0.03em] text-white max-md:text-ink">
                   If that sounds familiar, the fix usually isn&apos;t more
                   engineers. It&apos;s a different starting point.
@@ -659,14 +664,22 @@ export function ClientFitSection({
   const enableParallax = Boolean(sectionRef) && !parallaxDisabled;
   const containerRef = useRef<HTMLDivElement>(null);
   useClientFitReveal(containerRef);
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const handleChange = () => setIsMobile(mediaQuery.matches);
+    handleChange();
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
 
   return (
     <section
-      className={`bg-paper pb-[clamp(56px,7vw,96px)] pt-[clamp(33px,calc(10vw-55px),81px)] ${stickyLayerEnabled ? "sticky z-10" : ""}`}
+      className={`bg-paper pb-[clamp(56px,7vw,96px)] pt-[clamp(33px,calc(10vw-55px),81px)] ${stickyLayerEnabled ? "sticky z-10 max-md:relative" : ""}`}
       id="client-fit"
       ref={sectionRef}
       style={
-        stickyLayerEnabled
+        stickyLayerEnabled && !isMobile
           ? { top: `var(${stickyTopVariableName}, 0px)` }
           : undefined
       }
@@ -786,6 +799,14 @@ export function TestimonialsSection({
   const enableFooterParallax = Boolean(sectionRef) && !parallaxDisabled;
   const enableIntroParallax =
     Boolean(introParallaxRef) && !introParallaxDisabled;
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const handleChange = () => setIsMobile(mediaQuery.matches);
+    handleChange();
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
   const setSectionRef = (node: HTMLElement | null) => {
     (ref as RefObject<HTMLElement | null>).current = node;
     assignRef(introParallaxRef, node);
@@ -799,7 +820,7 @@ export function TestimonialsSection({
       ref={setSectionRef}
     >
       <div
-        style={getCombinedParallaxStyle({
+        style={isMobile ? undefined : getCombinedParallaxStyle({
           footerEnabled: enableFooterParallax,
           introEnabled: enableIntroParallax,
           introVariableName,
