@@ -233,24 +233,31 @@ export function useArticlesReveal(
 
     if (isNarrow) {
       articles.forEach((article) => {
-        gsap.set(article, { opacity: 0 });
+        gsap.set(article, { opacity: 0, y: 28, filter: "blur(4px)" });
       });
 
-      const st = ScrollTrigger.create({
-        trigger: el,
-        start: "top bottom-=40",
-        once: true,
-        onEnter: () =>
-          gsap.to(articles, {
-            opacity: 1,
-            duration: 0.8,
-            stagger: 0.08,
-            ease: "power2.out",
-          }),
+      const triggers: ScrollTrigger[] = [];
+
+      articles.forEach((article, i) => {
+        const st = ScrollTrigger.create({
+          trigger: article,
+          start: "top bottom",
+          once: true,
+          onEnter: () =>
+            gsap.to(article, {
+              opacity: 1,
+              y: 0,
+              filter: "blur(0px)",
+              duration: 0.8,
+              delay: i * 0.05,
+              ease: "power2.out",
+            }),
+        });
+        triggers.push(st);
       });
 
       return () => {
-        st.kill();
+        triggers.forEach((st) => st.kill());
       };
     }
 
@@ -283,6 +290,54 @@ export function useArticlesReveal(
 
     return () => {
       tl.kill();
+    };
+  }, [containerRef]);
+}
+
+export function useProblemHeadingReveal(
+  containerRef: React.RefObject<HTMLDivElement | null>,
+) {
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    if (window.matchMedia("(max-width: 767px)").matches === false) return;
+
+    const label = el.querySelector(":scope > div");
+    const heading = el.querySelector("h2");
+    const lines = heading
+      ? Array.from(heading.querySelectorAll(":scope > span"))
+      : [];
+
+    const targets: Element[] = [];
+    if (label) {
+      gsap.set(label, { opacity: 0, y: 16 });
+      targets.push(label);
+    }
+    lines.forEach((line) => {
+      gsap.set(line, { opacity: 0, y: 30, filter: "blur(6px)" });
+      targets.push(line);
+    });
+
+    if (!targets.length) return;
+
+    const st = ScrollTrigger.create({
+      trigger: el,
+      start: "top bottom",
+      once: true,
+      onEnter: () => {
+        const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
+        targets.forEach((t, i) => {
+          tl.to(
+            t,
+            { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.8 },
+            i * 0.12,
+          );
+        });
+      },
+    });
+
+    return () => {
+      st.kill();
     };
   }, [containerRef]);
 }

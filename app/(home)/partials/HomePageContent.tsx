@@ -1,7 +1,7 @@
 "use client";
 
 import { HomeFooter } from "@/components/shared/HomeFooter";
-import { OurClientsSection } from "@/components/shared/OurClientsSection";
+import { ClientLogosImageTicker } from "@/components/shared/ClientLogosImageTicker";
 import { useFooterRevealMotion } from "@/hooks/useFooterRevealMotion";
 import { useHeroIntroParallaxWithMode } from "@/hooks/useHeroIntroParallax";
 import { useHorizonShift } from "@/hooks/useHorizonShift";
@@ -49,7 +49,7 @@ export function HomePageContent() {
 	return (
 		<div className="min-h-screen bg-paper text-ink">
 			<HomeHero horizonShift={horizonShift} />
-			<OurClientsSection hideLabel tightToPrevious variant="dark" />
+			<ClientLogosImageTicker />
 			<ProblemRecognitionSection />
 			<div className="relative isolate">
 				<SelectedWorkSection
