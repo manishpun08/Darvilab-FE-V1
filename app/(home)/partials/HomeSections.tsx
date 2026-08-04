@@ -337,7 +337,10 @@ export function ProblemRecognitionSection() {
                 </p>
               </article>
 
-              <div className="col-span-2 mt-16 max-w-[48rem] max-md:mt-10 max-lg:col-span-1">
+              <div
+                data-reveal-item
+                className="col-span-2 mt-16 max-w-[48rem] max-md:mt-10 max-lg:col-span-1"
+              >
                 <p className="text-[clamp(20px,2.5vw,28px)] font-semibold leading-[1.2] tracking-[-0.03em] text-white max-md:text-ink">
                   If that sounds familiar, the fix usually isn&apos;t more
                   engineers. It&apos;s a different starting point.

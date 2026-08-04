@@ -226,70 +226,50 @@ export function useArticlesReveal(
     const el = containerRef.current;
     if (!el) return;
 
-    const articles = el.querySelectorAll("article");
+    const articles = el.querySelectorAll("article, [data-reveal-item]");
     if (!articles.length) return;
 
-    const isNarrow = window.matchMedia("(max-width: 63.99rem)").matches;
-
-    if (isNarrow) {
-      articles.forEach((article) => {
-        gsap.set(article, { opacity: 0, y: 28, filter: "blur(4px)" });
-      });
-
-      const triggers: ScrollTrigger[] = [];
-
-      articles.forEach((article, i) => {
-        const st = ScrollTrigger.create({
-          trigger: article,
-          start: "top bottom",
-          once: true,
-          onEnter: () =>
-            gsap.to(article, {
-              opacity: 1,
-              y: 0,
-              filter: "blur(0px)",
-              duration: 0.8,
-              delay: i * 0.05,
-              ease: "power2.out",
-            }),
-        });
-        triggers.push(st);
-      });
-
-      return () => {
-        triggers.forEach((st) => st.kill());
-      };
-    }
+    const containerRect = el.getBoundingClientRect();
+    const containerCenter = containerRect.left + containerRect.width / 2;
 
     articles.forEach((article) => {
-      gsap.set(article, { opacity: 0, y: 20, filter: "blur(4px)" });
+      const rect = article.getBoundingClientRect();
+      const isFullWidth = rect.width > containerRect.width * 0.75;
+      const isLeft =
+        isFullWidth ||
+        rect.left + rect.width / 2 < containerCenter;
+      const travel = isLeft
+        ? -(rect.left + 24)
+        : window.innerWidth - rect.right + 24;
+      gsap.set(article, {
+        opacity: 0,
+        x: travel,
+        filter: "blur(4px)",
+      });
     });
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: el,
-        start: "top bottom-=40",
-        end: "top top+=60",
-        scrub: 1.5,
-      },
-    });
+    const triggers: ScrollTrigger[] = [];
 
-    articles.forEach((article) => {
-      tl.to(
-        article,
-        {
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-          ease: "power2.out",
-          duration: 0.8,
-        },
-        "-=0.3",
-      );
+    articles.forEach((article, i) => {
+      const st = ScrollTrigger.create({
+        trigger: article,
+        start: "top center",
+        once: true,
+        onEnter: () =>
+          gsap.to(article, {
+            opacity: 1,
+            x: 0,
+            filter: "blur(0px)",
+            duration: 0.8,
+            delay: i * 0.05,
+            ease: "power2.out",
+          }),
+      });
+      triggers.push(st);
     });
 
     return () => {
-      tl.kill();
+      triggers.forEach((st) => st.kill());
     };
   }, [containerRef]);
 }
@@ -300,7 +280,6 @@ export function useProblemHeadingReveal(
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
-    if (window.matchMedia("(max-width: 767px)").matches === false) return;
 
     const label = el.querySelector(":scope > div");
     const heading = el.querySelector("h2");
