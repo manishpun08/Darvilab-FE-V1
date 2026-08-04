@@ -73,7 +73,7 @@ export function useFaqAnimations({
 		if (!container) return undefined;
 
 		const allItems = container.querySelectorAll("[data-faq-item]");
-		const anims: gsap.core.Tween[] = [];
+		const anims: (gsap.core.Tween | gsap.core.Timeline)[] = [];
 
 		allItems.forEach((item, index) => {
 			const answerWrapper = item.querySelector("[data-faq-answer-wrapper]");

@@ -1,6 +1,6 @@
 "use client";
 
-import { type ReactNode, useEffect, useRef, useState } from "react";
+import { type ReactNode } from "react";
 
 interface AccordionPanelProps {
 	isOpen: boolean;
@@ -13,42 +13,16 @@ export function AccordionPanel({
 	reducedMotion,
 	children,
 }: AccordionPanelProps) {
-	const innerRef = useRef<HTMLDivElement | null>(null);
-	const [contentHeight, setContentHeight] = useState(0);
-
-	useEffect(() => {
-		if (!innerRef.current) {
-			return undefined;
-		}
-
-		const measure = () => {
-			if (!innerRef.current) return;
-			setContentHeight(innerRef.current.scrollHeight);
-		};
-		measure();
-
-		if (typeof ResizeObserver === "undefined") {
-			return undefined;
-		}
-
-		const observer = new ResizeObserver(measure);
-		observer.observe(innerRef.current);
-
-		return () => observer.disconnect();
-	}, []);
-
 	return (
 		<div
 			aria-hidden={!isOpen}
-			className="overflow-hidden"
-			style={{
-				maxHeight: isOpen ? `${contentHeight}px` : "0px",
-				transition: reducedMotion
-					? "none"
-					: "max-height 420ms cubic-bezier(0.22, 1, 0.36, 1)",
-			}}
+			className="grid overflow-hidden motion-reduce:transition-none"
+			data-phase-panel
+			style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
 		>
-			<div ref={innerRef}>{children}</div>
+			<div className="overflow-hidden" data-phase-panel-content>
+				{children}
+			</div>
 		</div>
 	);
 }

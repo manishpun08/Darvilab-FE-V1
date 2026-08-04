@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type RefObject } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { usePrefersReducedMotion } from "@/hooks/useRevealMotion";
@@ -216,6 +216,95 @@ function animateChange(section: HTMLElement) {
 		gsap.set(items, { opacity: 0, y: 24 });
 		tl.to(items, { opacity: 1, y: 0, stagger: 0.06, duration: 0.4 }, "-=0.2");
 	}
+}
+
+/* ───── Phase Breakdown Accordion ────────────────────────────────── */
+
+function prefersReducedMotion(): boolean {
+	if (typeof window === "undefined") return false;
+	return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+interface UsePhaseAccordionAnimationsOptions {
+	containerRef: RefObject<HTMLDivElement | null>;
+	openIndex: number;
+}
+
+export function usePhaseAccordionAnimations({
+	containerRef,
+	openIndex,
+}: UsePhaseAccordionAnimationsOptions) {
+	const prevOpenIndex = useRef(openIndex);
+
+	useEffect(() => {
+		if (prefersReducedMotion()) {
+			prevOpenIndex.current = openIndex;
+			return undefined;
+		}
+
+		const container = containerRef.current;
+		if (!container) return undefined;
+
+		const panels = container.querySelectorAll("[data-phase-panel]");
+		if (!panels.length) return undefined;
+
+		const allAnims: (gsap.core.Tween | gsap.core.Timeline)[] = [];
+
+		panels.forEach((panel, index) => {
+			const contentWrapper = panel.querySelector("[data-phase-panel-content]");
+			const isOpen = index === openIndex;
+			const wasOpen = index === prevOpenIndex.current;
+
+			if (isOpen === wasOpen) return;
+
+			if (isOpen) {
+				gsap.set(panel, { gridTemplateRows: "0fr" });
+
+				const expandTl = gsap.timeline();
+
+				expandTl.to(panel, {
+					gridTemplateRows: "1fr",
+					duration: 0.55,
+					ease: "power2.out",
+				});
+
+				if (contentWrapper) {
+					expandTl.fromTo(
+						contentWrapper,
+						{ opacity: 0, y: -8 },
+						{ opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
+						"-=0.3",
+					);
+				}
+
+				allAnims.push(expandTl as unknown as gsap.core.Tween);
+			} else if (wasOpen) {
+				const collapseTl = gsap.timeline();
+
+				collapseTl.to(panel, {
+					gridTemplateRows: "0fr",
+					duration: 0.45,
+					ease: "power2.inOut",
+				});
+
+				if (contentWrapper) {
+					collapseTl.to(
+						contentWrapper,
+						{ opacity: 0, duration: 0.3, ease: "power2.in" },
+						0,
+					);
+				}
+
+				allAnims.push(collapseTl as unknown as gsap.core.Tween);
+			}
+		});
+
+		prevOpenIndex.current = openIndex;
+
+		return () => {
+			allAnims.forEach((a) => a.kill());
+		};
+	}, [openIndex, containerRef]);
 }
 
 /* ───── Sync ──────────────────────────────────────────────────────── */

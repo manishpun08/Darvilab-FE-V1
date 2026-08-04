@@ -97,7 +97,7 @@ export function WhereWeWorkSection({
                   strokeWidth="1.4"
                 />
               </svg>
-              <span>9:00AM - 6:00 PM, KTM Nepal Time</span>
+              <span>10:00AM - 5:00 PM, KTM Nepal Time</span>
             </div>
           </div>
         </div>
