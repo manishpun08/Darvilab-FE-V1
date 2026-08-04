@@ -33,7 +33,7 @@ const brandColors: Record<string, string> = {
   "si-postgresql": "#4169E1",
   "si-nodedotjs": "#339933",
   "si-nestjs": "#E0234E",
-  "si-nextdotjs": "#ffffff",
+  "si-nextdotjs": "#000000",
   "si-react": "#61DAFB",
   "si-flutter": "#02569B",
   "si-pytorch": "#EE4C2C",
@@ -41,7 +41,7 @@ const brandColors: Record<string, string> = {
   "si-docker": "#2496ED",
   "si-reactnative": "#61DAFB",
   "si-django": "#092E20",
-  "si-express": "#ffffff",
+  "si-express": "#000000",
   "si-amazonaws": "#FF9900",
 };
 
@@ -125,21 +125,21 @@ export function OurClientsSection({
   useClientsReveal(revealRef);
 
   const isDark = variant === "dark";
-  const baseColor = isDark ? "#ffffff" : "#c8ccd4";
+  const baseColor = isDark ? "#000000" : "#c8ccd4";
 
-	return (
-		<section
-			ref={revealRef}
-			className={`relative ${isDark ? "bg-[#050b1f]" : "bg-paper"} pb-0 ${tightToPrevious ? "pt-0 pb-[clamp(96px,10vw,136px)]" : "py-[clamp(96px,10vw,136px)] max-md:pt-[clamp(84px,9vw,132px)]"}`}
-			id="principles"
-		>
-			{hideLabel ? null : (
-				<div className={shell}>
-					<p className={`${label} ${isDark ? "text-white/70" : "text-muted"}`}>
-						Organisations we&apos;ve worked with
-					</p>
-				</div>
-			)}
+  return (
+    <section
+      ref={revealRef}
+      className={`relative ${isDark ? "bg-[#050b1f]" : "bg-paper"} pb-0 ${tightToPrevious ? "pt-0 pb-[clamp(96px,10vw,136px)]" : "py-[clamp(96px,10vw,136px)] max-md:pt-[clamp(84px,9vw,132px)]"}`}
+      id="principles"
+    >
+      {hideLabel ? null : (
+        <div className={shell}>
+          <p className={`${label} ${isDark ? "text-white/70" : "text-muted"}`}>
+            Technologies we use
+          </p>
+        </div>
+      )}
 
       <div
         className={`${hideLabel ? "mt-0" : "mt-7"} border-y ${isDark ? "border-white/20" : "border-soft-line"} py-6 sm:py-8`}

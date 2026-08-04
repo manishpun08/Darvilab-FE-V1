@@ -1,8 +1,10 @@
 "use client";
 
+import { useRef } from "react";
 import { SectionEyebrow } from "@/components/shared/SectionEyebrow";
 import { shell } from "@/lib/classes";
 import { processPhases } from "../data/processPageData";
+import { usePhaseAccordionAnimations } from "../hooks/useProcessAnimations";
 import { AccordionPanel } from "./AccordionPanel";
 import { SectionIntro } from "./SectionIntro";
 
@@ -17,6 +19,13 @@ export function PhaseBreakdownSection({
 	reducedMotion,
 	setOpenIndex,
 }: PhaseBreakdownSectionProps) {
+	const panelContainerRef = useRef<HTMLDivElement>(null);
+
+	usePhaseAccordionAnimations({
+		containerRef: panelContainerRef,
+		openIndex,
+	});
+
 	return (
 		<section
 			className="scroll-mt-[152px] bg-paper pt-[clamp(40px,4.5vw,64px)] pb-[clamp(68px,7vw,104px)]"
@@ -32,7 +41,7 @@ export function PhaseBreakdownSection({
 					/>
 				</div>
 
-				<div className="mt-14 border-t border-line">
+				<div className="mt-14 border-t border-line" ref={panelContainerRef}>
 					{processPhases.map((phase, index) => {
 						const isOpen = index === openIndex;
 
